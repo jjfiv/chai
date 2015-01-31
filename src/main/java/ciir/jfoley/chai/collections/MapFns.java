@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.fn.TransformFn;
+
 import java.util.*;
 
 /**
@@ -34,6 +36,49 @@ public class MapFns {
 	}
 	public static <K,T> void extendSetInMap(Map<K, Set<T>> inMap, K key, T value) {
 		extendCollectionInMap(inMap, key, value, new HashSet<T>());
+	}
+
+	public static <K,V,VN> Map<K,VN> mapValues(Map<K, V> initial, TransformFn<V,VN> xfn) {
+		return mapValues(initial, xfn, new HashMap<K, VN>(initial.size()));
+	}
+
+	public static <K,V,VN> Map<K,VN> mapValues(Map<K, V> initial, TransformFn<V,VN> xfn, Map<K,VN> builder) {
+		for (Map.Entry<K, V> kv : initial.entrySet()) {
+			builder.put(kv.getKey(), xfn.transform(kv.getValue()));
+		}
+		return builder;
+	}
+
+	public static <K, KN, V> Map<KN, V> mapKeys(Map<K, V> initial, TransformFn<K, KN> keyXFn) {
+		return mapKeys(initial, keyXFn, new HashMap<KN, V>(initial.size()));
+	}
+
+	public static <K, KN, V> Map<KN, V> mapKeys(Map<K, V> initial, TransformFn<K, KN> keyXFn, Map<KN, V> builder) {
+		for (Map.Entry<K, V> kv : initial.entrySet()) {
+			builder.put(keyXFn.transform(kv.getKey()), kv.getValue());
+		}
+		return builder;
+	}
+
+	public static <K,V> Map<V,K> invert(Map<K,V> input) {
+		return invert(input, new HashMap<V, K>(input.size()));
+	}
+	public static <K,V> Map<V,K> invert(Map<K,V> input, Map<V,K> builder) {
+		for (Map.Entry<K, V> kv : input.entrySet()) {
+			builder.put(kv.getValue(), kv.getKey());
+		}
+		return builder;
+	}
+
+	public static <V> Map<Integer, V> ofListIndex(List<V> input) {
+		return ofListIndex(input, new HashMap<Integer, V>(input.size()));
+	}
+	/** Todo, make this more efficient */
+	public static <V> Map<Integer, V> ofListIndex(List<V> input, Map<Integer, V> builder) {
+		for (int i = 0; i < input.size(); i++) {
+			builder.put(i, input.get(i));
+		}
+		return builder;
 	}
 
 }
