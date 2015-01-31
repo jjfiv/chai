@@ -73,4 +73,20 @@ public class MapWrapper<K,V> implements Map<K,V> {
 	public Set<Entry<K, V>> entrySet() {
 		return inner.entrySet();
 	}
+
+	@Override
+	public String toString() {
+		return inner.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return inner.hashCode();
+	}
+
+	@SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+	@Override
+	public boolean equals(Object o) {
+		return inner.equals(o);
+	}
 }
