@@ -5,6 +5,7 @@ import edu.umass.cs.ciir.jfoley.chai.fn.TransformFn;
 import edu.umass.cs.ciir.jfoley.chai.io.Closer;
 import edu.umass.cs.ciir.jfoley.chai.io.IO;
 import edu.umass.cs.ciir.jfoley.chai.iters.ClosingIterator;
+import edu.umass.cs.ciir.jfoley.chai.iters.OneShotIterable;
 import edu.umass.cs.ciir.jfoley.chai.stream.ChaiStream;
 
 import java.util.*;
@@ -77,6 +78,47 @@ public class Fns {
 		return builder;
 	}
 
+	public static <T> Iterator<T> concat(final Iterator<T> first, final Iterator<T> second) {
+		return new ClosingIterator<T>() {
+			public int state = 0;
+
+			@Override
+			public void close() throws Exception {
+				IO.close(first);
+				IO.close(second);
+			}
+
+			@Override
+			public boolean hasNext() {
+				return first.hasNext() || second.hasNext();
+			}
+
+			@Override
+			public T next() {
+				if(first.hasNext()) {
+					return first.next();
+				}
+				if(second.hasNext()) {
+					state = 1;
+					return second.next();
+				}
+				throw new NoSuchElementException();
+			}
+
+			@Override
+			public void remove() {
+				if(state == 1) {
+					second.remove();
+				} else {
+					first.remove();
+				}
+			}
+		};
+	}
+
+	public static <T> Iterable<T> concat(Iterable<T> first, Iterable<T> second) {
+		return new OneShotIterable<>(concat(first.iterator(), second.iterator()));
+	}
 
 	public static <T> Comparator<T> defaultComparator() {
 		return new Comparator<T>() {

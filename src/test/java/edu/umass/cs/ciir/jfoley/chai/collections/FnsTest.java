@@ -19,5 +19,11 @@ public class FnsTest {
 			Fns.sorted(data, Collections.<Integer>reverseOrder()));
 	}
 
+	@Test
+	public void testConcat() {
+		assertEquals(
+			Arrays.asList(1,2,3,4,5,6),
+			Fns.intoList(Fns.concat(Arrays.asList(1,2,3), Arrays.asList(4,5,6))));
+	}
 
 }
