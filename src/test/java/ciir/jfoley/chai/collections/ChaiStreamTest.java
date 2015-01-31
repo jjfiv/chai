@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.stream.ChaiStream;
 import org.junit.Test;
@@ -36,6 +37,25 @@ public class ChaiStreamTest {
 
 		assertEquals(Arrays.asList(5, 4, 3, 2, 1),
 			ChaiStream.create(2, 3, 4, 1, 5).sorted(Collections.<Integer>reverseOrder()).intoList());
+	}
+
+	@Test
+	public void testMapAndFilter() {
+		List<Integer> data = ChaiStream.create(1,2,3,4,5,6,7,8,9,10).map(new TransformFn<Integer, Integer>() {
+
+			@Override
+			public Integer transform(Integer input) {
+				return input / 2;
+			}
+		}).filter(new PredicateFn<Integer>() {
+			@Override
+			public boolean test(Integer input) {
+				return input <= 3;
+			}
+		}).intoList();
+
+		assertEquals(Arrays.asList(0,1,1,2,2,3,3), data);
+
 	}
 
 }

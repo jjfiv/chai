@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.stream;
 
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 
 import java.util.Collection;
@@ -15,6 +16,8 @@ public interface IChaiStream<T> extends Iterable<T> {
 	public long expectedSize();
 
 	public <NT> IChaiStream<NT> map(TransformFn<T, NT> transformFn);
+
+	IChaiStream<T> filter(PredicateFn<T> predicate);
 
 	public IChaiStream<T> sorted(Comparator<T> cmp);
 	public IChaiStream<T> sorted();

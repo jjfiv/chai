@@ -1,12 +1,13 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.Closer;
-import ciir.jfoley.chai.iters.ClosingIterator;
-import ciir.jfoley.chai.iters.OneShotIterable;
-import ciir.jfoley.chai.stream.ChaiStream;
 import ciir.jfoley.chai.io.IO;
+import ciir.jfoley.chai.iters.ClosingIterator;
+import ciir.jfoley.chai.iters.FilteringIterator;
+import ciir.jfoley.chai.iters.OneShotIterable;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ import java.util.*;
 public class IterableFns {
 	public static <A, B> Iterable<B> map(final Iterable<A> coll, final TransformFn<A,B> mapfn) {
 		final Iterator<A> inner = coll.iterator();
-		return ChaiStream.create(new ClosingIterator<B>() {
+		return new OneShotIterable<>(new ClosingIterator<B>() {
 			@Override
 			public void close() throws Exception {
 				IO.close(inner);
@@ -39,6 +40,10 @@ public class IterableFns {
 				inner.remove();
 			}
 		});
+	}
+
+	public static <A> Iterable<A> filter(final Iterable<A> input, final PredicateFn<A> filterFn) {
+		return new OneShotIterable<>(new FilteringIterator<>(input.iterator(), filterFn));
 	}
 
 	/** Collect results into the given collection */

@@ -1,9 +1,10 @@
 package ciir.jfoley.chai.stream;
 
 import ciir.jfoley.chai.collections.Comparing;
+import ciir.jfoley.chai.collections.IterableFns;
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.iters.OneShotIterable;
-import ciir.jfoley.chai.collections.IterableFns;
 
 import java.util.*;
 
@@ -37,6 +38,11 @@ public class ChaiStream<T> implements IChaiStream<T> {
 	@Override
 	public <NT> IChaiStream<NT> map(TransformFn<T, NT> transformFn) {
 		return create(IterableFns.map(this, transformFn));
+	}
+
+	@Override
+	public IChaiStream<T> filter(PredicateFn<T> predicate) {
+		return create(IterableFns.filter(this, predicate));
 	}
 
 	@Override

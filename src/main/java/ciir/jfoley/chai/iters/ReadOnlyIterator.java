@@ -8,4 +8,5 @@ public abstract class ReadOnlyIterator<T> implements ClosingIterator<T> {
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
+
 }

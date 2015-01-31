@@ -67,5 +67,4 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     }
     return output;
   }
-
 }
