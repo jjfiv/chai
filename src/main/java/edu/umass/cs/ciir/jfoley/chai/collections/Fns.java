@@ -55,4 +55,15 @@ public class Fns {
 		return builder;
 	}
 
+
+	public static <T> Comparator<T> defaultComparator() {
+		return new Comparator<T>() {
+			@Override
+			@SuppressWarnings("unchecked")
+			public int compare(T lhs, T rhs) {
+				assert(lhs instanceof Comparable);
+				return ((Comparable) lhs).compareTo(rhs);
+			}
+		};
+	}
 }

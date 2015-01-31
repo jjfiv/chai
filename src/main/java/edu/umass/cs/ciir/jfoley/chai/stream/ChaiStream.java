@@ -38,10 +38,18 @@ public class ChaiStream<T> implements IChaiStream<T> {
 		return create(Fns.map(this, transformFn));
 	}
 
+	@Override
+	public IChaiStream<T> sorted(Comparator<T> cmp) {
+		return create(Fns.sorted(intoList(), cmp));
+	}
+	@Override
+	public IChaiStream<T> sorted() {
+		return create(Fns.sorted(intoList(), Fns.<T>defaultComparator()));
+	}
+
 	public List<T> intoList() {
 		return Fns.collect(this, new ArrayList<T>());
 	}
-
 	@Override
 	public <Coll extends Collection<T>> Coll collect(Coll builder) {
 		return Fns.collect(this, builder);
@@ -52,11 +60,16 @@ public class ChaiStream<T> implements IChaiStream<T> {
 		return new ChaiStream<T>(new OneShotIterable<>(iter));
 	}
 	public static <T> IChaiStream<T> create(Iterable<T> iter) {
-		return new ChaiStream<T>(iter);
+		return new ChaiStream<>(iter);
 	}
 	public static <T> IChaiStream<T> create(Collection<T> coll) {
-		return new ChaiStream<T>(coll, coll.size());
+		return new ChaiStream<>(coll, coll.size());
 	}
 
+	@SafeVarargs
+	public static <T> IChaiStream<T> create(T... inline) {
+		List<T> asList = Arrays.asList(inline);
+		return create(asList);
+	}
 
 }

@@ -5,14 +5,15 @@ import edu.umass.cs.ciir.jfoley.chai.stream.ChaiStream;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class FnIterableTest {
+public class ChaiStreamTest {
 	@Test
 	public void testMap() {
-		List<String> data = ChaiStream.create(Arrays.asList(1, 2, 3)).map(new TransformFn<Integer, Integer>() {
+		List<String> data = ChaiStream.create(1, 2, 3).map(new TransformFn<Integer, Integer>() {
 			@Override
 			public Integer transform(Integer input) {
 				return input * 2;
@@ -26,6 +27,15 @@ public class FnIterableTest {
 		}).intoList();
 
 		assertEquals(Arrays.asList("2","4", "6"), data);
+	}
+
+	@Test
+	public void testSorting() {
+		assertEquals(Arrays.asList(1,2,3,4,5),
+			ChaiStream.create(2,3,4,1,5).sorted().intoList());
+
+		assertEquals(Arrays.asList(5, 4, 3, 2, 1),
+			ChaiStream.create(2, 3, 4, 1, 5).sorted(Collections.<Integer>reverseOrder()).intoList());
 	}
 
 }

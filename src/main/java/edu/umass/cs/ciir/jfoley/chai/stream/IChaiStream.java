@@ -3,6 +3,7 @@ package edu.umass.cs.ciir.jfoley.chai.stream;
 import edu.umass.cs.ciir.jfoley.chai.fn.TransformFn;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -14,6 +15,9 @@ public interface IChaiStream<T> extends Iterable<T> {
 	public long expectedSize();
 
 	public <NT> IChaiStream<NT> map(TransformFn<T, NT> transformFn);
+
+	public IChaiStream<T> sorted(Comparator<T> cmp);
+	public IChaiStream<T> sorted();
 
 	public List<T> intoList();
 	public <Coll extends Collection<T>> Coll collect(Coll builder);
