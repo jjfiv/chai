@@ -23,7 +23,10 @@ public class FnsTest {
 	public void testConcat() {
 		assertEquals(
 			Arrays.asList(1,2,3,4,5,6),
-			Fns.intoList(Fns.concat(Arrays.asList(1,2,3), Arrays.asList(4,5,6))));
+			Fns.intoList(Fns.lazyConcat((Iterable<Integer>) Arrays.asList(1,2,3), Arrays.asList(4,5,6))));
+		// Test list version:
+		List<Integer> lazilyMerged = Fns.lazyConcat(Arrays.asList(1,2,3), Arrays.asList(4,5,6));
+		assertEquals(Arrays.asList(1,2,3,4,5,6), lazilyMerged);
 	}
 
 }

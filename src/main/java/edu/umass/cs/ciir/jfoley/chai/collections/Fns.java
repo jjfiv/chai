@@ -78,7 +78,7 @@ public class Fns {
 		return builder;
 	}
 
-	public static <T> Iterator<T> concat(final Iterator<T> first, final Iterator<T> second) {
+	public static <T> Iterator<T> lazyConcat(final Iterator<T> first, final Iterator<T> second) {
 		return new ClosingIterator<T>() {
 			public int state = 0;
 
@@ -116,8 +116,26 @@ public class Fns {
 		};
 	}
 
-	public static <T> Iterable<T> concat(Iterable<T> first, Iterable<T> second) {
-		return new OneShotIterable<>(concat(first.iterator(), second.iterator()));
+	public static <T> Iterable<T> lazyConcat(Iterable<T> first, Iterable<T> second) {
+		return new OneShotIterable<>(lazyConcat(first.iterator(), second.iterator()));
+	}
+
+	/** Specialized lazy List concat */
+	public static <T> List<T> lazyConcat(final List<T> first, final List<T> second) {
+		return new AbstractList<T>() {
+			@Override
+			public T get(int i) {
+				if(i < first.size()) {
+					return first.get(i);
+				}
+				return second.get(i - first.size());
+			}
+
+			@Override
+			public int size() {
+				return first.size() + second.size();
+			}
+		};
 	}
 
 	public static <T> Comparator<T> defaultComparator() {
