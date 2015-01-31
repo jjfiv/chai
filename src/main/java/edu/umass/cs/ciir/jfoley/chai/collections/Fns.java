@@ -3,8 +3,7 @@ package edu.umass.cs.ciir.jfoley.chai.collections;
 import edu.umass.cs.ciir.jfoley.chai.fn.TransformFn;
 import edu.umass.cs.ciir.jfoley.chai.stream.ChaiStream;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * @author jfoley.
@@ -37,4 +36,23 @@ public class Fns {
 		}
 		return builder;
 	}
+
+	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input) {
+		return sorted(input, new ArrayList<T>());
+	}
+	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input, List<T> builder) {
+		builder.addAll(input);
+		Collections.sort(builder);
+		return builder;
+	}
+
+	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<T> cmp) {
+		return sorted(input, cmp, new ArrayList<T>());
+	}
+	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<T> cmp, List<T> builder) {
+		builder.addAll(input);
+		Collections.sort(builder, cmp);
+		return builder;
+	}
+
 }
