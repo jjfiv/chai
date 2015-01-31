@@ -1,11 +1,9 @@
-package ciir.jfoley.chai.stream;
+package ciir.jfoley.chai.collections;
 
-import ciir.jfoley.chai.collections.Comparing;
-import ciir.jfoley.chai.collections.IterableFns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
-import ciir.jfoley.chai.iters.OneShotIterable;
+import ciir.jfoley.chai.collections.iters.OneShotIterable;
 
 import java.util.*;
 

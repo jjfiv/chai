@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.iters;
+package ciir.jfoley.chai.collections.iters;
 
 import java.util.Iterator;
 

@@ -3,7 +3,6 @@ package ciir.jfoley.chai.collections;
 import ciir.jfoley.chai.fn.Fns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
-import ciir.jfoley.chai.stream.ChaiIterable;
 import org.junit.Test;
 
 import java.util.Arrays;

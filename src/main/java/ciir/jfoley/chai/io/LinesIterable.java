@@ -1,7 +1,7 @@
 package ciir.jfoley.chai.io;
 
-import ciir.jfoley.chai.iters.UntilNullGenerator;
-import ciir.jfoley.chai.iters.UntilNullIterator;
+import ciir.jfoley.chai.collections.iters.UntilNullGenerator;
+import ciir.jfoley.chai.collections.iters.UntilNullIterator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

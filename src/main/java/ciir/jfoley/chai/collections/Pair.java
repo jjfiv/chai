@@ -67,4 +67,8 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     }
     return output;
   }
+
+  public static <K, V> Pair<K,V> of(Map.Entry<K, V> input) {
+    return new Pair<>(input);
+  }
 }

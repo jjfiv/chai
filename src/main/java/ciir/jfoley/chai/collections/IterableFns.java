@@ -5,9 +5,9 @@ import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.Closer;
 import ciir.jfoley.chai.io.IO;
-import ciir.jfoley.chai.iters.ClosingIterator;
-import ciir.jfoley.chai.iters.FilteringIterator;
-import ciir.jfoley.chai.iters.OneShotIterable;
+import ciir.jfoley.chai.collections.iters.ClosingIterator;
+import ciir.jfoley.chai.collections.iters.FilteringIterator;
+import ciir.jfoley.chai.collections.iters.OneShotIterable;
 
 import java.util.*;
 

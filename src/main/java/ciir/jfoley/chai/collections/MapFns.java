@@ -60,6 +60,15 @@ public class MapFns {
 		return builder;
 	}
 
+	public static <K,V> Iterable<Pair<K,V>> pairs(Map<K,V> input) {
+		return IterableFns.map(input.entrySet(), new TransformFn<Map.Entry<K,V>, Pair<K,V>>() {
+			@Override
+			public Pair<K, V> transform(Map.Entry<K, V> input) {
+				return Pair.of(input);
+			}
+		});
+	}
+
 	public static <K,V> Map<V,K> invert(Map<K,V> input) {
 		return invert(input, new HashMap<V, K>(input.size()));
 	}
