@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.chained;
 
 import ciir.jfoley.chai.Checked;
+import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.iters.OneShotIterable;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.collections.util.IterableFns;
@@ -71,7 +72,12 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
 	}
 
 	public <K,V> ChaiMap<K,V> intoMap() {
-		return ChaiMap.create(Checked.<Map<K, V>>cast(this));
+		ChaiMap<K,V> map = ChaiMap.create();
+		for (T t : this) {
+			Pair<K,V> pair = Checked.cast(t);
+			map.put(pair.left, pair.right);
+		}
+		return map;
 	}
 
 }

@@ -6,6 +6,7 @@ import ciir.jfoley.chai.collections.util.MapFns;
 import ciir.jfoley.chai.io.IO;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +14,6 @@ import java.util.Map;
  * @author jfoley.
  */
 public class ChaiMap<K,V> extends MapWrapper<K,V> implements AutoCloseable {
-	Map<K,V> inner;
-
 	ChaiMap(Map<K,V> inner) {
 		super(inner);
 	}
@@ -24,14 +23,26 @@ public class ChaiMap<K,V> extends MapWrapper<K,V> implements AutoCloseable {
 		IO.close(inner);
 	}
 
-	public ChaiIterable<Pair<K,V>> pairs() {
-		return ChaiIterable.create(MapFns.pairs(inner));
-	}
-
 	public V getOrElse(K key, V otherwise) {
 		V tmp = inner.get(key);
 		if(tmp == null) return otherwise;
 		return tmp;
+	}
+
+	public ChaiIterable<Pair<K,V>> pairs() {
+		return ChaiIterable.create(MapFns.pairs(inner));
+	}
+
+	public ChaiIterable<K> keys() {
+		return ChaiIterable.create(inner.keySet());
+	}
+
+	public ChaiIterable<V> vals() {
+		return ChaiIterable.create(inner.values());
+	}
+
+	public ChaiMap<K,V> readOnly() {
+		return create(Collections.unmodifiableMap(this.inner));
 	}
 
 	public ChaiMap<V,K> invert() {
