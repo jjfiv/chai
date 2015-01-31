@@ -3,7 +3,7 @@ package ciir.jfoley.chai.collections;
 import ciir.jfoley.chai.fn.Fns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
-import ciir.jfoley.chai.stream.ChaiStream;
+import ciir.jfoley.chai.stream.ChaiIterable;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,10 +13,10 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class ChaiStreamTest {
+public class ChaiIterableTest {
 	@Test
 	public void testMap() {
-		List<String> data = ChaiStream.create(1, 2, 3).map(new TransformFn<Integer, Integer>() {
+		List<String> data = ChaiIterable.create(1, 2, 3).map(new TransformFn<Integer, Integer>() {
 			@Override
 			public Integer transform(Integer input) {
 				return input * 2;
@@ -35,15 +35,15 @@ public class ChaiStreamTest {
 	@Test
 	public void testSorting() {
 		assertEquals(Arrays.asList(1,2,3,4,5),
-			ChaiStream.create(2,3,4,1,5).sorted().intoList());
+			ChaiIterable.create(2, 3, 4, 1, 5).sorted().intoList());
 
 		assertEquals(Arrays.asList(5, 4, 3, 2, 1),
-			ChaiStream.create(2, 3, 4, 1, 5).sorted(Collections.<Integer>reverseOrder()).intoList());
+			ChaiIterable.create(2, 3, 4, 1, 5).sorted(Collections.<Integer>reverseOrder()).intoList());
 	}
 
 	@Test
 	public void testMapAndFilter() {
-		List<Integer> data = ChaiStream.create(1,2,3,4,5,6,7,8,9,10).map(new TransformFn<Integer, Integer>() {
+		List<Integer> data = ChaiIterable.create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).map(new TransformFn<Integer, Integer>() {
 
 			@Override
 			public Integer transform(Integer input) {
@@ -61,7 +61,7 @@ public class ChaiStreamTest {
 
 	@Test
 	public void testGroupById() {
-		Map<Integer, List<Integer>> items = ChaiStream.create(1,1,2,2,3,4,5).groupBy(Fns.<Integer>identity());
+		Map<Integer, List<Integer>> items = ChaiIterable.create(1, 1, 2, 2, 3, 4, 5).groupBy(Fns.<Integer>identity());
 
 		assertEquals(5, items.size());
 		assertEquals(Arrays.asList(1,1), items.get(1));
