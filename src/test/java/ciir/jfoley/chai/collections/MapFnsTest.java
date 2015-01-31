@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.util.MapFns;
 import ciir.jfoley.chai.fn.TransformFn;
 import org.junit.Test;
 

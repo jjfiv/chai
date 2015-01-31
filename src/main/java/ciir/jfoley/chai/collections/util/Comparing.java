@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.collections;
+package ciir.jfoley.chai.collections.util;
 
 import java.util.Comparator;
 

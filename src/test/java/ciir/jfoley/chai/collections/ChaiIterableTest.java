@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.chained.ChaiIterable;
 import ciir.jfoley.chai.fn.Fns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;

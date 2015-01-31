@@ -1,6 +1,6 @@
 package ciir.jfoley.chai.io;
 
-import ciir.jfoley.chai.collections.IterableFns;
+import ciir.jfoley.chai.collections.util.IterableFns;
 import org.junit.Test;
 
 import java.io.IOException;

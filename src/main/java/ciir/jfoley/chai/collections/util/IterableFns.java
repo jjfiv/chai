@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.collections;
+package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;

@@ -1,9 +1,12 @@
-package ciir.jfoley.chai.collections;
+package ciir.jfoley.chai.collections.chained;
 
+import ciir.jfoley.chai.Checked;
+import ciir.jfoley.chai.collections.iters.OneShotIterable;
+import ciir.jfoley.chai.collections.util.Comparing;
+import ciir.jfoley.chai.collections.util.IterableFns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
-import ciir.jfoley.chai.collections.iters.OneShotIterable;
 
 import java.util.*;
 
@@ -30,8 +33,8 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
 		return create(IterableFns.filter(this, predicate));
 	}
 
-	public <K> Map<K, List<T>> groupBy(TransformFn<T,K> keyFn) {
-		return IterableFns.groupBy(this, keyFn);
+	public <K> ChaiMap<K, List<T>> groupBy(TransformFn<T,K> keyFn) {
+		return ChaiMap.create(IterableFns.groupBy(this, keyFn));
 	}
 
 	public ChaiIterable<T> sorted(Comparator<T> cmp) {
@@ -66,4 +69,9 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
 	public void close() throws Exception {
 		IO.close(this.iterable);
 	}
+
+	public <K,V> ChaiMap<K,V> intoMap() {
+		return ChaiMap.create(Checked.<Map<K, V>>cast(this));
+	}
+
 }

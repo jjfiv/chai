@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.util.IterableFns;
+import ciir.jfoley.chai.collections.util.ListFns;
 import org.junit.Test;
 
 import java.util.Arrays;

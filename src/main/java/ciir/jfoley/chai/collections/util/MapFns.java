@@ -1,5 +1,6 @@
-package ciir.jfoley.chai.collections;
+package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.fn.TransformFn;
 
 import java.util.*;
