@@ -80,4 +80,7 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
 		return map;
 	}
 
+	public Set<T> intoSet() {
+		return collect(new HashSet<T>());
+	}
 }

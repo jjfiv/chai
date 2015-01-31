@@ -137,4 +137,7 @@ public class IterableFns {
 		return grouped;
 	}
 
+	public static <T> T first(Collection<T> coll) {
+		return coll.iterator().next();
+	}
 }
