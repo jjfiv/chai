@@ -1,5 +1,7 @@
 package edu.umass.cs.ciir.jfoley.chai.iters;
 
+import edu.umass.cs.ciir.jfoley.chai.io.IO;
+
 /**
 * @author jfoley.
 */
@@ -22,5 +24,10 @@ public class UntilNullIterator<T> extends ReadOnlyIterator<T> {
     T prevValue = nextValue;
     nextValue = generator.next();
     return prevValue;
+	}
+
+	@Override
+	public void close() throws Exception {
+		IO.close(generator);
 	}
 }

@@ -5,12 +5,14 @@ import edu.umass.cs.ciir.jfoley.chai.iters.UntilNullIterator;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Iterator;
 
 /**
  * @author jfoley.
  */
-public class LinesIterable implements Iterable<String> {
+public class LinesIterable implements Iterable<String>, AutoCloseable {
 
 	private final BufferedReader reader;
 
@@ -31,4 +33,20 @@ public class LinesIterable implements Iterable<String> {
 			}
 		});
 	}
+
+	@Override
+	public void close() throws Exception {
+		reader.close();
+	}
+
+	public static LinesIterable of(BufferedReader reader) {
+		return new LinesIterable(reader);
+	}
+	public static LinesIterable of(Reader reader) {
+		return new LinesIterable(new BufferedReader(reader));
+	}
+	public static LinesIterable of(String data) {
+		return of(new StringReader(data));
+	}
+
 }

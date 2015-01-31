@@ -1,11 +1,13 @@
 package edu.umass.cs.ciir.jfoley.chai.iters;
 
+import edu.umass.cs.ciir.jfoley.chai.io.IO;
+
 import java.util.Iterator;
 
 /**
 * @author jfoley.
 */
-public class OneShotIterable<T> implements Iterable<T> {
+public class OneShotIterable<T> implements Iterable<T>, AutoCloseable {
 	private Iterator<T> iter;
 	public OneShotIterable(Iterator<T> iter) {
 		this.iter = iter;
@@ -17,5 +19,10 @@ public class OneShotIterable<T> implements Iterable<T> {
 		Iterator<T> prev = iter;
 		iter = null;
 		return prev;
+	}
+
+	@Override
+	public void close() throws Exception {
+		IO.close(iter);
 	}
 }
