@@ -11,12 +11,17 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class ListViewTest {
 
 	public static <A,B> void codecTest(Codec<A,B> codec, List<Pair<A,B>> testPairs) {
 		assertNotNull(testPairs);
 		assertNotNull(codec);
+
+		// Always check null.
+		assertNull(codec.wrap(null));
+		assertNull(codec.unwrap(null));
 
 		for (Pair<A, B> testPair : testPairs) {
 			assertEquals(testPair.left, codec.unwrap(testPair.right));
