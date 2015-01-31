@@ -1,6 +1,7 @@
 package edu.umass.cs.ciir.jfoley.chai.stream;
 
-import edu.umass.cs.ciir.jfoley.chai.collections.Fns;
+import edu.umass.cs.ciir.jfoley.chai.collections.Comparing;
+import edu.umass.cs.ciir.jfoley.chai.collections.IterableFns;
 import edu.umass.cs.ciir.jfoley.chai.fn.TransformFn;
 import edu.umass.cs.ciir.jfoley.chai.iters.OneShotIterable;
 
@@ -35,24 +36,24 @@ public class ChaiStream<T> implements IChaiStream<T> {
 
 	@Override
 	public <NT> IChaiStream<NT> map(TransformFn<T, NT> transformFn) {
-		return create(Fns.map(this, transformFn));
+		return create(IterableFns.map(this, transformFn));
 	}
 
 	@Override
 	public IChaiStream<T> sorted(Comparator<T> cmp) {
-		return create(Fns.sorted(intoList(), cmp));
+		return create(IterableFns.sorted(intoList(), cmp));
 	}
 	@Override
 	public IChaiStream<T> sorted() {
-		return create(Fns.sorted(intoList(), Fns.<T>defaultComparator()));
+		return create(IterableFns.sorted(intoList(), Comparing.<T>defaultComparator()));
 	}
 
 	public List<T> intoList() {
-		return Fns.collect(this, new ArrayList<T>());
+		return IterableFns.collect(this, new ArrayList<T>());
 	}
 	@Override
 	public <Coll extends Collection<T>> Coll collect(Coll builder) {
-		return Fns.collect(this, builder);
+		return IterableFns.collect(this, builder);
 	}
 
 

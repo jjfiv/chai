@@ -8,24 +8,24 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class FnsTest {
+public class IterableFnsTest {
 
 	@Test
 	public void testSorted() {
 		List<Integer> data = Arrays.asList(4,2,1,3,5);
 		assertEquals(Arrays.asList(1, 2, 3, 4, 5),
-			Fns.sorted(data));
+			IterableFns.sorted(data));
 		assertEquals(Arrays.asList(5,4,3,2,1),
-			Fns.sorted(data, Collections.<Integer>reverseOrder()));
+			IterableFns.sorted(data, Collections.<Integer>reverseOrder()));
 	}
 
 	@Test
 	public void testConcat() {
 		assertEquals(
 			Arrays.asList(1,2,3,4,5,6),
-			Fns.intoList(Fns.lazyConcat((Iterable<Integer>) Arrays.asList(1,2,3), Arrays.asList(4,5,6))));
+			IterableFns.intoList(IterableFns.lazyConcat(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6))));
 		// Test list version:
-		List<Integer> lazilyMerged = Fns.lazyConcat(Arrays.asList(1,2,3), Arrays.asList(4,5,6));
+		List<Integer> lazilyMerged = ListFns.lazyConcat(Arrays.asList(1, 2, 3), Arrays.asList(4, 5, 6));
 		assertEquals(Arrays.asList(1,2,3,4,5,6), lazilyMerged);
 	}
 

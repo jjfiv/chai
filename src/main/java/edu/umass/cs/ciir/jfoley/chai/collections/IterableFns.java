@@ -15,7 +15,7 @@ import java.util.*;
  * @see edu.umass.cs.ciir.jfoley.chai.io.IO::close()
  * @author jfoley.
  */
-public class Fns {
+public class IterableFns {
 	public static <A, B> Iterable<B> map(final Iterable<A> coll, final TransformFn<A,B> mapfn) {
 		final Iterator<A> inner = coll.iterator();
 		return ChaiStream.create(new ClosingIterator<B>() {
@@ -61,10 +61,10 @@ public class Fns {
 	}
 
 	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input) {
-		return sorted(input, Fns.<T>defaultComparator(), new ArrayList<T>());
+		return sorted(input, Comparing.<T>defaultComparator(), new ArrayList<T>());
 	}
 	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input, List<T> builder) {
-		return sorted(input, Fns.<T>defaultComparator(), builder);
+		return sorted(input, Comparing.<T>defaultComparator(), builder);
 	}
 
 	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<T> cmp) {
@@ -118,35 +118,6 @@ public class Fns {
 
 	public static <T> Iterable<T> lazyConcat(Iterable<T> first, Iterable<T> second) {
 		return new OneShotIterable<>(lazyConcat(first.iterator(), second.iterator()));
-	}
-
-	/** Specialized lazy List concat */
-	public static <T> List<T> lazyConcat(final List<T> first, final List<T> second) {
-		return new AbstractList<T>() {
-			@Override
-			public T get(int i) {
-				if(i < first.size()) {
-					return first.get(i);
-				}
-				return second.get(i - first.size());
-			}
-
-			@Override
-			public int size() {
-				return first.size() + second.size();
-			}
-		};
-	}
-
-	public static <T> Comparator<T> defaultComparator() {
-		return new Comparator<T>() {
-			@Override
-			@SuppressWarnings("unchecked")
-			public int compare(T lhs, T rhs) {
-				assert(lhs instanceof Comparable);
-				return ((Comparable) lhs).compareTo(rhs);
-			}
-		};
 	}
 
 	public static <T> List<T> intoList(Iterable<T> of) {

@@ -1,6 +1,6 @@
 package edu.umass.cs.ciir.jfoley.chai.io;
 
-import edu.umass.cs.ciir.jfoley.chai.collections.Fns;
+import edu.umass.cs.ciir.jfoley.chai.collections.IterableFns;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class LinesIterableTest {
 		String data = "a\nb\nc";
 
 		assertEquals(Arrays.asList("a", "b", "c"),
-			Fns.intoList(LinesIterable.of(data)));
+			IterableFns.intoList(LinesIterable.of(data)));
 	}
 
 }
