@@ -24,11 +24,13 @@ public class Encodings {
 	public static Codec<ByteBuffer, String> UTF8Codec = new Codec<ByteBuffer, String>() {
 		@Override
 		public String wrap(ByteBuffer bytes) {
+			if(bytes == null) return null;
 			return UTF8.decode(bytes).toString();
 		}
 
 		@Override
 		public ByteBuffer unwrap(String s) {
+			if(s == null) return null;
 			return UTF8.encode(s);
 		}
 	};
@@ -36,12 +38,28 @@ public class Encodings {
 	public static Codec<Integer, String> IntAsDecimal = new Codec<Integer, String>() {
 		@Override
 		public String wrap(Integer integer) {
+			if(integer == null) return null;
 			return integer.toString();
 		}
 
 		@Override
 		public Integer unwrap(String s) {
+			if(s == null) return null;
 			return Integer.parseInt(s);
 		}
 	};
+
+	public static <T> Codec<T,T> getIdentityCodec() {
+		return new Codec<T, T>() {
+			@Override
+			public T wrap(T t) {
+				return t;
+			}
+
+			@Override
+			public T unwrap(T t) {
+				return t;
+			}
+		};
+	}
 }
