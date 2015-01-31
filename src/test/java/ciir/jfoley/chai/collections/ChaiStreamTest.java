@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.fn.Fns;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.stream.ChaiStream;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -55,7 +57,18 @@ public class ChaiStreamTest {
 		}).intoList();
 
 		assertEquals(Arrays.asList(0,1,1,2,2,3,3), data);
+	}
 
+	@Test
+	public void testGroupById() {
+		Map<Integer, List<Integer>> items = ChaiStream.create(1,1,2,2,3,4,5).groupBy(Fns.<Integer>identity());
+
+		assertEquals(5, items.size());
+		assertEquals(Arrays.asList(1,1), items.get(1));
+		assertEquals(Arrays.asList(2,2), items.get(2));
+		assertEquals(Arrays.asList(3), items.get(3));
+		assertEquals(Arrays.asList(4), items.get(4));
+		assertEquals(Arrays.asList(5), items.get(5));
 	}
 
 }

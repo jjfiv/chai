@@ -6,6 +6,7 @@ import ciir.jfoley.chai.fn.TransformFn;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jfoley.
@@ -18,6 +19,8 @@ public interface IChaiStream<T> extends Iterable<T> {
 	public <NT> IChaiStream<NT> map(TransformFn<T, NT> transformFn);
 
 	IChaiStream<T> filter(PredicateFn<T> predicate);
+
+	<K> Map<K, List<T>> groupBy(TransformFn<T, K> keyFn);
 
 	public IChaiStream<T> sorted(Comparator<T> cmp);
 	public IChaiStream<T> sorted();

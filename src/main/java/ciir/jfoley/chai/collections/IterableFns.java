@@ -128,4 +128,13 @@ public class IterableFns {
 	public static <T> List<T> intoList(Iterable<T> of) {
 		return collect(of, new ArrayList<T>());
 	}
+
+	public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> makeKeyFn) {
+		Map<K, List<T>> grouped = new HashMap<>();
+		for (T t : data) {
+			MapFns.extendListInMap(grouped, makeKeyFn.transform(t), t);
+		}
+		return grouped;
+	}
+
 }

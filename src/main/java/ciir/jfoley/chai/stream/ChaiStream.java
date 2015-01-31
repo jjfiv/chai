@@ -46,6 +46,11 @@ public class ChaiStream<T> implements IChaiStream<T> {
 	}
 
 	@Override
+	public <K> Map<K, List<T>> groupBy(TransformFn<T,K> keyFn) {
+		return IterableFns.groupBy(this, keyFn);
+	}
+
+	@Override
 	public IChaiStream<T> sorted(Comparator<T> cmp) {
 		return create(IterableFns.sorted(intoList(), cmp));
 	}
