@@ -1,5 +1,6 @@
 package edu.umass.cs.ciir.jfoley.chai.io;
 
+import edu.umass.cs.ciir.jfoley.chai.iters.UntilNullGenerator;
 import edu.umass.cs.ciir.jfoley.chai.iters.UntilNullIterator;
 
 import java.io.BufferedReader;
@@ -19,11 +20,14 @@ public class LinesIterable implements Iterable<String> {
 
 	@Override
 	public Iterator<String> iterator() {
-		return new UntilNullIterator<>(() -> {
-			try {
-				return reader.readLine();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+		return new UntilNullIterator<>(new UntilNullGenerator<String>() {
+			@Override
+			public String next() {
+				try {
+					return reader.readLine();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		});
 	}

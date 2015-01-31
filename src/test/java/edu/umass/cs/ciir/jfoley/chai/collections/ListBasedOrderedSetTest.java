@@ -17,7 +17,7 @@ public class ListBasedOrderedSetTest {
 		data.addAll(Arrays.asList(1,2,3,4,1,2,3,4,1,2,5,4,2,3));
 		assertEquals(data.size(), 5);
 		assertTrue(data.contains(1));
-		assertEquals(Arrays.<Object>asList(1,2,3,4,5), data.stream().sorted().collect(Collectors.toList()));
+		assertEquals(Arrays.<Object>asList(1, 2, 3, 4, 5), data.stream().sorted().collect(Collectors.toList()));
 	}
 
 }
