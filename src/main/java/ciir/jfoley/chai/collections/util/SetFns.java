@@ -37,4 +37,20 @@ public class SetFns {
 		results.addAll(rhs);
 		return results;
 	}
+
+	public static <T> double jaccardIndex(Collection<T> a, Collection<T> b) {
+		double unionSize = union(a,b).size();
+		if(unionSize == 0) return 0;
+		double isectSize = intersection(a, b).size();
+		return isectSize / unionSize;
+	}
+
+	public static <T> double jaccardDistance(Collection<T> a, Collection<T> b) {
+		return 1.0 - jaccardIndex(a, b);
+	}
+
+	public static <T> double diceCoefficient(Collection<T> a, Collection<T> b) {
+		double isectSize = intersection(a, b).size();
+		return 2 * isectSize / (a.size() + b.size());
+	}
 }
