@@ -2,7 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.errors.FatalError;
 
-import java.io.Closeable;
+import java.io.*;
 
 /**
  * @author jfoley.
@@ -25,4 +25,21 @@ public class IO {
 	}
 
 
+	public static String slurp(File path) throws IOException {
+		final StringBuilder contents = new StringBuilder();
+		try (LinesIterable lines = LinesIterable.fromFile(path)) {
+			for (String line : lines) {
+				contents.append(line).append('\n');
+			}
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
+		return contents.toString();
+	}
+
+	public static void spit(String data, File output) throws FileNotFoundException {
+		try (PrintWriter pw = new PrintWriter(output)) {
+			pw.print(data);
+		}
+	}
 }

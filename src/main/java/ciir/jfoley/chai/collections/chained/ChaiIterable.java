@@ -9,6 +9,7 @@ import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
+import java.io.File;
 import java.util.*;
 
 /**

@@ -3,10 +3,7 @@ package ciir.jfoley.chai.io;
 import ciir.jfoley.chai.collections.iters.UntilNullGenerator;
 import ciir.jfoley.chai.collections.iters.UntilNullIterator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.util.Iterator;
 
 /**
@@ -49,4 +46,7 @@ public class LinesIterable implements Iterable<String>, AutoCloseable {
 		return of(new StringReader(data));
 	}
 
+	public static LinesIterable fromFile(File path) throws FileNotFoundException {
+		return of(new FileReader(path));
+	}
 }

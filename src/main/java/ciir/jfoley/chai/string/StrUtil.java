@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.string;
 
+import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
 import java.io.BufferedReader;
@@ -58,7 +59,7 @@ public class StrUtil {
   /**
    * Calls transform on every string that exists between patterns start and end on input, and returns the result.
    */
-  public static String transformRecursively(String input, Pattern start, Pattern end, Transform transform, boolean inclusive) {
+  public static String transformRecursively(String input, Pattern start, Pattern end, Transform fn, boolean inclusive) {
     StringBuilder text = new StringBuilder();
     int lastPos = 0;
 
@@ -81,9 +82,9 @@ public class StrUtil {
 
       text.append(input.substring(lastPos, startMatch.begin));
       if(inclusive) {
-        text.append(transform.process(input.substring(startMatch.begin, endMatch.end)));
+        text.append(fn.transform(input.substring(startMatch.begin, endMatch.end)));
       } else {
-        text.append(transform.process(input.substring(startMatch.end, endMatch.begin)));
+        text.append(fn.transform(input.substring(startMatch.end, endMatch.begin)));
       }
       lastPos = endMatch.end;
     }
@@ -91,7 +92,7 @@ public class StrUtil {
 
     // go again to grab the outer ones
     if(hasNested) {
-      return transformRecursively(text.toString(), start, end, transform, inclusive);
+      return transformRecursively(text.toString(), start, end, fn, inclusive);
     }
     return text.toString();
   }
@@ -253,9 +254,7 @@ public class StrUtil {
     return false;
   }
 
-  public static interface Transform {
-    public String process(String input);
-  }
+  public static interface Transform extends TransformFn<String,String> { }
 
   public static String[] pretendTokenize(String input) {
     String cleaned = input

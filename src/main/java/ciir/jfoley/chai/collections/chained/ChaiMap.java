@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections.chained;
 import ciir.jfoley.chai.collections.MapWrapper;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.util.MapFns;
+import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
 import java.util.Arrays;
@@ -50,6 +51,10 @@ public class ChaiMap<K,V> extends MapWrapper<K,V> implements AutoCloseable {
 	}
 	public ChaiMap<V,K> invert(Map<V,K> builder) {
 		return create(MapFns.invert(inner, builder));
+	}
+
+	public <NV> ChaiMap<K,NV> mapValues(TransformFn<V, NV> valueMapFn) {
+		return create(MapFns.mapValues(inner, valueMapFn));
 	}
 
 	public static <A,B> ChaiMap<A,B> create(Map<A,B> input) {

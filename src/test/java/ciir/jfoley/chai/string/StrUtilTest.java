@@ -30,7 +30,7 @@ public class StrUtilTest {
     String testInput = "this is a $(macro $(thing))";
     String testOutput = StrUtil.transformBetween(testInput, Pattern.compile("\\$\\("), Pattern.compile("\\)"), new StrUtil.Transform() {
       @Override
-      public String process(String input) {
+      public String transform(String input) {
         if(input.equals("thing")) {
           return "bar";
         } else if(input.equals("macro bar")) {
