@@ -49,4 +49,8 @@ public class LinesIterable implements Iterable<String>, AutoCloseable {
 	public static LinesIterable fromFile(File path) throws FileNotFoundException {
 		return of(new FileReader(path));
 	}
+
+	public static LinesIterable fromFile(String path) throws FileNotFoundException {
+		return of(new FileReader(path));
+	}
 }

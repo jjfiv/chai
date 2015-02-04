@@ -37,9 +37,21 @@ public class IO {
 		return contents.toString();
 	}
 
-	public static void spit(String data, File output) throws FileNotFoundException {
-		try (PrintWriter pw = new PrintWriter(output)) {
+	public static void spit(String data, File output) throws IOException {
+		try (PrintWriter pw = openPrintWriter(output.getAbsolutePath())) {
 			pw.print(data);
 		}
 	}
+
+	public static InputStream openInputStream(String file) throws IOException {
+		return CompressionCodec.openInputStream(file);
+	}
+	public static OutputStream openOutputStream(String file) throws IOException {
+		return CompressionCodec.openOutputStream(file);
+	}
+
+	public static PrintWriter openPrintWriter(String file) throws IOException {
+		return new PrintWriter(openOutputStream(file));
+	}
+
 }
