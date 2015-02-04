@@ -1,11 +1,8 @@
 package ciir.jfoley.chai.string;
 
 import ciir.jfoley.chai.fn.TransformFn;
-import ciir.jfoley.chai.io.IO;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -270,4 +267,13 @@ public class StrUtil {
       .replaceAll("^\\p{Alnum}", " ");
     return StrUtil.filterToAscii(cleaned).split("\\s+");
   }
+
+	public static String join(List<? extends CharSequence> items, CharSequence delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < items.size(); i++) {
+			if(i != 0) sb.append(delimiter);
+			sb.append(items.get(i));
+		}
+		return sb.toString();
+	}
 }
