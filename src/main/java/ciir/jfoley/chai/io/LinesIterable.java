@@ -46,11 +46,11 @@ public class LinesIterable implements Iterable<String>, AutoCloseable {
 		return of(new StringReader(data));
 	}
 
-	public static LinesIterable fromFile(File path) throws FileNotFoundException {
-		return of(new FileReader(path));
+	public static LinesIterable fromFile(File path) throws IOException {
+    return fromFile(path.getAbsolutePath());
 	}
 
-	public static LinesIterable fromFile(String path) throws FileNotFoundException {
-		return of(new FileReader(path));
+	public static LinesIterable fromFile(String path) throws IOException {
+		return of(IO.openReader(path));
 	}
 }
