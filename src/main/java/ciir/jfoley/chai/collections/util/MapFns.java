@@ -91,4 +91,14 @@ public class MapFns {
 		return builder;
 	}
 
+	public static <K> void addOrIncrement(Map<K,Integer> target, K key, int amt) {
+		Integer prev = target.get(key);
+		int next;
+		if(prev == null) {
+			next = amt;
+		} else {
+			next = prev + amt;
+		}
+		target.put(key, next);
+	}
 }
