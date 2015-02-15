@@ -2,6 +2,9 @@ package ciir.jfoley.chai.string;
 
 import ciir.jfoley.chai.fn.TransformFn;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -226,6 +229,11 @@ public class StrUtil {
   public static String removeBack(String input, String suffix) {
     if(!input.endsWith(suffix)) return input;
     return input.substring(0, input.length() - suffix.length());
+  }
+
+  /** Remove ending from input string */
+  public static String removeBack(String input, int length) {
+    return input.substring(0, input.length() - length);
   }
 
   /** Remove prefix from input string */
