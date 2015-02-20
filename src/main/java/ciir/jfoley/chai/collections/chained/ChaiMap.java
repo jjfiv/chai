@@ -60,6 +60,9 @@ public class ChaiMap<K,V> extends MapWrapper<K,V> implements AutoCloseable {
 	public static <A,B> ChaiMap<A,B> create(Map<A,B> input) {
 		return new ChaiMap<>(input);
 	}
+  public static <A,B> ChaiMap<A,B> create() {
+    return create(new HashMap<A, B>());
+  }
 
 	public static <A,B> ChaiMap<A,B> create(Iterable<? extends Pair<A,B>> input, Map<A,B> builder) {
 		for (Pair<A, B> kv : input) {

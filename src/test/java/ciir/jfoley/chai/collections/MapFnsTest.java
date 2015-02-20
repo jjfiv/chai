@@ -1,13 +1,11 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.chained.ChaiMap;
 import ciir.jfoley.chai.collections.util.MapFns;
 import ciir.jfoley.chai.fn.TransformFn;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -43,4 +41,18 @@ public class MapFnsTest {
 			}
 		}), backwards);
 	}
+
+  @Test
+  public void countUp() {
+    ChaiMap<Integer, Integer> count = ChaiMap.create();
+    for (int i = 0; i < 100; i++) {
+      MapFns.addOrIncrement(count, i%10, 1);
+    }
+
+    assertEquals(10, count.get(0).intValue());
+    assertEquals(10, count.get(1).intValue());
+    Set<Integer> vals = count.vals().intoSet();
+    assertEquals(1, vals.size());
+    assertEquals(10, vals.iterator().next().intValue());
+  }
 }

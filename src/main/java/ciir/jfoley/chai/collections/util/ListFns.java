@@ -24,4 +24,9 @@ public class ListFns {
 			}
 		};
 	}
+
+  /** Take a view of up to amt items from the front of a list */
+  public static <T> List<T> take(List<T> input, int amt) {
+    return input.subList(0, Math.min(input.size(), amt));
+  }
 }
