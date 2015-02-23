@@ -14,9 +14,9 @@ public class SampleTest {
   public void testByRandomWeight() throws Exception {
     // smoke test
     List<Integer> foo = Arrays.asList(1,1,1,1,1,1);
-    assertEquals(Arrays.asList(1,1), Sample.byRandomWeight(foo, 2, new Random(13)));
 
     for (int i = 0; i < 100; i++) {
+      assertEquals(Arrays.asList(1,1), Sample.byRandomWeight(foo, 2));
       assertEquals(1, Sample.once(foo).intValue());
     }
   }
