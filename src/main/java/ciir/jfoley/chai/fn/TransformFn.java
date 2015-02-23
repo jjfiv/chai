@@ -1,7 +1,5 @@
 package ciir.jfoley.chai.fn;
 
-import java.io.IOException;
-
 /**
  * A -> B
  * @author jfoley.

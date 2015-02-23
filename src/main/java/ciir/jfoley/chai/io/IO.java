@@ -3,6 +3,7 @@ package ciir.jfoley.chai.io;
 import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.errors.FatalError;
 
+import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
 
 /**
@@ -10,7 +11,10 @@ import java.io.*;
  */
 public class IO {
 
-	/** Close anything! */
+	/**
+   * Close anything!
+   * TODO: close with reflection if available?
+   */
 	public static void close(Object obj) {
 		try {
 			if (obj != null) {
@@ -18,7 +22,9 @@ public class IO {
 					((Closeable) obj).close();
 				} else if (obj instanceof AutoCloseable) {
 					((AutoCloseable) obj).close();
-				}
+				} else if(obj instanceof XMLStreamWriter) {
+          ((XMLStreamWriter) obj).close();
+        }
 			}
 		} catch (Exception ex) {
 			throw new FatalError(ex);
@@ -27,16 +33,20 @@ public class IO {
 
 	public static int BUFFER_SIZE = 8192;
 
+  public static String readAll(Reader reader, int bufferSize) throws IOException {
+    final StringBuilder contents = new StringBuilder();
+    char buf[] = new char[bufferSize];
+    while(true) {
+      int amt = reader.read(buf);
+      if(amt < 0) break;
+      contents.append(buf, 0, amt);
+      if(amt < buf.length) break;
+    }
+    return contents.toString();
+  }
+
 	public static String readAll(Reader reader) throws IOException {
-		final StringBuilder contents = new StringBuilder();
-		char buf[] = new char[BUFFER_SIZE];
-		while(true) {
-			int amt = reader.read(buf);
-			if(amt < 0) break;
-			contents.append(buf, 0, amt);
-			if(amt < buf.length) break;
-		}
-		return contents.toString();
+    return readAll(reader, BUFFER_SIZE);
 	}
 
 	public static String slurp(File path) throws IOException {

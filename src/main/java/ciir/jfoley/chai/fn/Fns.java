@@ -2,6 +2,8 @@ package ciir.jfoley.chai.fn;
 
 import ciir.jfoley.chai.Checked;
 
+import java.util.List;
+
 /**
  * @author jfoley.
  */
@@ -16,5 +18,4 @@ public class Fns {
 	public static <T> TransformFn<T,T> identity() {
 		return Checked.cast(identityFn);
 	}
-
 }
