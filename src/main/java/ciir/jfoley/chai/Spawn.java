@@ -11,12 +11,16 @@ import java.util.Arrays;
  * @author jfoley.
  */
 public class Spawn {
-	public static void doProcess(String... args) throws IOException, InterruptedException {
+	public static void doProcess(int expectedStatus, String... args) throws IOException, InterruptedException {
 		Process exec = Runtime.getRuntime().exec(args);
 		int status = exec.waitFor();
 		Streams.copy(exec.getErrorStream(), System.err);
 		Streams.copy(exec.getInputStream(), System.err);
 		System.err.println("# status: " + status + " for: " + StrUtil.join(Arrays.asList(args), " "));
-		if(status != 0) throw new RuntimeException();
+		if(status != expectedStatus) throw new RuntimeException();
 	}
+
+  public static void doProcess(String... args) throws IOException, InterruptedException {
+    doProcess(0, args);
+  }
 }
