@@ -1,12 +1,14 @@
 package ciir.jfoley.chai.string;
 
+import java.util.AbstractList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
-* @author jfoley.
-*/
-public final class Match {
+ * Now implementing a List&gt;String&lt; of matches for easier iteration.
+ * @author jfoley.
+ */
+public final class Match extends AbstractList<String> {
   public final int begin;
   public final int end;
   public final Matcher matcher;
@@ -30,6 +32,17 @@ public final class Match {
 
   public String get(String parentStr) {
     return parentStr.substring(begin, end);
+  }
+
+  @Override
+  public int size() {
+    return matcher.groupCount();
+  }
+
+  @Override
+  public String get(int index) {
+    // 0th match is often the whole string, or the whole range.
+    return matcher.group(index+1);
   }
 
   public String firstGroup() {

@@ -14,7 +14,7 @@ import java.util.Random;
 public class Sample {
   /** Naive sampling: fill a heap with randomly weighted elements as you go... */
   public static <T> List<T> byRandomWeight(Iterable<T> source, int count, Random rand) {
-    TopKHeap<Pair<T, Integer>> heap = new TopKHeap<>(count, Pair.<T,Integer>cmpRight(Comparing.<Integer>defaultComparator()));
+    TopKHeap<Pair<T, Integer>> heap = TopKHeap.maxItems(count, Pair.<T,Integer>cmpRight());
     for(T newObj : source) {
       int weight = rand.nextInt();
       heap.offer(Pair.of(newObj, weight));
