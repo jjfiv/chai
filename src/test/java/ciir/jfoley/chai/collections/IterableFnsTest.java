@@ -31,4 +31,11 @@ public class IterableFnsTest {
 		assertEquals(Arrays.asList(1,2,3,4,5,6), lazilyMerged);
 	}
 
+
+  @Test
+  public void testHeapStuff() {
+    List<Integer> data = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+    assertEquals(Arrays.asList(10,9,8), IterableFns.maxK(data, 3));
+    assertEquals(Arrays.asList(1,2,3), IterableFns.minK(data, 3));
+  }
 }

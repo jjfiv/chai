@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.collections.TopKHeap;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
@@ -56,7 +57,7 @@ public class IterableFns {
 		return builder;
 	}
 
-	public static <T> SinkFn<T> collect(Iterable<T> input, SinkFn<T> sink) {
+	public static <T,X extends SinkFn<T>> X collect(Iterable<T> input, X sink) {
 		try (Closer<Iterable<T>> cc = Closer.of(input)) {
 			for (T x : cc.get()) {
 				sink.process(x);
@@ -64,6 +65,19 @@ public class IterableFns {
 		}
 		return sink;
 	}
+
+  public static <T> List<T> maxK(Iterable<T> items, int k) {
+    return maxK(items, k, Comparing.<T>defaultComparator());
+  }
+  public static <T> List<T> maxK(Iterable<T> items, int k, Comparator<T> cmp) {
+    return IterableFns.collect(items, TopKHeap.maxItems(k, cmp)).getSorted();
+  }
+  public static <T> List<T> minK(Iterable<T> items, int k) {
+    return minK(items, k, Comparing.<T>defaultComparator());
+  }
+  public static <T> List<T> minK(Iterable<T> items, int k, Comparator<T> cmp) {
+    return IterableFns.collect(items, TopKHeap.minItems(k, cmp)).getSorted();
+  }
 
 	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input) {
 		return sorted(input, Comparing.<T>defaultComparator(), new ArrayList<T>());
@@ -137,7 +151,27 @@ public class IterableFns {
 		return grouped;
 	}
 
+  public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper) {
+    return min(input, mapper, Comparing.<X>defaultComparator());
+  }
+  public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper, Comparator<X> cmp) {
+    Iterator<T> iter = input.iterator();
+    if(!iter.hasNext()) return null;
+    T minimum = iter.next();
+    X minValue = mapper.transform(minimum);
+    while(iter.hasNext()) {
+      T candidate = iter.next();
+      X cval = mapper.transform(candidate);
+      if(cmp.compare(cval, minValue) < 0) {
+        minimum = candidate;
+        minValue = cval;
+      }
+    }
+    return minimum;
+  }
+
 	public static <T> T first(Collection<T> coll) {
 		return coll.iterator().next();
 	}
+
 }

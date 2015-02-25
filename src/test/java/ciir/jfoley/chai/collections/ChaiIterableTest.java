@@ -71,4 +71,10 @@ public class ChaiIterableTest {
 		assertEquals(Arrays.asList(5), items.get(5));
 	}
 
+  @Test
+  public void testHeapStuff() {
+    assertEquals(Arrays.asList(10,9,8,7), ChaiIterable.create(5,6,7,8,9,10).maxK(4).intoList());
+    assertEquals(Arrays.asList(5, 6, 7, 8), ChaiIterable.create(5, 6, 7, 8, 9, 10).minK(4).intoList());
+  }
+
 }

@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.util.Comparing;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -91,4 +93,10 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     };
   }
 
+  public static <K,V> Comparator<Pair<K, V>> cmpRight() {
+    return cmpRight(Comparing.<V>defaultComparator());
+  }
+  public static <K,V> Comparator<Pair<K, V>> cmpLeft() {
+    return cmpLeft(Comparing.<K>defaultComparator());
+  }
 }

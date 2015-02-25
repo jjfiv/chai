@@ -1,12 +1,15 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.util.Comparing;
+import ciir.jfoley.chai.fn.SinkFn;
+
 import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * @author jfoley
  */
-public class TopKHeap<T> {
+public class TopKHeap<T> implements SinkFn<T> {
   final Comparator<T> cmp;
   final ArrayList<T> data;
   int fillPtr;
@@ -84,4 +87,17 @@ public class TopKHeap<T> {
       bubbleDown(selectedChild);
     }
   }
+
+  @Override
+  public void process(T input) {
+    offer(input);
+  }
+
+  public static <T> TopKHeap<T> maxItems(int maxSize, Comparator<T> cmp) {
+    return new TopKHeap<>(maxSize, cmp);
+  }
+  public static <T> TopKHeap<T> minItems(int minSize, Comparator<T> cmp) {
+    return new TopKHeap<>(minSize, cmp.reversed());
+  }
+
 }

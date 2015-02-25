@@ -2,10 +2,12 @@ package ciir.jfoley.chai.collections.chained;
 
 import ciir.jfoley.chai.Checked;
 import ciir.jfoley.chai.collections.Pair;
+import ciir.jfoley.chai.collections.TopKHeap;
 import ciir.jfoley.chai.collections.iters.OneShotIterable;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.collections.util.IterableFns;
 import ciir.jfoley.chai.fn.PredicateFn;
+import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
@@ -53,6 +55,23 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
 	public <Coll extends Collection<T>> Coll collect(Coll builder) {
 		return IterableFns.collect(this, builder);
 	}
+
+  public <X extends SinkFn<T>> X collect(X sink) {
+    return IterableFns.collect(this, sink);
+  }
+
+  public ChaiIterable<T> maxK(int k) {
+    return maxK(k, Comparing.<T>defaultComparator());
+  }
+  public ChaiIterable<T> maxK(int k, Comparator<T> cmp) {
+    return create(IterableFns.maxK(this, k, cmp));
+  }
+  public ChaiIterable<T> minK(int k) {
+    return minK(k, Comparing.<T>defaultComparator());
+  }
+  public ChaiIterable<T> minK(int k, Comparator<T> cmp) {
+    return create(IterableFns.minK(this, k, cmp));
+  }
 
 	public static <T> ChaiIterable<T> create(Iterator<T> iter) {
 		return new ChaiIterable<>(new OneShotIterable<>(iter));
