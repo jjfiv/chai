@@ -38,4 +38,17 @@ public class IterableFnsTest {
     assertEquals(Arrays.asList(10,9,8), IterableFns.maxK(data, 3));
     assertEquals(Arrays.asList(1,2,3), IterableFns.minK(data, 3));
   }
+
+  @Test
+  public void testChunking() {
+    assertEquals(Arrays.asList(
+        Arrays.asList(1,2),
+        Arrays.asList(3,4),
+        Arrays.asList(5)
+    ), IterableFns.intoList(IterableFns.batches(IntRange.inclusive(1,5), 2)));
+    assertEquals(Arrays.asList(
+        Arrays.asList(1, 2, 3),
+        Arrays.asList(4, 5)
+    ), IterableFns.intoList(IterableFns.batches(IntRange.inclusive(1,5), 3)));
+  }
 }

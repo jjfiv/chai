@@ -73,6 +73,10 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
     return create(IterableFns.minK(this, k, cmp));
   }
 
+  public ChaiIterable<List<T>> batches(int size) {
+    return create(IterableFns.batches(this, size));
+  }
+
 	public static <T> ChaiIterable<T> create(Iterator<T> iter) {
 		return new ChaiIterable<>(new OneShotIterable<>(iter));
 	}

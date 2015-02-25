@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.TopKHeap;
+import ciir.jfoley.chai.collections.iters.BatchedIterator;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
@@ -174,4 +175,7 @@ public class IterableFns {
 		return coll.iterator().next();
 	}
 
+  public static <T> Iterable<List<T>> batches(Iterable<T> input, int size) {
+    return new OneShotIterable<>(new BatchedIterator<>(input, size));
+  }
 }

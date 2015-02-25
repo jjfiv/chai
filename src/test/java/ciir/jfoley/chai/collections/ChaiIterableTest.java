@@ -77,4 +77,13 @@ public class ChaiIterableTest {
     assertEquals(Arrays.asList(5, 6, 7, 8), ChaiIterable.create(5, 6, 7, 8, 9, 10).minK(4).intoList());
   }
 
+  @Test
+  public void testBatches() {
+    assertEquals(
+        Arrays.<List<Integer>>asList(
+            IntRange.inclusive(0, 9),
+            IntRange.inclusive(10, 19)
+        ),
+        ChaiIterable.create(IntRange.exclusive(0, 20)).batches(10).intoList());
+  }
 }
