@@ -18,15 +18,15 @@ public class ArrayFns {
 
   public static List<Integer> toList(final int[] data) {
     return new AbstractList<Integer>() {
-      @Override
-      public Integer get(int i) {
-        return data[i];
-      }
+      @Override public Integer get(int i) { return data[i]; }
+      @Override public int size() { return data.length; }
+    };
+  }
 
-      @Override
-      public int size() {
-        return data.length;
-      }
+  public static List<Double> toList(final double[] x) {
+    return new AbstractList<Double>() {
+      @Override public int size() { return x.length; }
+      @Override public Double get(int index) { return x[index]; }
     };
   }
 }

@@ -34,7 +34,7 @@ public class IntRange extends AbstractList<Integer> {
 
   @Override
   public Integer get(int index) {
-    if(index >= size) throw new NoSuchElementException();
+    if(index < 0 || index >= size) throw new NoSuchElementException();
     return start + index;
   }
 
