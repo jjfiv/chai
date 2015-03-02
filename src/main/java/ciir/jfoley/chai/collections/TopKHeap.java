@@ -3,7 +3,6 @@ package ciir.jfoley.chai.collections;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -97,7 +96,7 @@ public class TopKHeap<T> implements SinkFn<T> {
     return new TopKHeap<>(maxSize, cmp);
   }
   public static <T> TopKHeap<T> minItems(int minSize, Comparator<T> cmp) {
-    return new TopKHeap<>(minSize, cmp.reversed());
+    return new TopKHeap<>(minSize, Comparing.reversed(cmp));
   }
 
 }

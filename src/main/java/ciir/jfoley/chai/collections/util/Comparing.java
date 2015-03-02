@@ -28,4 +28,12 @@ public class Comparing {
     };
   }
 
+  public static <T> Comparator<T> reversed(final Comparator<T> cmp) {
+    return new Comparator<T>() {
+      @Override
+      public int compare(T lhs, T rhs) {
+        return cmp.compare(rhs, lhs);
+      }
+    };
+  }
 }
