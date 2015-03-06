@@ -5,6 +5,7 @@ import ciir.jfoley.chai.collections.Pair;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.RandomAccess;
 
 /**
  * @author jfoley.
@@ -51,4 +52,8 @@ public class ListFns {
     return output;
   }
 
+  public static <T> List<T> ensureRandomAccess(List<T> input) {
+    if(input instanceof RandomAccess) return input;
+    return new ArrayList<>(input);
+  }
 }
