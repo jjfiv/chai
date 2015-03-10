@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.collections.list;
 
+import ciir.jfoley.chai.IntMath;
+
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,27 +19,37 @@ public class IntList extends AbstractList<Integer> {
 	}
 
 	public IntList(int size) {
-		this.data = new int[size];
-		this.size = size;
+		this.size = IntMath.nearestPowerOfTwo(size);
+		this.data = new int[this.size];
 		this.fill = 0;
 	}
 
 	public IntList(Collection<Integer> other) {
-
+		this(other.size());
+		addAll(other);
 	}
 
-	/*public void reserve(int amt) {
-		if(amt >= size) {
-
+	@Override
+	public boolean addAll(Collection<? extends Integer> other) {
+		reserve(fill+other.size());
+		for (Integer value : other) {
+			if(value == null) throw new NullPointerException();
+			data[fill++] = value;
 		}
-	}*/
+		return true;
+	}
+
+	public void reserve(int amt) {
+		if(amt >= size) {
+			size = IntMath.nearestPowerOfTwo(amt);
+		}
+		data = Arrays.copyOf(data, size);
+	}
 
 	@Override
 	public boolean add(Integer value) {
 		if(value == null) throw new NullPointerException();
-		if(fill >= size) {
-			expand();
-		}
+		reserve(fill+1);
 		data[fill++] = value;
 		return true;
 	}
@@ -45,11 +57,6 @@ public class IntList extends AbstractList<Integer> {
 	@Override
 	public void clear() {
 		fill = 0;
-	}
-
-	private void expand() {
-		size *= 2;
-		data = Arrays.copyOf(data, size);
 	}
 
 	@Override
