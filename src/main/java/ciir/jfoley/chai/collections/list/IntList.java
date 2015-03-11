@@ -68,4 +68,9 @@ public class IntList extends AbstractList<Integer> {
 	public int size() {
 		return fill;
 	}
+
+  /** This is toArray, but without the generic problems inherent to Java's toArray */
+  public int[] asArray() {
+    return Arrays.copyOfRange(data, 0, fill);
+  }
 }
