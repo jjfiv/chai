@@ -73,4 +73,8 @@ public class IntList extends AbstractList<Integer> {
   public int[] asArray() {
     return Arrays.copyOfRange(data, 0, fill);
   }
+
+  public int[] unsafeArray() {
+    return this.data;
+  }
 }

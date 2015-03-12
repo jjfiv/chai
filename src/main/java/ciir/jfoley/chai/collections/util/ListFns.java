@@ -56,4 +56,18 @@ public class ListFns {
     if(input instanceof RandomAccess) return input;
     return new ArrayList<>(input);
   }
+
+  public static <T> List<T> castView(final List<? extends T> input) {
+    return new AbstractList<T>() {
+      @Override
+      public T get(int index) {
+        return input.get(index);
+      }
+
+      @Override
+      public int size() {
+        return input.size();
+      }
+    };
+  }
 }
