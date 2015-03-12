@@ -77,4 +77,8 @@ public class IntList extends AbstractList<Integer> {
   public int[] unsafeArray() {
     return this.data;
   }
+
+  public int getQuick(int key) {
+    return data[key];
+  }
 }

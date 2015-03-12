@@ -52,8 +52,8 @@ public class ListFns {
     return output;
   }
 
-  public static <T> List<T> ensureRandomAccess(List<T> input) {
-    if(input instanceof RandomAccess) return input;
+  public static <T> List<T> ensureRandomAccess(List<? extends T> input) {
+    if(input instanceof RandomAccess) return castView(input);
     return new ArrayList<>(input);
   }
 
