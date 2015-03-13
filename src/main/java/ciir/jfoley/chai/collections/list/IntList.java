@@ -64,6 +64,13 @@ public class IntList extends AbstractList<Integer> {
 		return data[index];
 	}
 
+  @Override
+  public Integer set(int index, Integer value) {
+    int prev = data[index];
+    data[index] = value;
+    return prev;
+  }
+
 	@Override
 	public int size() {
 		return fill;
