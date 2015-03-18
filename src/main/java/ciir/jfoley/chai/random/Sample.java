@@ -2,8 +2,8 @@ package ciir.jfoley.chai.random;
 
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.TopKHeap;
-import ciir.jfoley.chai.collections.util.Comparing;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,5 +34,26 @@ public class Sample {
   }
   public static <T> T once(List<T> input, Random rand) {
     return input.get(Math.abs(rand.nextInt()) % input.size());
+  }
+
+
+  public static char nextASCII(Random rand) {
+    return (char) rand.nextInt(128);
+  }
+
+  public static List<String> strings(Random rand, int number) {
+    ArrayList<String> output = new ArrayList<>(number);
+    for (int i = 0; i < number; i++) {
+      // half the time, use a string over again:
+      if(output.size() > 0 && rand.nextDouble() > 0.5) {
+        output.add(output.get(rand.nextInt(output.size())));
+      }
+      // half the time, make a new string:
+      int length = rand.nextInt(7)+3;
+      byte[] data = new byte[length];
+      rand.nextBytes(data);
+      output.add(new String(data, Charset.forName("ASCII")));
+    }
+    return output;
   }
 }
