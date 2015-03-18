@@ -9,12 +9,12 @@ import java.util.*;
  * @author jfoley
  */
 public class TopKHeap<T> implements SinkFn<T> {
-  final Comparator<T> cmp;
+  final Comparator<? super T> cmp;
   final ArrayList<T> data;
   int fillPtr;
   final int maxSize;
 
-  public TopKHeap(int maxSize, Comparator<T> cmp) {
+  public TopKHeap(int maxSize, Comparator<? super T> cmp) {
     this.cmp = cmp;
     this.fillPtr = 0;
     this.maxSize = maxSize;
@@ -92,10 +92,10 @@ public class TopKHeap<T> implements SinkFn<T> {
     offer(input);
   }
 
-  public static <T> TopKHeap<T> maxItems(int maxSize, Comparator<T> cmp) {
+  public static <T> TopKHeap<T> maxItems(int maxSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(maxSize, cmp);
   }
-  public static <T> TopKHeap<T> minItems(int minSize, Comparator<T> cmp) {
+  public static <T> TopKHeap<T> minItems(int minSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(minSize, Comparing.reversed(cmp));
   }
 

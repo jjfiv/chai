@@ -87,10 +87,10 @@ public class IterableFns {
 		return sorted(input, Comparing.<T>defaultComparator(), builder);
 	}
 
-	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<T> cmp) {
+	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<? super T> cmp) {
 		return sorted(input, cmp, new ArrayList<T>());
 	}
-	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<T> cmp, List<T> builder) {
+	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<? super T> cmp, List<T> builder) {
 		try (Closer<Collection<? extends T>> cc = Closer.<Collection<? extends T>>of(input)) {
 			builder.addAll(input);
 		}
