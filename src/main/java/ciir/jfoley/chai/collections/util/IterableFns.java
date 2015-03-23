@@ -70,13 +70,13 @@ public class IterableFns {
   public static <T> List<T> maxK(Iterable<T> items, int k) {
     return maxK(items, k, Comparing.<T>defaultComparator());
   }
-  public static <T> List<T> maxK(Iterable<T> items, int k, Comparator<T> cmp) {
+  public static <T> List<T> maxK(Iterable<T> items, int k, Comparator<? super T> cmp) {
     return IterableFns.collect(items, TopKHeap.maxItems(k, cmp)).getSorted();
   }
   public static <T> List<T> minK(Iterable<T> items, int k) {
     return minK(items, k, Comparing.<T>defaultComparator());
   }
-  public static <T> List<T> minK(Iterable<T> items, int k, Comparator<T> cmp) {
+  public static <T> List<T> minK(Iterable<T> items, int k, Comparator<? super T> cmp) {
     return IterableFns.collect(items, TopKHeap.minItems(k, cmp)).getSorted();
   }
 
@@ -92,7 +92,7 @@ public class IterableFns {
 	}
 	public static <T> List<T> sorted(Collection<? extends T> input, Comparator<? super T> cmp, List<T> builder) {
 		try (Closer<Collection<? extends T>> cc = Closer.<Collection<? extends T>>of(input)) {
-			builder.addAll(input);
+			builder.addAll(cc.get());
 		}
 		Collections.sort(builder, cmp);
 		return builder;

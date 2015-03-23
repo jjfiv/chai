@@ -61,13 +61,13 @@ public class ChaiIterable<T> implements Iterable<T>, AutoCloseable {
   public ChaiIterable<T> maxK(int k) {
     return maxK(k, Comparing.<T>defaultComparator());
   }
-  public ChaiIterable<T> maxK(int k, Comparator<T> cmp) {
+  public ChaiIterable<T> maxK(int k, Comparator<? super T> cmp) {
     return create(IterableFns.maxK(this, k, cmp));
   }
   public ChaiIterable<T> minK(int k) {
     return minK(k, Comparing.<T>defaultComparator());
   }
-  public ChaiIterable<T> minK(int k, Comparator<T> cmp) {
+  public ChaiIterable<T> minK(int k, Comparator<? super T> cmp) {
     return create(IterableFns.minK(this, k, cmp));
   }
 
