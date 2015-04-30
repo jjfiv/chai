@@ -2,6 +2,7 @@ package ciir.jfoley.chai.random;
 
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.TopKHeap;
+import ciir.jfoley.chai.collections.list.IntList;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -54,6 +55,15 @@ public class Sample {
       byte[] data = new byte[length];
       rand.nextBytes(data);
       output.add(new String(data, Charset.forName("ASCII")));
+    }
+    return output;
+  }
+
+  public static List<Integer> randomIntegers(int N, int bound) {
+    IntList output = new IntList(N);
+    Random rand = new Random();
+    for (int i = 0; i < N; i++) {
+      output.add(rand.nextInt(bound));
     }
     return output;
   }
