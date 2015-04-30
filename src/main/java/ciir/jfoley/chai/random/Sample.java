@@ -47,6 +47,7 @@ public class Sample {
       // half the time, use a string over again:
       if(output.size() > 0 && rand.nextDouble() > 0.5) {
         output.add(output.get(rand.nextInt(output.size())));
+        continue;
       }
       // half the time, make a new string:
       int length = rand.nextInt(7)+3;
