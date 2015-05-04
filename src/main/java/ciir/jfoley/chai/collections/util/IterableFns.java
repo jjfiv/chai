@@ -1,15 +1,13 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.TopKHeap;
-import ciir.jfoley.chai.collections.iters.BatchedIterator;
+import ciir.jfoley.chai.collections.iters.*;
+import ciir.jfoley.chai.fn.CompareFn;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.Closer;
 import ciir.jfoley.chai.io.IO;
-import ciir.jfoley.chai.collections.iters.ClosingIterator;
-import ciir.jfoley.chai.collections.iters.FilteringIterator;
-import ciir.jfoley.chai.collections.iters.OneShotIterable;
 
 import java.util.*;
 
@@ -19,27 +17,34 @@ import java.util.*;
  * @author jfoley.
  */
 public class IterableFns {
+
+	/** Provides a lazy map over an iterable, that assumes it is repeatable,
+	 *  but that's really up to the underlying implementation. */
 	public static <A, B> Iterable<B> map(final Iterable<A> coll, final TransformFn<A,B> mapfn) {
-		final Iterator<A> inner = coll.iterator();
-		return new OneShotIterable<>(new ClosingIterator<B>() {
+		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<B>>() {
 			@Override
-			public void close() throws Exception {
-				IO.close(inner);
+			public Iterator<B> transform(Iterator<A> input) {
+				return new MappingIterator<>(input, mapfn);
 			}
+		});
+	}
 
+	/** Lazy, functional group-by (assumes sorted) */
+	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
+		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<List<A>>>() {
 			@Override
-			public boolean hasNext() {
-				return inner.hasNext();
+			public Iterator<List<A>> transform(Iterator<A> input) {
+				return new GroupByIterator<>(input, cmpFn);
 			}
+		});
+	}
 
+	/** Lazy, functional group-by (assumes sorted) that compares on equality. */
+	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll) {
+		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<List<A>>>() {
 			@Override
-			public B next() {
-				return mapfn.transform(inner.next());
-			}
-
-			@Override
-			public void remove() {
-				inner.remove();
+			public Iterator<List<A>> transform(Iterator<A> input) {
+				return new GroupByIterator<>(input);
 			}
 		});
 	}
