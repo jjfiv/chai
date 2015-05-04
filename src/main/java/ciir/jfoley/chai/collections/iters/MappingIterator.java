@@ -3,12 +3,13 @@ package ciir.jfoley.chai.collections.iters;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
+import java.io.Closeable;
 import java.util.Iterator;
 
 /**
  * @author jfoley
  */
-public class MappingIterator<A, B> implements Iterator<B>, AutoCloseable {
+public class MappingIterator<A, B> implements Iterator<B>, Closeable {
   private final TransformFn<A, B> mapFn;
   private final Iterator<A> inner;
 
@@ -35,7 +36,7 @@ public class MappingIterator<A, B> implements Iterator<B>, AutoCloseable {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     IO.close(inner);
   }
 }

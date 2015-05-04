@@ -5,5 +5,5 @@ package ciir.jfoley.chai.fn;
  * @author jfoley.
  */
 public interface TransformFn<A,B> {
-	public B transform(A input);
+	B transform(A input);
 }
