@@ -259,7 +259,7 @@ public class StrUtil {
     return false;
   }
 
-  public static interface Transform extends TransformFn<String,String> { }
+  public interface Transform extends TransformFn<String,String> { }
 
   public static String[] pretendTokenize(String input) {
     String cleaned = input

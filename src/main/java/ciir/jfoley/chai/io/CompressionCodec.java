@@ -15,10 +15,10 @@ public class CompressionCodec {
 		streamCodecs.put("gz", new GZipCodec());
 		streamCodecs.put("bz|bz2", new BZipCodec());
 	}
-	public static interface Impl {
-		public boolean matchesFileName(String fileName);
-		public InputStream openReader(InputStream fp) throws IOException;
-		public OutputStream openWriter(OutputStream fp) throws IOException;
+	public interface Impl {
+		boolean matchesFileName(String fileName);
+		InputStream openReader(InputStream fp) throws IOException;
+		OutputStream openWriter(OutputStream fp) throws IOException;
 	}
 
 	public static InputStream openInputStream(String file) throws IOException {
