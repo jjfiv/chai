@@ -2,13 +2,14 @@ package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.fn.TransformFn;
+import ciir.jfoley.chai.lang.Module;
 
 import java.util.*;
 
 /**
  * @author jfoley.
  */
-public class MapFns {
+public class MapFns extends Module {
 	public static <K,V> V firstValue(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.values().iterator().next();

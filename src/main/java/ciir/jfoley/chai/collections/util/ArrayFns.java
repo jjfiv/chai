@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.lang.Module;
+
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +9,7 @@ import java.util.List;
 /**
  * @author jfoley
  */
-public class ArrayFns {
+public class ArrayFns extends Module {
 
   /** Concatenate byte arrays somewhat efficiently, making a new array */
   public static byte[] concat(byte[] lhs, byte[] rhs) {

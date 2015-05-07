@@ -2,6 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.io.compress.BZipCodec;
 import ciir.jfoley.chai.io.compress.GZipCodec;
+import ciir.jfoley.chai.lang.Module;
 
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,12 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author jfoley.
  */
-public class CompressionCodec {
+public final class CompressionCodec extends Module {
 	static ConcurrentHashMap<String, Impl> streamCodecs = new ConcurrentHashMap<>();
 	static {
 		streamCodecs.put("gz", new GZipCodec());
 		streamCodecs.put("bz|bz2", new BZipCodec());
 	}
+
 	public interface Impl {
 		boolean matchesFileName(String fileName);
 		InputStream openReader(InputStream fp) throws IOException;

@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.io;
 
+import ciir.jfoley.chai.lang.Module;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.util.*;
 /**
  * @author jfoley.
  */
-public class FS {
+public class FS extends Module {
 	// Module.
 	private FS() {  }
 

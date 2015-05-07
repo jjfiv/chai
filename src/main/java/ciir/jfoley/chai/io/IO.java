@@ -2,6 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.errors.FatalError;
+import ciir.jfoley.chai.lang.Module;
 
 import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
@@ -9,7 +10,7 @@ import java.io.*;
 /**
  * @author jfoley.
  */
-public class IO {
+public class IO extends Module {
 
 	/** Used for transfer operations */
 	public static int BUFFER_SIZE = 8192;

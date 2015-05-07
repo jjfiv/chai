@@ -1,9 +1,11 @@
 package ciir.jfoley.chai;
 
+import ciir.jfoley.chai.lang.Module;
+
 /**
  * @author jfoley.
  */
-public class IntMath {
+public class IntMath extends Module {
 	public static int nearestPowerOfTwo(int x) {
 		if(x < 0) throw new IllegalArgumentException();
 		if(x == 0) return 1;

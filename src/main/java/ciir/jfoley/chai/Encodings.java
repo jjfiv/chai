@@ -2,6 +2,7 @@ package ciir.jfoley.chai;
 
 import ciir.jfoley.chai.codec.Codec;
 import ciir.jfoley.chai.errors.FatalError;
+import ciir.jfoley.chai.lang.Module;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,7 +12,7 @@ import java.nio.charset.Charset;
 /**
  * @author jfoley.
  */
-public class Encodings {
+public final class Encodings extends Module {
 	public static Charset UTF8 = Charset.defaultCharset();
 	public static String encodeURLUTF8(String input) {
 		try {

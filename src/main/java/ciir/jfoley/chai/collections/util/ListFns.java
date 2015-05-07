@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.Pair;
+import ciir.jfoley.chai.lang.Module;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.RandomAccess;
 /**
  * @author jfoley.
  */
-public class ListFns {
+public class ListFns extends Module {
 	/** Specialized lazy List concat */
 	public static <T> List<T> lazyConcat(final List<T> first, final List<T> second) {
 		return new AbstractList<T>() {

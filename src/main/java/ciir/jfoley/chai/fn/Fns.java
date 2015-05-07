@@ -1,13 +1,12 @@
 package ciir.jfoley.chai.fn;
 
 import ciir.jfoley.chai.Checked;
-
-import java.util.List;
+import ciir.jfoley.chai.lang.Module;
 
 /**
  * @author jfoley.
  */
-public class Fns {
+public class Fns extends Module {
 	private static Object identityFn = new TransformFn<Object, Object>() {
 		@Override
 		public Object transform(Object input) {

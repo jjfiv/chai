@@ -1,11 +1,13 @@
 package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.lang.Module;
+
 import java.util.Comparator;
 
 /**
  * @author jfoley.
  */
-public class Comparing {
+public class Comparing extends Module {
 	public static <T> Comparator<T> defaultComparator() {
 		return new Comparator<T>() {
 			@Override

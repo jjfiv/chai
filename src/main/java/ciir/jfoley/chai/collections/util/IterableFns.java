@@ -8,6 +8,7 @@ import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.Closer;
 import ciir.jfoley.chai.io.IO;
+import ciir.jfoley.chai.lang.Module;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ import java.util.*;
  * @see ciir.jfoley.chai.io.IO ::close()
  * @author jfoley.
  */
-public class IterableFns {
+public class IterableFns extends Module {
 
 	/** Provides a lazy map over an iterable, that assumes it is repeatable,
 	 *  but that's really up to the underlying implementation. */

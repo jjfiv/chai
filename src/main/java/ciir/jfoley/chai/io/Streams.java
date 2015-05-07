@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.io;
 
+import ciir.jfoley.chai.lang.Module;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,7 +9,7 @@ import java.io.OutputStream;
 /**
  * @author jfoley.
  */
-public class Streams {
+public class Streams extends Module {
   public static void copy(InputStream src, OutputStream dest, int bufferSize) throws IOException {
     byte[] buf = new byte[bufferSize];
     while(true) {

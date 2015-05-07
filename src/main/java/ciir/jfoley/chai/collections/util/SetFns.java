@@ -1,11 +1,13 @@
 package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.lang.Module;
+
 import java.util.*;
 
 /**
  * @author jfoley.
  */
-public class SetFns {
+public class SetFns extends Module {
 
 	public static <T> Set<T> intersection(List<? extends Collection<? extends T>> sets) {
 		if(sets.isEmpty()) return Collections.emptySet();
