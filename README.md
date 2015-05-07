@@ -14,7 +14,7 @@ Chai is a lightweight, well-tested, opinionated library that builds on some of t
 
 Supports the now-deprecated Java 7 and Java 8. I have Travis double-checking my commits so that I don't break anything.
 
-![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)
+[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
 
 ## Documentation
 
