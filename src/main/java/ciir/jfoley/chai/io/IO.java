@@ -11,10 +11,16 @@ import java.io.*;
  */
 public class IO {
 
+	/** Used for transfer operations */
+	public static int BUFFER_SIZE = 8192;
+
+	/** This class exists only to provide static methods. */
+	private IO() {}
+
 	/**
-   * Close anything!
-   * TODO: close with reflection if available?
-   */
+	 * Close anything!
+	 * TODO: close with reflection if available?
+	 */
 	public static void close(Object obj) {
 		try {
 			if (obj != null) {
@@ -23,38 +29,39 @@ public class IO {
 				} else if (obj instanceof AutoCloseable) {
 					((AutoCloseable) obj).close();
 				} else if(obj instanceof XMLStreamWriter) {
-          ((XMLStreamWriter) obj).close();
-        }
+					((XMLStreamWriter) obj).close();
+				}
 			}
 		} catch (Exception ex) {
 			throw new FatalError(ex);
 		}
 	}
 
-	public static int BUFFER_SIZE = 8192;
-
-  public static String readAll(Reader reader, int bufferSize) throws IOException {
-    final StringBuilder contents = new StringBuilder();
-    char buf[] = new char[bufferSize];
-    while(true) {
-      int amt = reader.read(buf);
-      if(amt < 0) break;
-      contents.append(buf, 0, amt);
-      if(amt < buf.length) break;
-    }
-    return contents.toString();
-  }
-
-	public static String readAll(Reader reader) throws IOException {
-    return readAll(reader, BUFFER_SIZE);
+	/** Read all data or "slurp" a BufferedReader. */
+	public static String readAll(Reader reader, int bufferSize) throws IOException {
+		final StringBuilder contents = new StringBuilder();
+		char buf[] = new char[bufferSize];
+		while(true) {
+			int amt = reader.read(buf);
+			if(amt < 0) break;
+			contents.append(buf, 0, amt);
+			if(amt < buf.length) break;
+		}
+		return contents.toString();
 	}
 
+	public static String readAll(Reader reader) throws IOException {
+		return readAll(reader, BUFFER_SIZE);
+	}
+
+	/** Slurp a file, inspired by Clojure's naming. */
 	public static String slurp(File path) throws IOException {
 		try(Reader reader = openReader(path.getAbsolutePath())) {
 			return readAll(reader);
 		}
 	}
 
+	/** Spit a string to a file, inspired by Clojure's naming. */
 	public static void spit(String data, File output) throws IOException {
 		try (PrintWriter pw = openPrintWriter(output.getAbsolutePath())) {
 			pw.print(data);

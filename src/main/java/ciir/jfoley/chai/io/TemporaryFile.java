@@ -5,8 +5,9 @@ import java.io.File;
 import java.io.IOException;
 
 /**
-* @author jfoley.
-*/
+ * Create and delete temporary files as resources.
+ * @author jfoley.
+ */
 public class TemporaryFile implements Closeable {
 	private final File file;
 

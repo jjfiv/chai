@@ -3,9 +3,15 @@ package ciir.jfoley.chai.collections;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
+ * Based on Galago's implementation of a FixedSizeMinHeap by Sam Huston.
+ * Edited to use an ArrayList instead, and to implement some interfaces.
+ *
  * @author jfoley
  */
 public class TopKHeap<T> implements SinkFn<T> {

@@ -1,8 +1,9 @@
 package ciir.jfoley.chai.io;
 
 /**
-* @author jfoley.
-*/
+ * This makes an object that may or may not have a close method usable in a try-with-resources block.
+ * @author jfoley.
+ */
 public class Closer<T> implements AutoCloseable {
 	private final T obj;
 

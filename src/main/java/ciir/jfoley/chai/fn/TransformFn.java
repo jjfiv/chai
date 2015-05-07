@@ -1,7 +1,7 @@
 package ciir.jfoley.chai.fn;
 
 /**
- * A -> B
+ * A function interface that maps from A -&gt; B. Because the whole world hasn't made it to Java 8 yet.
  * @author jfoley.
  */
 public interface TransformFn<A,B> {
