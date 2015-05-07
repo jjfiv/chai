@@ -9,7 +9,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaVersion>1.7</javaVersion>
-    <galagoVersion>3.8-SNAPSHOT</galagoVersion>
   </properties>
 
   <distributionManagement>
