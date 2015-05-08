@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.xml.list;
 
+import ciir.jfoley.chai.collections.list.AChaiList;
 import ciir.jfoley.chai.xml.XNode;
 import org.w3c.dom.NodeList;
 
@@ -7,9 +8,9 @@ import org.w3c.dom.NodeList;
  * A wrapper around a NodeList that behaves like a list! Yay!
  * @author jfoley.
  */
-public class NodeListXNodes extends AXNodes {
+public class NodeListWrapper extends AChaiList<XNode> {
 	NodeList nodelist;
-	public NodeListXNodes(NodeList nl) {
+	public NodeListWrapper(NodeList nl) {
 		this.nodelist = nl;
 	}
 	@Override

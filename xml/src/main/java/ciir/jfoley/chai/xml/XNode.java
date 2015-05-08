@@ -3,7 +3,7 @@ package ciir.jfoley.chai.xml;
 import ciir.jfoley.chai.collections.tree.ChaiTree;
 import ciir.jfoley.chai.collections.tree.TreeFns;
 import ciir.jfoley.chai.fn.PredicateFn;
-import ciir.jfoley.chai.xml.list.NodeListXNodes;
+import ciir.jfoley.chai.xml.list.NodeListWrapper;
 import org.w3c.dom.Node;
 
 import javax.xml.transform.*;
@@ -42,13 +42,8 @@ public class XNode implements ChaiTree<XNode> {
 	}
 
   @Override
-  public XNode getParent() {
-    return new XNode(node.getParentNode());
-  }
-
-  @Override
-  public XNodes getChildren() {
-		return new NodeListXNodes(node.getChildNodes());
+  public List<XNode> getChildren() {
+		return new NodeListWrapper(node.getChildNodes());
 	}
 
 	public String getTag() {
@@ -63,14 +58,13 @@ public class XNode implements ChaiTree<XNode> {
     }
 	}
 
-  public XNodes selectByTag(final String tagName) {
-    TreeFns.findChildren(this, new PredicateFn<XNode>() {
+  public List<XNode> selectByTag(final String tagName) {
+    return TreeFns.findChildren(this, new PredicateFn<XNode>() {
       @Override
       public boolean test(XNode input) {
         return Objects.equals(input.getTag(), tagName);
       }
     });
-    return getChildren().selectByTag(tagName);
   }
 
   public boolean isTextNode() {
@@ -95,7 +89,8 @@ public class XNode implements ChaiTree<XNode> {
     return "ciir.jfoley.chai.xml.XNode: "+this.getTag();
   }
 
-  public XNode parent() {
+  @Override
+  public XNode getParent() {
     Node parentNode = this.node.getParentNode();
     if(parentNode == null) {
       return null;
@@ -133,6 +128,10 @@ public class XNode implements ChaiTree<XNode> {
 
   public Node getImplNode() {
     return this.node;
+  }
+
+  public static XNode wrap(Node xmlDoc) {
+    return new XNode(xmlDoc);
   }
 }
 
