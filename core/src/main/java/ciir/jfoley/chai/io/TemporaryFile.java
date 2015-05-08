@@ -11,6 +11,11 @@ import java.io.IOException;
 public class TemporaryFile implements Closeable {
 	private final File file;
 
+	/** When you only care about the suffix that gets generated. */
+	public TemporaryFile(String suffix) throws IOException {
+		this("chai", suffix);
+	}
+	/** When you want to have control over the prefix & suffix of the file. */
 	public TemporaryFile(String prefix, String suffix) throws IOException {
 		this.file = File.createTempFile(prefix, suffix);
 	}

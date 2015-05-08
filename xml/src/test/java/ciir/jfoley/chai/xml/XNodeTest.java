@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.xml;
 
+import ciir.jfoley.chai.io.IO;
+import ciir.jfoley.chai.io.TemporaryFile;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -49,4 +51,14 @@ public class XNodeTest {
 
 	}
 
+	@Test
+	public void testFromFile() throws IOException, ParserConfigurationException, SAXException {
+		try (TemporaryFile tmpf = new TemporaryFile(".xml")) {
+			IO.spit("<doc>\n\t<x key=\"value\" />\n</doc>\n", tmpf.get());
+			XNode doc = ChaiXML.fromFile(tmpf.getPath());
+			List<XNode> xs = doc.selectByTag("x");
+			assertEquals(1, xs.size());
+			assertEquals("value", xs.get(0).attr("key"));
+		}
+	}
 }
