@@ -2,13 +2,14 @@ package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.Checked;
 import ciir.jfoley.chai.codec.Codec;
+import ciir.jfoley.chai.collections.list.AChaiList;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @author jfoley.
  */
-public class ListView<INNER, OUTER> extends AbstractList<OUTER> {
+public class ListView<INNER, OUTER> extends AChaiList<OUTER> {
 	private final List<INNER> inner;
 	private final Codec<INNER, OUTER> codec;
 

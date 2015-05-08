@@ -1,13 +1,13 @@
 package ciir.jfoley.chai.collections;
 
-import javax.sound.sampled.Line;
-import java.util.AbstractList;
+import ciir.jfoley.chai.collections.list.AChaiList;
+
 import java.util.NoSuchElementException;
 
 /**
  * @author jfoley
  */
-public class LinearSpace extends AbstractList<Double> {
+public class LinearSpace extends AChaiList<Double> {
   public final double start;
   public final double end;
   public final int numPoints;

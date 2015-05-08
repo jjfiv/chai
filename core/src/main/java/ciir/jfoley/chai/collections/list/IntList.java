@@ -2,14 +2,13 @@ package ciir.jfoley.chai.collections.list;
 
 import ciir.jfoley.chai.IntMath;
 
-import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 
 /**
  * @author jfoley.
  */
-public class IntList extends AbstractList<Integer> {
+public class IntList extends AChaiList<Integer> {
 	int fill;
 	int size;
 	int[] data;

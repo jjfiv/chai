@@ -1,13 +1,14 @@
 package ciir.jfoley.chai.collections;
 
-import java.util.AbstractList;
+import ciir.jfoley.chai.collections.list.AChaiList;
+
 import java.util.NoSuchElementException;
 
 /**
  * Constant memory consecutive integer ranges.
  * @author jfoley
  */
-public class IntRange extends AbstractList<Integer> {
+public class IntRange extends AChaiList<Integer> {
   private final int start;
   private final int size;
 

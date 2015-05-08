@@ -64,7 +64,7 @@ public class IterableFns extends Module {
 		return builder;
 	}
 
-	public static <T,X extends SinkFn<T>> X collect(Iterable<T> input, X sink) {
+	public static <T,X extends SinkFn<T>> X intoSink(Iterable<T> input, X sink) {
 		try (Closer<Iterable<T>> cc = Closer.of(input)) {
 			for (T x : cc.get()) {
 				sink.process(x);

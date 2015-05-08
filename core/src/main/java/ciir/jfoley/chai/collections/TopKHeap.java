@@ -1,12 +1,10 @@
 package ciir.jfoley.chai.collections;
 
+import ciir.jfoley.chai.collections.list.AChaiList;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Based on Galago's implementation of a FixedSizeMinHeap by Sam Huston.
@@ -14,7 +12,7 @@ import java.util.List;
  *
  * @author jfoley
  */
-public class TopKHeap<T> implements SinkFn<T> {
+public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   final Comparator<? super T> cmp;
   final ArrayList<T> data;
   int fillPtr;
@@ -35,21 +33,26 @@ public class TopKHeap<T> implements SinkFn<T> {
   }
 
   /**
-   * Adds an item to the heap IFF the heaps is small OR the min-item is worse than this item
+   * Adds an item to the heap IFF the heaps is small OR the min-item is worse than this item.
+   * @return true if the item was kept, false if it was discarded.
    */
-  public void offer(T d) {
-    // if we're small
+  public boolean offer(T d) {
     if (fillPtr < maxSize) {
+      // If we've not yet filled the heap, push_back.
       data.set(fillPtr, d);
       fillPtr++;
       bubbleUp(fillPtr - 1);
 
-
-      // or if smallest item is worse than this document
+      return true;
     } else if (cmp.compare(d, data.get(0)) > 0) {
+      // or if smallest item is worse than this document
       data.set(0, d);
       bubbleDown(0);
+      return true;
     }
+
+    // No change.
+    return false;
   }
 
   public List<T> getSorted() {
@@ -98,6 +101,29 @@ public class TopKHeap<T> implements SinkFn<T> {
     offer(input);
   }
 
+  @Override
+  public boolean add(T input) {
+    return offer(input);
+  }
+
+  @Override
+  public boolean addAll(Collection<? extends T> other) {
+    List<T> candidates = new ArrayList<>(other);
+    Collections.sort(candidates, cmp);
+
+    // Add to heap until one of them returns false.
+    boolean change = false;
+    for (T candidate : candidates) {
+      if(!offer(candidate)) {
+        break;
+      }
+      change = true;
+    }
+
+    return change;
+  }
+
+
   public static <T> TopKHeap<T> maxItems(int maxSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(maxSize, cmp);
   }
@@ -105,4 +131,13 @@ public class TopKHeap<T> implements SinkFn<T> {
     return new TopKHeap<>(minSize, Comparing.reversed(cmp));
   }
 
+  @Override
+  public T get(int index) {
+    return data.get(index);
+  }
+
+  @Override
+  public int size() {
+    return fillPtr;
+  }
 }

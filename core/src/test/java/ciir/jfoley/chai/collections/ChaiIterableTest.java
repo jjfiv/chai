@@ -86,4 +86,11 @@ public class ChaiIterableTest {
         ),
         ChaiIterable.create(IntRange.exclusive(0, 20)).batches(10).intoList());
   }
+
+	@Test
+	public void testReverse() {
+		assertEquals(
+			Arrays.asList(9,8,7,6,5,4,3,2,1,0),
+			IntRange.exclusive(0, 10).chai().reverse().intoList());
+	}
 }
