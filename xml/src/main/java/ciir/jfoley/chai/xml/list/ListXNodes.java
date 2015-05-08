@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A wrapper around a List&lt;Node&gt;.
  * @author jfoley.
  */
 public class ListXNodes extends AXNodes {
@@ -27,5 +28,9 @@ public class ListXNodes extends AXNodes {
 	@Override
 	public int size() {
 		return nodes.size();
+	}
+
+	public void addImplNode(Node implNode) {
+		nodes.add(implNode);
 	}
 }

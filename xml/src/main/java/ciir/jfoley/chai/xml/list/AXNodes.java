@@ -2,9 +2,9 @@ package ciir.jfoley.chai.xml.list;
 
 import ciir.jfoley.chai.xml.XNode;
 import ciir.jfoley.chai.xml.XNodes;
+import org.w3c.dom.Node;
 
 import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,18 +13,24 @@ import java.util.List;
 public abstract class AXNodes extends AbstractList<XNode> implements XNodes {
 	@Override
 	public XNodes selectByTag(String tagName) {
-		List<XNode> output = new ArrayList<XNode>();
+		ListXNodes output = new ListXNodes();
+
 		for (XNode xNode : this) {
 			if(xNode.getTag().equals(tagName)) {
-				output.add(xNode);
+				output.addImplNode(xNode.getImplNode());
 			}
 		}
 		// recurse?
-		return new XListXNodes(output);
+		return output;
 	}
 
   @Override
   public XNode first() {
     return this.get(0);
   }
+
+
+	public static XNodes ofList(List<Node> domNodes) {
+		return new ListXNodes(domNodes);
+	}
 }

@@ -114,5 +114,9 @@ public class XNode {
       throw new RuntimeException("XML Serialization issue", e);
     }
   }
+
+  public Node getImplNode() {
+    return this.node;
+  }
 }
 

@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.xml;
 
+import ciir.jfoley.chai.fn.PredicateFn;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,17 +34,17 @@ public class XQuery {
 
   public static List<Node> findChildrenByTagName(Node root, final String tagName) {
     List<Node> output = new ArrayList<>();
-    recursivelyFindChildrenByMatcher(output, root, new NodeQueryFn() {
+    recursivelyFindChildrenByMatcher(output, root, new PredicateFn<Node>() {
       @Override
-      public boolean matches(Node node) {
+      public boolean test(Node node) {
         return Objects.equals(node.getNodeName(), tagName);
       }
     });
     return output;
   }
 
-  private static void recursivelyFindChildrenByMatcher(List<Node> output, Node root, NodeQueryFn matcher) {
-		if(matcher.matches(root)) {
+  private static void recursivelyFindChildrenByMatcher(List<Node> output, Node root, PredicateFn<Node> matcher) {
+		if(matcher.test(root)) {
 			output.add(root);
 		}
 		NodeList children = root.getChildNodes();
