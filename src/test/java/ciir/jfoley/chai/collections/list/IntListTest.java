@@ -36,9 +36,11 @@ public class IntListTest {
 		assertEquals(Arrays.asList(1, 2, 3, 4, 5), test);
 		int[] expected = new int[]{1, 2, 3, 4, 5};
 		assertArrayEquals(expected, test.asArray());
-		assertArrayEquals(expected, test.unsafeArray());
+		for (int i = 0; i < 5; i++) {
+			assertEquals(expected[i], test.unsafeArray()[i]);
+		}
 		assertEquals(1, test.getQuick(0));
-		assertEquals(8, test.size);
+		assertEquals(5, test.size());
 	}
 
 	@Test
@@ -46,7 +48,6 @@ public class IntListTest {
 		List<Integer> original = Arrays.asList(1,2,3,4,5);
 		IntList test = new IntList(original);
 		assertEquals(original, test);
-		assertEquals(8, test.size);
 	}
 
 }
