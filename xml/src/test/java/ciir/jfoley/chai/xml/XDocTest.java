@@ -13,10 +13,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author jfoley.
  */
-public class XSDocTest {
+public class XDocTest {
 	@Test
 	public void simpleSelect() throws ParserConfigurationException, SAXException, IOException {
-		XSDoc doc = XSDoc.fromString("<a><b>Hello</b><c>World</c><b>Frank</b></a>");
+		XDoc doc = XDoc.fromString("<a><b>Hello</b><c>World</c><b>Frank</b></a>");
 
 		XNodes bs = doc.selectByTag("b");
 		assertEquals(2, bs.size());
@@ -30,7 +30,7 @@ public class XSDocTest {
 
 	@Test
 	public void testAttrs() throws ParserConfigurationException, SAXException, IOException {
-		XSDoc doc = XSDoc.fromString("<a><b key=\"value\" key2=\"value2\">Hello</b></a>");
+		XDoc doc = XDoc.fromString("<a><b key=\"value\" key2=\"value2\">Hello</b></a>");
 
 		XNodes bs = doc.selectByTag("b");
 		assertEquals(1, bs.size());

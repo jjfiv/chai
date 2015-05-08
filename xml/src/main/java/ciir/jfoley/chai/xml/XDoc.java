@@ -13,9 +13,9 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author jfoley.
  */
-public class XSDoc extends AXNodes {
+public class XDoc extends AXNodes {
 	Document xmlDoc;
-	XSDoc(Document xmlDoc) {
+	XDoc(Document xmlDoc) {
 		this.xmlDoc = xmlDoc;
 	}
 
@@ -26,20 +26,20 @@ public class XSDoc extends AXNodes {
 
 	static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
-  public static XSDoc fromFile(File fp) throws ParserConfigurationException, IOException, SAXException {
+  public static XDoc fromFile(File fp) throws ParserConfigurationException, IOException, SAXException {
 		return fromStream(new FileInputStream(fp));
 	}
 
-	public static XSDoc fromFile(String path) throws IOException, SAXException, ParserConfigurationException {
+	public static XDoc fromFile(String path) throws IOException, SAXException, ParserConfigurationException {
 		return fromFile(new File(path));
 	}
 
-	public static XSDoc fromString(String inputXML) throws IOException, SAXException, ParserConfigurationException {
+	public static XDoc fromString(String inputXML) throws IOException, SAXException, ParserConfigurationException {
 		return fromStream(new ByteArrayInputStream(inputXML.getBytes(StandardCharsets.UTF_8)));
 	}
 
-	public static XSDoc fromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
-		return new XSDoc(factory.newDocumentBuilder().parse(inputStream));
+	public static XDoc fromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
+		return new XDoc(factory.newDocumentBuilder().parse(inputStream));
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package ciir.jfoley.chai.xml;
 
+import ciir.jfoley.chai.collections.tree.ChaiTree;
+import ciir.jfoley.chai.collections.tree.TreeFns;
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.xml.list.NodeListXNodes;
 import org.w3c.dom.Node;
 
@@ -11,11 +14,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author jfoley.
  */
-public class XNode {
+public class XNode implements ChaiTree<XNode> {
 	private final Node node;
 
 	public XNode(Node node) {
@@ -37,7 +41,13 @@ public class XNode {
 		return node.hasChildNodes();
 	}
 
-	public XNodes getChildren() {
+  @Override
+  public XNode getParent() {
+    return new XNode(node.getParentNode());
+  }
+
+  @Override
+  public XNodes getChildren() {
 		return new NodeListXNodes(node.getChildNodes());
 	}
 
@@ -53,7 +63,13 @@ public class XNode {
     }
 	}
 
-  public XNodes selectByTag(String tagName) {
+  public XNodes selectByTag(final String tagName) {
+    TreeFns.findChildren(this, new PredicateFn<XNode>() {
+      @Override
+      public boolean test(XNode input) {
+        return Objects.equals(input.getTag(), tagName);
+      }
+    });
     return getChildren().selectByTag(tagName);
   }
 

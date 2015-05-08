@@ -42,6 +42,11 @@ public class ChaiIterable<T> extends AbstractCollection<T> implements Iterable<T
 		return data.size();
 	}
 
+	/** Count the elements in this ChaiIterable. */
+	public int count() {
+		return size();
+	}
+
 	/** Mutates this iterable; replacing insides with a List, so it can be visited multiple times, or making it unlazy. */
 	public ChaiIterable<T> compute() {
 		List<T> data = intoList();
