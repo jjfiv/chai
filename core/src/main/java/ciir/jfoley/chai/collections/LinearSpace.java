@@ -17,7 +17,7 @@ public class LinearSpace extends AChaiList<Double> {
     this.start = start;
     this.end = end;
     this.numPoints = numPoints;
-    this.step = (end - start) / ((double) numPoints);
+    this.step = (end - start) / ((double) numPoints-1);
   }
 
   @Override

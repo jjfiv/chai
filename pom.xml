@@ -30,4 +30,5 @@
       <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+
 </project>

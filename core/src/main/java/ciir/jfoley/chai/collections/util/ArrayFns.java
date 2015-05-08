@@ -31,4 +31,12 @@ public class ArrayFns extends Module {
       @Override public Double get(int index) { return x[index]; }
     };
   }
+
+  public static double[] fromList(List<Double> xs) {
+    double[] data = new double[xs.size()];
+    for (int i = 0; i < xs.size(); i++) {
+      data[i] = xs.get(i);
+    }
+    return data;
+  }
 }
