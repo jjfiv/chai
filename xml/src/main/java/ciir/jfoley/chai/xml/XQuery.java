@@ -1,11 +1,12 @@
 package ciir.jfoley.chai.xml;
 
-import ciir.jfoley.chai.fn.PredicateFn;
+import ciir.jfoley.chai.string.StrUtil;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -23,35 +24,15 @@ public class XQuery {
     throw new RuntimeException("Not a terminal node! "+n);
   }
 
+  /** One-deep set of children converted to strings with spaces between them. */
   public static String childNodesAsString(Node n) {
     NodeList children = n.getChildNodes();
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < children.getLength(); i++) {
-      sb.append(nodeAsString(children.item(i)));
+      sb.append(nodeAsString(children.item(i))).append(' ');
     }
-    return sb.toString();
+    return StrUtil.compactSpaces(sb);
   }
-
-  public static List<Node> findChildrenByTagName(Node root, final String tagName) {
-    List<Node> output = new ArrayList<>();
-    recursivelyFindChildrenByMatcher(output, root, new PredicateFn<Node>() {
-      @Override
-      public boolean test(Node node) {
-        return Objects.equals(node.getNodeName(), tagName);
-      }
-    });
-    return output;
-  }
-
-  private static void recursivelyFindChildrenByMatcher(List<Node> output, Node root, PredicateFn<Node> matcher) {
-		if(matcher.test(root)) {
-			output.add(root);
-		}
-		NodeList children = root.getChildNodes();
-		for (int i = 0; i < children.getLength(); i++) {
-			recursivelyFindChildrenByMatcher(output, children.item(i), matcher);
-		}
-	}
 
   public static Map<String,String> getAttributes(Node xmlNode) {
     Map<String,String> output = new HashMap<>();

@@ -2,9 +2,6 @@ package ciir.jfoley.chai.string;
 
 import ciir.jfoley.chai.fn.TransformFn;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -204,8 +201,8 @@ public class StrUtil {
     return true;
   }
 
-  /** Simplify input string in terms of spaces; all space characters -> ' ' and a maximum width of 1 space */
-  public static String compactSpaces(String input) {
+  /** Simplify input string in terms of spaces; all space characters -&gt; ' ' and a maximum width of 1 space. */
+  public static String compactSpaces(CharSequence input) {
     StringBuilder sb = new StringBuilder();
     boolean lastWasSpace = true;
     for (int i = 0; i < input.length(); i++) {
