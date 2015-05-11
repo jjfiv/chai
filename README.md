@@ -1,4 +1,5 @@
-# Chai
+# Chai 
+[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
 
 *Because I don't like coffee, but I like Java. Mostly.*
 
@@ -13,8 +14,6 @@ Chai is a lightweight, well-tested, opinionated library that builds on some of t
 ## Version Support
 
 Supports the now-deprecated Java 7 and Java 8. I have Travis double-checking my commits so that I don't break anything.
-
-[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
 
 ## Documentation
 
