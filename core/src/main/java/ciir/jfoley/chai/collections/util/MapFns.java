@@ -102,4 +102,10 @@ public class MapFns extends Module {
 		}
 		target.put(key, next);
 	}
+
+	public static <K,V> V getOrElse(Map<K, V> coll, K key, V defaultValue) {
+		V maybeValue = coll.get(key);
+		if(maybeValue == null) return defaultValue;
+		return maybeValue;
+	}
 }
