@@ -273,6 +273,13 @@ public class StrUtil {
     return StrUtil.filterToAscii(cleaned).split("\\s+");
   }
 
+  public static boolean truthy(CharSequence seq) {
+    return seq != null && seq.length() > 0;
+  }
+  public static boolean falsy(CharSequence seq) {
+    return !truthy(seq);
+  }
+
 	public static String join(List<? extends CharSequence> items, CharSequence delimiter) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < items.size(); i++) {

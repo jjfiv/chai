@@ -73,18 +73,18 @@ public class IterableFns extends Module {
 		return sink;
 	}
 
-  public static <T> List<T> maxK(Iterable<T> items, int k) {
-    return maxK(items, k, Comparing.<T>defaultComparator());
-  }
-  public static <T> List<T> maxK(Iterable<T> items, int k, Comparator<? super T> cmp) {
-    return IterableFns.collect(items, TopKHeap.maxItems(k, cmp)).getSorted();
-  }
-  public static <T> List<T> minK(Iterable<T> items, int k) {
-    return minK(items, k, Comparing.<T>defaultComparator());
-  }
-  public static <T> List<T> minK(Iterable<T> items, int k, Comparator<? super T> cmp) {
-    return IterableFns.collect(items, TopKHeap.minItems(k, cmp)).getSorted();
-  }
+	public static <T> List<T> maxK(Iterable<T> items, int k) {
+		return maxK(items, k, Comparing.<T>defaultComparator());
+	}
+	public static <T> List<T> maxK(Iterable<T> items, int k, Comparator<? super T> cmp) {
+		return IterableFns.collect(items, TopKHeap.maxItems(k, cmp)).getSorted();
+	}
+	public static <T> List<T> minK(Iterable<T> items, int k) {
+		return minK(items, k, Comparing.<T>defaultComparator());
+	}
+	public static <T> List<T> minK(Iterable<T> items, int k, Comparator<? super T> cmp) {
+		return IterableFns.collect(items, TopKHeap.minItems(k, cmp)).getSorted();
+	}
 
 	public static <T extends Comparable> List<T> sorted(Collection<? extends T> input) {
 		return sorted(input, Comparing.<T>defaultComparator(), new ArrayList<T>());
@@ -158,30 +158,30 @@ public class IterableFns extends Module {
 		return grouped;
 	}
 
-  public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper) {
-    return min(input, mapper, Comparing.<X>defaultComparator());
-  }
-  public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper, Comparator<X> cmp) {
-    Iterator<T> iter = input.iterator();
-    if(!iter.hasNext()) return null;
-    T minimum = iter.next();
-    X minValue = mapper.transform(minimum);
-    while(iter.hasNext()) {
-      T candidate = iter.next();
-      X cval = mapper.transform(candidate);
-      if(cmp.compare(cval, minValue) < 0) {
-        minimum = candidate;
-        minValue = cval;
-      }
-    }
-    return minimum;
-  }
+	public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper) {
+		return min(input, mapper, Comparing.<X>defaultComparator());
+	}
+	public static <T,X> T min(Iterable<T> input, TransformFn<T,X> mapper, Comparator<X> cmp) {
+		Iterator<T> iter = input.iterator();
+		if(!iter.hasNext()) return null;
+		T minimum = iter.next();
+		X minValue = mapper.transform(minimum);
+		while(iter.hasNext()) {
+			T candidate = iter.next();
+			X cval = mapper.transform(candidate);
+			if(cmp.compare(cval, minValue) < 0) {
+				minimum = candidate;
+				minValue = cval;
+			}
+		}
+		return minimum;
+	}
 
 	public static <T> T first(Collection<T> coll) {
 		return coll.iterator().next();
 	}
 
-  public static <T> Iterable<List<T>> batches(Iterable<T> input, int size) {
-    return new OneShotIterable<>(new BatchedIterator<>(input, size));
-  }
+	public static <T> Iterable<List<T>> batches(Iterable<T> input, int size) {
+		return new OneShotIterable<>(new BatchedIterator<>(input, size));
+	}
 }
