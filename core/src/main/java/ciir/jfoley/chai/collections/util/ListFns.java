@@ -53,6 +53,46 @@ public class ListFns extends Module {
     return output;
   }
 
+  /**
+   * Break a list into pieces in order. Actually creates subList views of the original list.
+   * {@link java.util.List#subList}
+   *
+   * @param input The input list to break into pieces.
+   * @param splits the number of partitions to make of the original.
+   * @return A list of subLists.
+   */
+  public static <T> List<List<T>> partition(List<T> input, int splits) {
+    int numberPerSplit = (int) Math.round(input.size() / (double) splits);
+    List<List<T>> output = new ArrayList<>();
+    for (int i = 0; i < splits; i++) {
+      output.add(input.subList(i*numberPerSplit, Math.min(input.size(), (i+1)*numberPerSplit)));
+    }
+    // fix up a small remainder
+    if(input.size() > splits * numberPerSplit) {
+      output.set(splits-1, input.subList((splits-1) * numberPerSplit, input.size()));
+    }
+    return output;
+  }
+
+  /**
+   * Break a list into pieces in order. Actually creates subList views of the original list.
+   * {@link java.util.List#subList}
+   *
+   * @param input The input list to break into pieces.
+   * @param splits the number of partitions to make of the original.
+   * @return A list of subLists.
+   */
+  public static <T> List<List<T>> partitionRoundRobin(List<T> input, int splits) {
+    List<List<T>> output = new ArrayList<>();
+    for (int i = 0; i < splits; i++) {
+      output.add(new ArrayList<T>(input.size() / splits));
+    }
+    for (int i = 0; i < input.size(); i++) {
+      output.get(i%splits).add(input.get(i));
+    }
+    return output;
+  }
+
   public static <T> List<T> ensureRandomAccess(List<? extends T> input) {
     if(input instanceof RandomAccess) return castView(input);
     return new ArrayList<>(input);
