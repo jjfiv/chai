@@ -1,10 +1,12 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.IntRange;
+import ciir.jfoley.chai.collections.Pair;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,6 +19,21 @@ public class ListFnsTest {
     assertEquals(Arrays.asList(1,2,3,4), ListFns.take(input, 4));
     assertEquals(Collections.<Integer>emptyList(), ListFns.take(input, 0));
     assertEquals(input, ListFns.take(input, 10));
+  }
+
+  @Test
+  public void testPairs() {
+    List<Integer> input = Arrays.asList(1,2,3,4);
+    assertEquals(
+        new HashSet<>(ListFns.pairs(input)),
+        new HashSet<>(Arrays.asList(
+            Pair.of(1,2),
+            Pair.of(1,3),
+            Pair.of(1,4),
+            Pair.of(2,3),
+            Pair.of(2,4),
+            Pair.of(3,4)
+        )));
   }
 
   @Test
