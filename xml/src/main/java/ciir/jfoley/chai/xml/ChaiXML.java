@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.xml;
 
+import ciir.jfoley.chai.fn.GenerateFn;
+import ciir.jfoley.chai.lang.LazyPtr;
 import ciir.jfoley.chai.lang.Module;
 import org.xml.sax.SAXException;
 
@@ -12,7 +14,12 @@ import java.nio.charset.StandardCharsets;
  * @author jfoley.
  */
 public class ChaiXML extends Module {
-	static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	static LazyPtr<DocumentBuilderFactory> factory = new LazyPtr<>(new GenerateFn<DocumentBuilderFactory>() {
+		@Override
+		public DocumentBuilderFactory get() {
+			return DocumentBuilderFactory.newInstance();
+		}
+	});
 
   public static XNode fromFile(File fp) throws ParserConfigurationException, IOException, SAXException {
 		return fromStream(new FileInputStream(fp));
@@ -27,7 +34,7 @@ public class ChaiXML extends Module {
 	}
 
 	public static XNode fromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
-		return new XNode(factory.newDocumentBuilder().parse(inputStream));
+		return new XNode(factory.get().newDocumentBuilder().parse(inputStream));
 	}
 
 }

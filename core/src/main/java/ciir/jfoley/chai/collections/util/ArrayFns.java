@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections.util;
 import ciir.jfoley.chai.lang.Module;
 
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,5 +39,9 @@ public class ArrayFns extends Module {
       data[i] = xs.get(i);
     }
     return data;
+  }
+
+  public static <T> List<T> toList(T[] data, int startIndex) {
+    return new ArrayList<>(Arrays.asList(data).subList(startIndex, data.length));
   }
 }

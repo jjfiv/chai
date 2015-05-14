@@ -80,5 +80,8 @@ public class ListFnsTest {
             Collections.singletonList(4)
         ),
         ListFns.partitionRoundRobin(IntRange.exclusive(0, 6), 5));
+
+    List<List<Integer>> data = ListFns.partitionRoundRobin(IntRange.exclusive(0,2400), 50);
+    assertEquals(50, data.size());
   }
 }
