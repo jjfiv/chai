@@ -3,10 +3,7 @@ package ciir.jfoley.chai.collections.util;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.lang.Module;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.RandomAccess;
+import java.util.*;
 
 /**
  * This module contains a number of functions meant to operate on lists (sometimes it's much easier than the related iterables)
@@ -130,5 +127,19 @@ public class ListFns extends Module {
         return input.size();
       }
     };
+  }
+
+  /**
+   * Collect an Enumeration into a List, so you can do a for loop like a normal person.
+   * @param entries The abomination.
+   * @param <T> The type of contained values.
+   * @return A list of the contained values. Makes a copy.
+   */
+  public static <T> List<T> collect(Enumeration<? extends T> entries) {
+    List<T> results = new ArrayList<>();
+    while (entries.hasMoreElements()) {
+      results.add(entries.nextElement());
+    }
+    return results;
   }
 }

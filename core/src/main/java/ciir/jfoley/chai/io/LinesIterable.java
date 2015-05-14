@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * @author jfoley.
  */
-public class LinesIterable implements Iterable<String>, AutoCloseable {
+public class LinesIterable implements Iterable<String>, Closeable {
 
 	private final BufferedReader reader;
 
@@ -32,7 +32,7 @@ public class LinesIterable implements Iterable<String>, AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() throws IOException {
 		reader.close();
 	}
 
