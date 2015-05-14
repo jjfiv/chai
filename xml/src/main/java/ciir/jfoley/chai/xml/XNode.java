@@ -133,5 +133,6 @@ public class XNode implements ChaiTree<XNode> {
   public static XNode wrap(Node xmlDoc) {
     return new XNode(xmlDoc);
   }
+
 }
 

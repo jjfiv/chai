@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.Pair;
+import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.lang.Module;
 
 import java.util.*;
@@ -141,5 +142,24 @@ public class ListFns extends Module {
       results.add(entries.nextElement());
     }
     return results;
+  }
+
+  public static <T> List<T> pushToCopy(List<T> ctx, T tag) {
+    List<T> newList = new ArrayList<>(ctx);
+    newList.add(tag);
+    return newList;
+  }
+
+  public static <T> boolean matches(List<T> input, PredicateFn<T> condition) {
+    return findFirst(input, condition) != null;
+  }
+
+  public static <T> T findFirst(List<T> input, PredicateFn<T> condition) {
+    for (T t : input) {
+      if(condition.test(t)) {
+        return t;
+      }
+    }
+    return null;
   }
 }
