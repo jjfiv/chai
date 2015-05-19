@@ -69,8 +69,8 @@ public class IO extends Module {
 		}
 	}
 
-	public static Reader openReader(String file) throws IOException {
-		return new InputStreamReader(openInputStream(file), Encodings.UTF8);
+	public static BufferedReader openReader(String file) throws IOException {
+		return new BufferedReader(new InputStreamReader(openInputStream(file), Encodings.UTF8));
 	}
 
 	public static InputStream openInputStream(String file) throws IOException {
@@ -84,4 +84,11 @@ public class IO extends Module {
 		return new PrintWriter(openOutputStream(file));
 	}
 
+	public static BufferedReader openReader(File fp) throws IOException {
+		return openReader(fp.getAbsolutePath());
+	}
+
+	public static BufferedReader stringReader(String s) {
+		return new BufferedReader(new StringReader(s));
+	}
 }
