@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.string;
 
-import java.util.AbstractList;
+import ciir.jfoley.chai.collections.list.AChaiList;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,7 +9,7 @@ import java.util.regex.Pattern;
  * Now implementing a List&gt;String&lt; of matches for easier iteration.
  * @author jfoley.
  */
-public final class Match extends AbstractList<String> {
+public final class Match extends AChaiList<String> {
   public final int begin;
   public final int end;
   public final Matcher matcher;
