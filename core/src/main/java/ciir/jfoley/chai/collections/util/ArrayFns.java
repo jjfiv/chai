@@ -44,4 +44,30 @@ public class ArrayFns extends Module {
   public static <T> List<T> toList(T[] data, int startIndex) {
     return new ArrayList<>(Arrays.asList(data).subList(startIndex, data.length));
   }
+
+  /**
+   * Compare two byte arrays. Based on original implementation in Galago.
+   * @param one the left-hand byte[]
+   * @param two the right-hand byte[]
+   * @return an integer that satisfies Java's comparing interfaces.
+   */
+  public static int compare(byte[] one, byte[] two) {
+    int sharedLength = Math.min(one.length, two.length);
+
+    for (int i = 0; i < sharedLength; i++) {
+      int a = ((int) one[i]) & 0xFF;
+      int b = ((int) two[i]) & 0xFF;
+      int result = a - b;
+
+      if (result < 0) {
+        return -1;
+      }
+      if (result > 0) {
+        return 1;
+      }
+    }
+
+    return one.length - two.length;
+  }
+
 }

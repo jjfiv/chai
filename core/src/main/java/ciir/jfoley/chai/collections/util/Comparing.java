@@ -30,6 +30,15 @@ public class Comparing extends Module {
     };
   }
 
+  public static Comparator<byte[]> byteArrays() {
+    return new Comparator<byte[]>() {
+      @Override
+      public int compare(byte[] o1, byte[] o2) {
+        return ArrayFns.compare(o1, o2);
+      }
+    };
+  }
+
   public static <T> Comparator<T> reversed(final Comparator<T> cmp) {
     return new Comparator<T>() {
       @Override
