@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.io.archive;
 
 import ciir.jfoley.chai.Encodings;
+import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.io.LinesIterable;
 
 import java.io.BufferedReader;
@@ -19,8 +20,20 @@ public class ZipArchiveEntry implements ArchiveEntry {
     this.archive = archive;
   }
 
+  /**
+   * In case the abstraction isn't good enough.
+   * @return the underlying Zip Entry.
+   */
   public ZipEntry rawZipEntry() {
     return entry;
+  }
+
+  /**
+   * In case the abstraction isn't good enough.
+   * @return the underlying Zip File.
+   */
+  public ZipFile rawZipFile() {
+    return archive;
   }
 
   @Override
@@ -37,13 +50,32 @@ public class ZipArchiveEntry implements ArchiveEntry {
     return new BufferedReader(new InputStreamReader(getInputStream(), Encodings.UTF8));
   }
 
+  /**
+   * Return a LinesIterable of this zip entry.
+   * @return a {:link Closeable} {:link LinesIterable}.
+   */
   @Override
   public LinesIterable getLines() throws IOException {
     return LinesIterable.of(getReader());
   }
 
+  /**
+   * Return the name of the file inside this zip.
+   * @return name.
+   */
   @Override
-  public String getName() {
+  public String getName(){
     return entry.getName();
+  }
+
+  /**
+   * Read contents as UTF8 String all at once... hope it fits in memory! :)
+   * @return the string of the contents for this entry.
+   * @throws IOException
+   */
+  public String slurp() throws IOException {
+    try (BufferedReader rdr = getReader()) {
+      return IO.readAll(rdr);
+    }
   }
 }

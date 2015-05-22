@@ -20,7 +20,7 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
   }
 
   public static ZipArchive open(String path) throws IOException {
-    return new ZipArchive(new ZipFile(path));
+    return open(new File(path));
   }
   public static ZipArchive open(File fp) throws IOException {
     return new ZipArchive(new ZipFile(fp));
