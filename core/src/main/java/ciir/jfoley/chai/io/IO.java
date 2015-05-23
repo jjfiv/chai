@@ -96,4 +96,8 @@ public class IO extends Module {
   public static BufferedReader stringReader(String s) {
     return new BufferedReader(new StringReader(s));
   }
+
+  public static InputStream openInputStream(File file) throws IOException {
+    return openInputStream(file.getAbsolutePath());
+  }
 }

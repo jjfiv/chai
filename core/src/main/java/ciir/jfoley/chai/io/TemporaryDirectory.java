@@ -1,5 +1,7 @@
 package ciir.jfoley.chai.io;
 
+import ciir.jfoley.chai.fn.GenerateFn;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.util.logging.Logger;
  * Create and delete temporary directories as resources.
  * @author jfoley.
  */
-public class TemporaryDirectory implements Closeable {
+public class TemporaryDirectory implements Closeable, GenerateFn<File> {
   private final static Logger logger = Logger.getLogger(TemporaryDirectory.class.getName());
   private final static FileAttribute[] None = new FileAttribute[0];
   private final File directory;
@@ -24,6 +26,11 @@ public class TemporaryDirectory implements Closeable {
 
   public TemporaryDirectory() throws IOException {
     this("chaitmpdir");
+  }
+
+  @Override
+  public File get() {
+    return directory;
   }
 
   public File child(String name) {
