@@ -43,7 +43,6 @@ public class FS extends Module {
 		directories.add(base);
 
 		while(!directories.isEmpty()) {
-			System.out.println(directories);
 			File possible = directories.poll();
 			assert(possible != null);
 			for (File file : listDirectory(possible)) {
@@ -57,6 +56,5 @@ public class FS extends Module {
 
 		return foundFiles;
 	}
-
 
 }
