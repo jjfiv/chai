@@ -14,14 +14,23 @@ import java.util.logging.Logger;
  */
 public class TemporaryDirectory implements Closeable {
   private final static Logger logger = Logger.getLogger(TemporaryDirectory.class.getName());
+  private final static FileAttribute[] None = new FileAttribute[0];
   private final File directory;
 
+
   public TemporaryDirectory(String prefix) throws IOException {
-    this.directory = Files.createTempDirectory(prefix, (FileAttribute[]) null).toFile();
+    this.directory = Files.createTempDirectory(prefix, None).toFile();
+  }
+
+  public TemporaryDirectory() throws IOException {
+    this("chaitmpdir");
   }
 
   public File child(String name) {
     return new File(directory, name);
+  }
+  public String childPath(String name) {
+    return child(name).getAbsolutePath();
   }
 
   public List<File> children() throws IOException {
@@ -44,4 +53,5 @@ public class TemporaryDirectory implements Closeable {
     }
 
   }
+
 }

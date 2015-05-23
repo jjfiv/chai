@@ -15,4 +15,14 @@ public class IntMath extends Module {
 		if(numberOfOnes > 31) throw new RuntimeException();
 		return 1 << numberOfOnes;
 	}
+
+	/**
+	 * For when you have a long and you want to die if it doesn't fit in an int.
+	 * @param l the long that hopefully is less than 2^31-1
+	 * @return (int) l if possible.
+	 */
+	public static int fromLong(long l) {
+		if(l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) throw new NumberFormatException("Can't fit the long into an int!");
+		return (int) l;
+	}
 }
