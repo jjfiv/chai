@@ -43,3 +43,35 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
 }
 ```
 
+## History
+
+### v0.3
+ - TemporaryDirectory
+ - ZipWriter
+ - IntMath::fromLong
+ - Closer<T> implements GenerateFn<T> { T get(); }
+ - Comparing.byteArrays(); ArrayFns.compare(byte[], byte[])
+ - Scattered Javadocs and Tests
+
+### v0.2
+ - StreamFns
+    - readBytes
+    - fromByteBuffer
+    - readAll
+ - More reader factories on IO
+ - DoubleFns.equals(a,b,epsilon)
+ - ZipArchive, ZipArchiveEntry
+ - LazyPtr<T>
+ - ListFns partition and roundRobinPartition
+ - MapFns.getOrElse
+ - indenting, tests, javadoc
+
+### v0.1
+ - XML as a separate module
+ - TreeFns
+ - AChaiList is a superset of AbstractList functionality
+ - ChaiIterable isa Collection
+ - TopKHeap has addAll and bool offer()
+ - Move to github and setup travis
+ - ... implement and pull in from other files.
+
