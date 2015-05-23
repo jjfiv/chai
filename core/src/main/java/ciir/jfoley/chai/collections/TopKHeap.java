@@ -106,6 +106,7 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     return offer(input);
   }
 
+  @SuppressWarnings("NullableProblems")
   @Override
   public boolean addAll(Collection<? extends T> other) {
     List<T> candidates = new ArrayList<>(other);
