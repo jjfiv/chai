@@ -41,17 +41,16 @@ public class TemporaryDirectory implements Closeable {
     return FS.findFilesRecursively(directory);
   }
 
+  /**
+   * The idea here is to automagically delete all temporary contents when this close() gets called. Sadly, it's not implemented correctly now.
+   * @throws IOException
+   */
   @Override
   public void close() throws IOException {
-    for (File file : recursiveChildren()) {
-      if(!file.delete()) {
-        logger.warning("Couldn't delete temporary file inside directory: "+file.getAbsolutePath());
-      }
+    List<File> stubborn = FS.removeDirectoryRecursively(this.directory);
+    if(!stubborn.isEmpty()) {
+      throw new IOException("Leaked " + stubborn.size() + " files because of TemporaryDirectory: " + directory.getAbsolutePath()+" ... Double check your permissions!");
     }
-    if(!directory.delete()) {
-      logger.warning("Couldn't delete temporary directory: " + directory.getAbsolutePath());
-    }
-
   }
 
 }

@@ -6,11 +6,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * @author jfoley.
  */
 public class FS extends Module {
+  public static final Logger logger = Logger.getLogger(FS.class.getName());
   // Module.
   private FS() {  }
 
@@ -31,7 +33,7 @@ public class FS extends Module {
 
     File[] data = dir.listFiles();
     if(data == null) {
-      throw new IOException("Couldn't list the directory -- got all nulls! "+dir);
+      throw new IOException("Couldn't list the directory -- got null! "+dir);
     }
 
     return Arrays.asList(data);
@@ -55,6 +57,31 @@ public class FS extends Module {
     }
 
     return foundFiles;
+  }
+
+  /**
+   * Instead of throwing errors, logs and returns a list of un-delete-able items.
+   * @param base
+   * @throws IOException
+   */
+  public static List<File> removeDirectoryRecursively(File base) throws IOException {
+    List<File> stubborn = new ArrayList<>();
+
+    for (File child : FS.listDirectory(base)) {
+      if(child.isDirectory()) {
+        stubborn.addAll(removeDirectoryRecursively(child));
+      } else {
+        if(!child.delete()) {
+          logger.warning("Couldn't delete file: "+child.getAbsolutePath());
+          stubborn.add(child);
+        }
+      }
+    }
+    if(!base.delete()) {
+      logger.warning("Couldn't delete directory: "+base.getAbsolutePath());
+      stubborn.add(base);
+    }
+    return stubborn;
   }
 
 }
