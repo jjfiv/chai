@@ -100,4 +100,8 @@ public class IO extends Module {
   public static InputStream openInputStream(File file) throws IOException {
     return openInputStream(file.getAbsolutePath());
   }
+
+  public static OutputStream openOutputStream(File output) throws IOException {
+    return openOutputStream(output.getAbsolutePath());
+  }
 }
