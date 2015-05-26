@@ -24,7 +24,7 @@ public class QuickSort {
    * @param left the start index to sort.
    * @param right the end index to sort.
    */
-  static <T> void sort(Comparator<T> cmp, List<T> data, int left, int right) {
+  static <T> void sort(Comparator<? super T> cmp, List<T> data, int left, int right) {
     if(left >= right) return;
 
     // Partition
@@ -55,7 +55,7 @@ public class QuickSort {
    * @param data the list to sort.
    * @param <T> the type of object within the list.
    */
-  public static <T> void sort(Comparator<T> cmp, List<T> data) {
+  public static <T> void sort(Comparator<? super T> cmp, List<T> data) {
     sort(cmp, data, 0, data.size()-1);
   }
 
