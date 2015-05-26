@@ -15,17 +15,28 @@ public class Directory implements GenerateFn<File> {
 
   public Directory(String path) {
     this.dir = new File(path);
-    if(!dir.mkdirs()) {
-      throw new RuntimeException("Cannot obtain or create "+path+" as a directory.");
-    }
+    ensure(dir);
   }
 
   public Directory(File input) {
-    if(!input.mkdirs()) {
-      throw new RuntimeException("Cannot obtain or create "+input.getAbsolutePath()+" as a directory.");
-    }
-    assert(input.isDirectory());
     dir = input;
+    ensure(dir);
+  }
+
+  /**
+   * Ensures that the given input is a directory or creates it.
+   * @param input the file or path as input.
+   */
+  public static void ensure(File input) {
+    if(input.isDirectory()) return;
+    if(!input.exists()) {
+      if(!input.mkdirs()) {
+        throw new RuntimeException("Cannot obtain or create "+input.getAbsolutePath()+" as a directory.");
+      }
+    }
+    if(input.exists() && !input.isDirectory()) {
+      throw new RuntimeException(input+" already exists and is NOT a directory.");
+    }
   }
 
   public File child(String name) {
