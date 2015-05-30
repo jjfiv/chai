@@ -109,4 +109,10 @@ public class StrUtilTest {
     assertEquals("foo", StrUtil.removeSurrounding("<foo>", "<", ">"));
     assertEquals("foo", StrUtil.removeSurrounding("\"foo\"", "\"", "\""));
   }
+
+  @Test
+  public void testIndent() {
+    String data = "the\ndog";
+    assertEquals("\tthe\n\tdog\n", StrUtil.indent(data, "\t"));
+  }
 }

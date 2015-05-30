@@ -38,5 +38,4 @@ public class TemporaryDirectory extends Directory implements Closeable, Generate
       throw new IOException("Leaked " + stubborn.size() + " files because of TemporaryDirectory: " + dir.getAbsolutePath()+" ... Double check your permissions!");
     }
   }
-
 }

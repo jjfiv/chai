@@ -23,14 +23,18 @@ public final class CompressionCodec extends Module {
 		OutputStream openWriter(OutputStream fp) throws IOException;
 	}
 
-	public static InputStream openInputStream(String file) throws IOException {
+	public static InputStream wrapInputStream(String name, InputStream base) throws IOException {
 		for (CompressionCodec.Impl codec : streamCodecs.values()) {
-			if(codec.matchesFileName(file)) {
-				return codec.openReader(new FileInputStream(file));
+			if (codec.matchesFileName(name)) {
+				return codec.openReader(base);
 			}
 		}
-		return new FileInputStream(file);
+		return base;
 	}
+	public static InputStream openInputStream(String file) throws IOException {
+		return wrapInputStream(file, new FileInputStream(file));
+	}
+
 	public static OutputStream openOutputStream(String file) throws IOException {
 		for (CompressionCodec.Impl codec : streamCodecs.values()) {
 			if(codec.matchesFileName(file)) {

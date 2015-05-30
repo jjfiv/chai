@@ -13,7 +13,7 @@ public class Comparing extends Module {
 			@Override
 			@SuppressWarnings("unchecked")
 			public int compare(T lhs, T rhs) {
-				assert(lhs instanceof Comparable);
+				assert(lhs instanceof Comparable) : lhs.getClass().getName()+ " is not comparable!";
 				return ((Comparable) lhs).compareTo(rhs);
 			}
 		};

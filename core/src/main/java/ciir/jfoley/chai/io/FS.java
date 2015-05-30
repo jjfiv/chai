@@ -61,7 +61,7 @@ public class FS extends Module {
 
   /**
    * Instead of throwing errors, logs and returns a list of un-delete-able items.
-   * @param base
+   * @param base the base folder to delete all of.
    * @throws IOException
    */
   public static List<File> removeDirectoryRecursively(File base) throws IOException {
@@ -84,4 +84,7 @@ public class FS extends Module {
     return stubborn;
   }
 
+  public static boolean isDirectory(String indexPath) {
+    return new File(indexPath).isDirectory();
+  }
 }

@@ -104,4 +104,20 @@ public class IO extends Module {
   public static OutputStream openOutputStream(File output) throws IOException {
     return openOutputStream(output.getAbsolutePath());
   }
+
+  public static InputStream resourceStream(String name) throws IOException {
+    return CompressionCodec.wrapInputStream(name, IO.class.getResourceAsStream(name));
+  }
+  public static String slurp(InputStream inputStream) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
+      return readAll(reader);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static String resource(String name) throws IOException {
+    return slurp(resourceStream(name));
+  }
+
 }

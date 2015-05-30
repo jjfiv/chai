@@ -256,6 +256,14 @@ public class StrUtil {
     return false;
   }
 
+  public static String indent(String message, String tabChars) {
+    StringBuilder sb = new StringBuilder();
+    for (String line : message.split("\n")) {
+      sb.append(tabChars).append(line).append('\n');
+    }
+    return sb.toString();
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   public static String[] pretendTokenize(String input) {
