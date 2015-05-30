@@ -4,10 +4,7 @@ import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.io.IO;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -15,7 +12,7 @@ import java.util.zip.ZipOutputStream;
  * A wrapper around a ZipOutputStream that allows simplified access to Java's Zip API.
  * @author jfoley.
  */
-public class ZipWriter implements Closeable {
+public class ZipWriter implements Closeable, Flushable {
   private final ZipOutputStream zos;
 
   public ZipWriter(String fileName) throws IOException {
@@ -50,5 +47,10 @@ public class ZipWriter implements Closeable {
   @Override
   public void close() throws IOException {
     zos.close();
+  }
+
+  @Override
+  public void flush() throws IOException {
+    zos.flush();
   }
 }
