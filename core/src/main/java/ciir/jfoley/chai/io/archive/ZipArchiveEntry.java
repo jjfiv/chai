@@ -3,6 +3,7 @@ package ciir.jfoley.chai.io.archive;
 import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.io.LinesIterable;
+import ciir.jfoley.chai.lang.annotations.EmergencyUseOnly;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class ZipArchiveEntry implements ArchiveEntry {
    * In case the abstraction isn't good enough.
    * @return the underlying Zip Entry.
    */
+  @EmergencyUseOnly
   public ZipEntry rawZipEntry() {
     return entry;
   }
@@ -32,6 +34,7 @@ public class ZipArchiveEntry implements ArchiveEntry {
    * In case the abstraction isn't good enough.
    * @return the underlying Zip File.
    */
+  @EmergencyUseOnly
   public ZipFile rawZipFile() {
     return archive;
   }

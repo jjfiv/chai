@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.io.archive;
 
 import ciir.jfoley.chai.collections.util.ListFns;
+import ciir.jfoley.chai.lang.annotations.EmergencyUseOnly;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,15 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
     return new ZipArchive(new ZipFile(fp));
   }
 
+  /**
+   * In case you need raw access for some reason.
+   * @return the implementation ZipFile.
+   */
+  @EmergencyUseOnly
+  public ZipFile getZipFile() {
+    return zipFile;
+  }
+
   @Override
   public List<ZipArchiveEntry> listEntries() {
     List<ZipArchiveEntry> results = new ArrayList<>();
@@ -33,6 +43,12 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
       results.add(new ZipArchiveEntry(zipEntry, zipFile));
     }
     return results;
+  }
+
+  public ZipArchiveEntry getByName(String name) {
+    ZipEntry entry = zipFile.getEntry(name);
+    if(entry == null) return null;
+    return new ZipArchiveEntry(entry, zipFile);
   }
 
   @Override
