@@ -65,4 +65,8 @@ public class Directory implements GenerateFn<File> {
   public File get() {
     return dir;
   }
+
+  public String getPath() {
+    return dir.getAbsolutePath();
+  }
 }

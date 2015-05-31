@@ -75,7 +75,7 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     return new Pair<>(input);
   }
 
-  public static <K, V> Comparator<? super Map.Entry<K, V>> cmpRight(final Comparator<V> cmp) {
+  public static <K, V> Comparator<? super Pair<K, V>> cmpRight(final Comparator<V> cmp) {
     return new Comparator<Map.Entry<K, V>>() {
       @Override
       public int compare(Map.Entry<K, V> lhs, Map.Entry<K, V> rhs) {
@@ -84,7 +84,7 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     };
   }
 
-  public static <K, V> Comparator<? super Map.Entry<K, V>> cmpLeft(final Comparator<K> cmp) {
+  public static <K, V> Comparator<? super Pair<K, V>> cmpLeft(final Comparator<K> cmp) {
     return new Comparator<Map.Entry<K, V>>() {
       @Override
       public int compare(Map.Entry<K, V> lhs, Map.Entry<K, V> rhs) {
@@ -93,10 +93,10 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     };
   }
 
-  public static <K,V> Comparator<? super Map.Entry<K, V>> cmpRight() {
+  public static <K,V> Comparator<? super Pair<K, V>> cmpRight() {
     return cmpRight(Comparing.<V>defaultComparator());
   }
-  public static <K,V> Comparator<? super Map.Entry<K, V>> cmpLeft() {
+  public static <K,V> Comparator<? super Pair<K, V>> cmpLeft() {
     return cmpLeft(Comparing.<K>defaultComparator());
   }
 }
