@@ -146,6 +146,7 @@ public class StrUtil {
   }
 
   public static String preview(String input, int len) {
+    input = compactSpaces(input);
     if(input.length() < len) {
       return input;
     } else {

@@ -17,7 +17,7 @@ public class LazyPtr<T> implements GenerateFn<T> {
   public T get() {
     if(instance == null) {
       instance = createFn.get();
-      if(instance == null) throw new NullPointerException("LazySingleton<T> generator gave us NULL!");
+      if(instance == null) throw new NullPointerException("LazyPtr<T> generator gave us NULL!");
     }
     return instance;
   }

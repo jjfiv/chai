@@ -2,6 +2,7 @@ package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.fn.PredicateFn;
+import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
 import java.util.*;
@@ -161,5 +162,28 @@ public class ListFns extends Module {
       }
     }
     return null;
+  }
+
+  /**
+   * Find the max of a collection by a given transform function.
+   * @param objs the collection.
+   * @param fn the function that takes an object and returns a comparable property.
+   * @param <T> the type of objects in the collection.
+   * @param <V> the type of comparable objects.
+   * @return the maximum T by V.
+   */
+  public static <T, V extends Comparable<V>> T maxBy(List<? extends T> objs, TransformFn<T,V> fn) {
+    if(objs.isEmpty()) return null;
+    T max = objs.get(0);
+    V maxValue = fn.transform(max);
+    for (int i = 1; i < objs.size(); i++) {
+      T t = objs.get(i);
+      V tv = fn.transform(t);
+      if(maxValue.compareTo(tv) < 0) {
+        max = t;
+        maxValue = tv;
+      }
+    }
+    return max;
   }
 }
