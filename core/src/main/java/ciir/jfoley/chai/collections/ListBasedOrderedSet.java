@@ -14,6 +14,15 @@ public class ListBasedOrderedSet<T> implements Set<T> {
     this.list = new ArrayList<>();
   }
 
+  /**
+   * When you're constructing from an existing collection.
+   * @param ts the collection to start from.
+   */
+  public ListBasedOrderedSet(Collection<? extends T> ts) {
+    this();
+    this.addAll(ts);
+  }
+
   @Override
   public Iterator<T> iterator() {
     return list.iterator();

@@ -186,4 +186,8 @@ public class ListFns extends Module {
     }
     return max;
   }
+
+  public static <T> List<T> unique(List<? extends T> input) {
+    return new ArrayList<>(new HashSet<>(input));
+  }
 }

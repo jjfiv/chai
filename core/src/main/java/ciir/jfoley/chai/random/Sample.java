@@ -51,7 +51,7 @@ public class Sample {
         continue;
       }
       // half the time, make a new string:
-      int length = rand.nextInt(7)+3;
+      int length = rand.nextInt(12)+3;
       byte[] data = new byte[length];
       rand.nextBytes(data);
       output.add(new String(data, Charset.forName("ASCII")));
