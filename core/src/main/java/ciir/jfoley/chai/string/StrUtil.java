@@ -1,8 +1,11 @@
 package ciir.jfoley.chai.string;
 
+import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.TransformFn;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -297,4 +300,52 @@ public class StrUtil {
 		}
 		return sb.toString();
 	}
+
+  /**
+   * Copy the unicode code points out of a string and into a list.
+   * @param input a string.
+   * @return a list of unicode integer code points.
+   */
+  public static IntList codePoints(String input) {
+    IntList unicode = new IntList();
+
+    int length = input.length();
+    for (int offset = 0; offset < length;) {
+      int codePoint = input.codePointAt(offset);
+      offset += Character.charCount(codePoint);
+
+      unicode.add(codePoint);
+    }
+
+    return unicode;
+  }
+
+  private static Map<String,String> quoteMap = new HashMap<>();
+  static {
+    // http://en.wikipedia.org/wiki/Quotation_mark
+    quoteMap.put("\u2018", "'");
+    quoteMap.put("\u201a", "'");
+    quoteMap.put("\u2019", "'");
+    quoteMap.put("\u201c", "\"");
+    quoteMap.put("\u201d", "\"");
+    quoteMap.put("\u201e", "\"");
+
+    // convert <<,>> to "
+    quoteMap.put("\u00ab", "\"");
+    quoteMap.put("\u00bb", "\"");
+    // convert <,> to "
+    quoteMap.put("\u2039", "\"");
+    quoteMap.put("\u203a", "\"");
+
+    // corner marks to single-quotes
+    quoteMap.put("\u300c", "'");
+    quoteMap.put("\u300d", "'");
+  }
+  public static String replaceUnicodeQuotes(String input) {
+    String result = input;
+    for (Map.Entry<String, String> kv : quoteMap.entrySet()) {
+      result = result.replace(kv.getKey(), kv.getValue());
+    }
+    return result;
+  }
 }

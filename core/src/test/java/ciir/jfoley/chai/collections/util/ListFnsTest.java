@@ -105,21 +105,20 @@ public class ListFnsTest {
   public void testPushToCopy() {
     List<Integer> orig = new ArrayList<>(Arrays.asList(1,2,3));
     List<Integer> ordered = pushToCopy(orig, 4);
-    //noinspection AssertEqualsBetweenInconvertibleTypes
-    assertEquals(IntRange.inclusive(1,4), ordered);
+    assertEquals((List<Integer>) IntRange.inclusive(1,4), ordered);
 
     // mutate original:
     orig.set(0, 3);
     // now orig is a palindrome:
     assertEquals(Arrays.asList(3,2,3), orig);
     // but ordered is unaffected:
-    assertEquals(IntRange.inclusive(1,4), ordered);
+    assertEquals((List<Integer>) IntRange.inclusive(1,4), ordered);
   }
 
   @Test
   public void testSlice() {
     IntRange x = IntRange.exclusive(0, 100);
-    assertEquals(IntRange.exclusive(0,10), slice(x, -33, 10));
-    assertEquals(IntRange.exclusive(90,100), slice(x, 90, 400));
+    assertEquals((List<Integer>) IntRange.exclusive(0,10), slice(x, -33, 10));
+    assertEquals((List<Integer>) IntRange.exclusive(90,100), slice(x, 90, 400));
   }
 }
