@@ -83,7 +83,7 @@ public class ListFns extends Module {
     int numberPerSplit = (int) Math.round(input.size() / (double) splits);
     List<List<T>> output = new ArrayList<>();
     for (int i = 0; i < splits; i++) {
-      output.add(input.subList(i*numberPerSplit, Math.min(input.size(), (i+1)*numberPerSplit)));
+      output.add(slice(input, i * numberPerSplit, (i + 1) * numberPerSplit));
     }
     // fix up a small remainder
     if(input.size() > splits * numberPerSplit) {
@@ -222,5 +222,21 @@ public class ListFns extends Module {
     }
 
     return output;
+  }
+
+  /**
+   * Takes a sublist, whether there are items inside or not, avoiding out-of-bounds errors.
+   * Note that ends are exclusive in Java's subList and here too.
+   *
+   * @param input the list to splice.
+   * @param start the start (may be negative)
+   * @param end the end (may be above input.size());
+   * @param <T> the type of the list.
+   * @return a sublist approximating the request as best as possible.
+   */
+  public static <T> List<T> slice(List<T> input, int start, int end) {
+    int realStart = Math.max(0, start);
+    int realEnd = Math.min(end, input.size());
+    return input.subList(realStart, realEnd);
   }
 }

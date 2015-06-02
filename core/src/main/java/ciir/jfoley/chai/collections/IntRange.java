@@ -2,13 +2,14 @@ package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.list.AChaiList;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
  * Constant memory consecutive integer ranges.
  * @author jfoley
  */
-public class IntRange extends AChaiList<Integer> {
+public class IntRange extends AChaiList<Integer> implements List<Integer> {
   private final int start;
   private final int size;
 
@@ -37,6 +38,10 @@ public class IntRange extends AChaiList<Integer> {
   public Integer get(int index) {
     if(index < 0 || index >= size) throw new NoSuchElementException();
     return start + index;
+  }
+
+  public List<Integer> asList() {
+    return this;
   }
 
   @Override

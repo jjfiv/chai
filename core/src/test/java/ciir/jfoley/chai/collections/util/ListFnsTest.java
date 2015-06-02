@@ -113,7 +113,13 @@ public class ListFnsTest {
     // now orig is a palindrome:
     assertEquals(Arrays.asList(3,2,3), orig);
     // but ordered is unaffected:
-    //noinspection AssertEqualsBetweenInconvertibleTypes
     assertEquals(IntRange.inclusive(1,4), ordered);
+  }
+
+  @Test
+  public void testSlice() {
+    IntRange x = IntRange.exclusive(0, 100);
+    assertEquals(IntRange.exclusive(0,10), slice(x, -33, 10));
+    assertEquals(IntRange.exclusive(90,100), slice(x, 90, 400));
   }
 }
