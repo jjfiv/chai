@@ -108,4 +108,12 @@ public class MapFns extends Module {
 		if(maybeValue == null) return defaultValue;
 		return maybeValue;
 	}
+
+	public static <K,V> Map<K,V> fromPairs(Collection<Pair<K, V>> inBulk) {
+		HashMap<K,V> map = new HashMap<>(inBulk.size());
+		for (Pair<K, V> pair : inBulk) {
+			map.put(pair.left, pair.right);
+		}
+		return map;
+	}
 }

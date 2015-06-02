@@ -23,6 +23,10 @@ public class ListBasedOrderedSet<T> implements Set<T> {
     this.addAll(ts);
   }
 
+  public List<T> toList() {
+    return list;
+  }
+
   @Override
   public Iterator<T> iterator() {
     return list.iterator();

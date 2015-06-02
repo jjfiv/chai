@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections.util;
 
+import ciir.jfoley.chai.collections.ListBasedOrderedSet;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
@@ -145,9 +146,16 @@ public class ListFns extends Module {
     return results;
   }
 
-  public static <T> List<T> pushToCopy(List<T> ctx, T tag) {
-    List<T> newList = new ArrayList<>(ctx);
-    newList.add(tag);
+  /**
+   * Append to a shallow copy of this list; immutable .add()
+   * @param original the input list.
+   * @param newItem the new item.
+   * @param <T> the type of items.
+   * @return a new list containing the original items + the new item.
+   */
+  public static <T> List<T> pushToCopy(List<T> original, T newItem) {
+    List<T> newList = new ArrayList<>(original);
+    newList.add(newItem);
     return newList;
   }
 
@@ -187,7 +195,32 @@ public class ListFns extends Module {
     return max;
   }
 
+  /**
+   * Remove duplicates from an input list.
+   * @param input the list.
+   * @param <T> the type of elements in the list.
+   * @return an ordered de-duplication. Might not be as fast as unordered.
+   */
   public static <T> List<T> unique(List<? extends T> input) {
-    return new ArrayList<>(new HashSet<>(input));
+    return new ListBasedOrderedSet<>(input).toList();
+  }
+
+  /**
+   * Joins two collections up to their minimum size, copying into a new list.
+   * @param lhs the left hand collection.
+   * @param rhs the right hand collection.
+   * @param <A> type of left objects.
+   * @param <B> type of right objects.
+   * @return a list of pairs of equivalent-indexed elements.
+   */
+  public static <A,B> List<Pair<A,B>> zip(List<? extends A> lhs, List<? extends B> rhs) {
+    List<Pair<A,B>> output = new ArrayList<>();
+
+    int shared = Math.min(lhs.size(), rhs.size());
+    for (int i = 0; i < shared; i++) {
+      output.add(Pair.of(lhs.get(i), rhs.get(i)));
+    }
+
+    return output;
   }
 }
