@@ -38,6 +38,22 @@ public class IntList extends AChaiList<Integer> {
 		return true;
 	}
 
+	/**
+	 * Resize to exact value.
+	 * @param amt the exact number of items this should be able to hold.
+	 */
+	public void resize(int amt) {
+		data = Arrays.copyOf(data, amt);
+	}
+
+	/**
+	 * Reserve at least amt number of items; uses the nearest power of two
+	 * /***
+* @param amt
+ *
+	 * Reserve at least amt number of items; uses the nearest power of two.
+	 * @param amt number of items to reserve
+	 */
 	public void reserve(int amt) {
 		if(amt >= size) {
 			size = IntMath.nearestPowerOfTwo(amt);

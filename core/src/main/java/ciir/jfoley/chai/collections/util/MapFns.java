@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.Pair;
+import ciir.jfoley.chai.fn.GenerateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
@@ -33,6 +34,26 @@ public class MapFns extends Module {
 		}
 		existing.add(value);
 	}
+
+	/**
+	 * More efficient version of above.
+	 * @param inMap the map.
+	 * @param key the key.
+	 * @param value the value to add to the collection.
+	 * @param builder a generateFn that returns a collection of the appropriate type.
+	 * @param <K> the key type.
+	 * @param <T> the item type in the collection.
+	 * @param <Coll> the type of the collection, extends Collection&lt;T&gt;
+	 */
+	public static <K,T, Coll extends Collection<? super T>> void extendCollectionInMap(Map<? super K,Coll> inMap, K key, T value, GenerateFn<Coll> builder) {
+		Coll existing = inMap.get(key);
+		if(existing == null) {
+			existing = builder.get();
+			inMap.put(key, existing);
+		}
+		existing.add(value);
+	}
+
 	public static <K,T> void extendListInMap(Map<K, List<T>> inMap, K key, T value) {
 		extendCollectionInMap(inMap, key, value, new ArrayList<T>());
 	}

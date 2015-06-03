@@ -46,6 +46,10 @@ public class MemoryNotifier implements NotificationListener {
     }
   }
 
+  /**
+   * Registers something that can be flushed when memory is low.
+   * @param x something that implements {@link Flushable}
+   */
   public static void register(Flushable x) {
     instance.get().flushables.add(x);
   }
@@ -57,6 +61,7 @@ public class MemoryNotifier implements NotificationListener {
   @Override
   public void handleNotification(Notification notification, Object handback) {
     if(!notification.getType().equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) return;
+    logger.info("MemoryNotifier::activate");
 
     for (final Flushable flushable : flushables) {
       Thread deferred = new Thread() {
@@ -74,7 +79,7 @@ public class MemoryNotifier implements NotificationListener {
 
   /**
    * Some heuristics taken from Galago for finding the heap we want to monitor.
-   * @return the MXBean representing the heap.
+   * @return the {@link MemoryPoolMXBean} representing the heap.
    */
   public static MemoryPoolMXBean findHeap() {
     List<MemoryPoolMXBean> heaps = new ArrayList<>();
