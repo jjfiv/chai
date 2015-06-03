@@ -2,6 +2,7 @@ package ciir.jfoley.chai.collections.list;
 
 import ciir.jfoley.chai.IntMath;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -28,8 +29,10 @@ public class IntList extends AChaiList<Integer> {
 		addAll(other);
 	}
 
+
+
 	@Override
-	public boolean addAll(Collection<? extends Integer> other) {
+	public boolean addAll(@Nonnull Collection<? extends Integer> other) {
 		reserve(fill+other.size());
 		for (Integer value : other) {
 			if(value == null) throw new NullPointerException();
@@ -48,10 +51,6 @@ public class IntList extends AChaiList<Integer> {
 
 	/**
 	 * Reserve at least amt number of items; uses the nearest power of two
-	 * /***
-* @param amt
- *
-	 * Reserve at least amt number of items; uses the nearest power of two.
 	 * @param amt number of items to reserve
 	 */
 	public void reserve(int amt) {
@@ -75,12 +74,14 @@ public class IntList extends AChaiList<Integer> {
 	}
 
 	@Override
+	@Nonnull
 	public Integer get(int index) {
 		return data[index];
 	}
 
   @Override
-  public Integer set(int index, Integer value) {
+	@Nonnull
+  public Integer set(int index, @Nonnull Integer value) {
     int prev = data[index];
     data[index] = value;
     return prev;

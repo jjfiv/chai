@@ -62,6 +62,11 @@ public class Directory implements GenerateFn<File> {
   }
 
   @Override
+  public String toString() {
+    return "directory "+dir.toString();
+  }
+
+  @Override
   public File get() {
     return dir;
   }
