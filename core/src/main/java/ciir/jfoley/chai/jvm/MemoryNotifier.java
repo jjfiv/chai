@@ -4,6 +4,7 @@ import ciir.jfoley.chai.collections.util.ListFns;
 import ciir.jfoley.chai.fn.GenerateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.ThreadsafeLazyPtr;
+import ciir.jfoley.chai.lang.annotations.Beta;
 
 import javax.management.Notification;
 import javax.management.NotificationEmitter;
@@ -16,24 +17,25 @@ import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
+ * This class keeps a list of "Flushable" objects that it flushes when memory gets tight.
  * @author jfoley.
  */
+@Beta
 public class MemoryNotifier implements NotificationListener {
   private static final Logger logger = Logger.getLogger(MemoryNotifier.class.getName());
   private static final double MemoryFullFraction = 0.75;
-  public static ThreadsafeLazyPtr<MemoryNotifier> instance = new ThreadsafeLazyPtr<>(new GenerateFn<MemoryNotifier>() {
+  public static final ThreadsafeLazyPtr<MemoryNotifier> instance = new ThreadsafeLazyPtr<>(new GenerateFn<MemoryNotifier>() {
     @Override
     public MemoryNotifier get() {
       return new MemoryNotifier();
     }
   });
-  private final Vector<Flushable> flushables;
+  private final List<Flushable> listeners;
   public MemoryNotifier() {
-    this.flushables = new Vector<>();
+    this.listeners = new ArrayList<>();
     MemoryPoolMXBean heap = findHeap();
 
     if(heap != null) {
@@ -51,11 +53,15 @@ public class MemoryNotifier implements NotificationListener {
    * @param x something that implements {@link Flushable}
    */
   public static void register(Flushable x) {
-    instance.get().flushables.add(x);
+    synchronized (instance) {
+      instance.get().listeners.add(x);
+    }
   }
 
   public static void unregister(Flushable x) {
-    instance.get().flushables.remove(x);
+    synchronized (instance) {
+      instance.get().listeners.remove(x);
+    }
   }
 
   @Override
@@ -63,18 +69,25 @@ public class MemoryNotifier implements NotificationListener {
     if(!notification.getType().equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) return;
     logger.info("MemoryNotifier::activate");
 
-    for (final Flushable flushable : flushables) {
-      Thread deferred = new Thread() {
-        public void run() {
+    //--- copy the list of listener's  in a thread-safe way; doesn't matter if we get an update while we're notifying this way.
+    final List<Flushable> toNotify = new ArrayList<>();
+    synchronized (instance) {
+      toNotify.addAll(listeners);
+    }
+
+    //--- spawn a thread to handle flushing; don't do multiple because threads can be heavy on the memory usage.
+    Thread deferred = new Thread() {
+      public void run() {
+        for (final Flushable flushable : toNotify) {
           try {
             flushable.flush();
           } catch (IOException e) {
             e.printStackTrace();
           }
         }
-      };
-      deferred.start();
-    }
+      }
+    };
+    deferred.start();
   }
 
   /**
