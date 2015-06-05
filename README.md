@@ -1,15 +1,18 @@
-# Chai 
-[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
+# Chai [![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
 
 *Because I don't like coffee, but I like Java. Mostly.*
 
 ## About
 
-The Java standard libraries are amazing. When I pull out a ConcurrentHashMap, I know I'm standing on the shoulders of giants. There are other great libraries like GNU Trove, which add pieces that are missing to the standard libraries (primitive collections) but don't necessarily play nice with the interfaces in the standard JDK.
+The Java standard libraries are amazing. When I pull out a ``ConcurrentHashMap``, I know I'm standing on the shoulders of giants. There are other great libraries like [GNU Trove](http://trove.starlight-systems.com/), which add pieces that are missing to the standard libraries (primitive collections) but don't necessarily play nice with the interfaces in the standard JDK.
 
-Another way to put it is that in my work I need the raw performance and I prefer the typing of Java, but I'm really jealous of Clojure's standard library.
+Another way to put it is that in my work I need the raw performance and I prefer the typing of Java, but I'm really jealous of [Clojure's standard library](http://clojure.github.io/clojure/clojure.core-api.html).
 
 Chai is a lightweight, well-tested, opinionated library that builds on some of the really nice interfaces and tools built into the JDK that makes my coding and prototyping a lot easier and simpler.
+
+## About TL;DR
+
+Everyone has their own library of utility functions. Mine's just better tested than most.
 
 ## Version Support
 
