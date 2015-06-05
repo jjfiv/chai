@@ -1,13 +1,13 @@
 package ciir.jfoley.chai.collections;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
  * For when you want the intersection or something but you don't actually care about speed. O(n) contains etc., but original add order is preserved.
  * @author jfoley
  */
-@SuppressWarnings({"NullableProblems", "SuspiciousToArrayCall"})
-public class ListBasedOrderedSet<T> implements Set<T> {
+public class ListBasedOrderedSet<T> extends AbstractSet<T> {
   public final List<T> list;
 
   public ListBasedOrderedSet() {
@@ -28,18 +28,9 @@ public class ListBasedOrderedSet<T> implements Set<T> {
   }
 
   @Override
+  @Nonnull
   public Iterator<T> iterator() {
     return list.iterator();
-  }
-
-  @Override
-  public Object[] toArray() {
-    return list.toArray();
-  }
-
-  @Override
-  public <T1> T1[] toArray(T1[] t1s) {
-    return list.toArray(t1s);
   }
 
   @Override
@@ -59,27 +50,17 @@ public class ListBasedOrderedSet<T> implements Set<T> {
   }
 
   @Override
-  public boolean containsAll(Collection<?> objects) {
+  public boolean containsAll(@Nonnull Collection<?> objects) {
     return list.containsAll(objects);
   }
 
   @Override
-  public boolean addAll(Collection<? extends T> ts) {
+  public boolean addAll(@Nonnull Collection<? extends T> ts) {
     boolean changed = false;
     for (T t : ts) {
       changed |= this.add(t);
     }
     return changed;
-  }
-
-  @Override
-  public boolean retainAll(Collection<?> objects) {
-    return list.retainAll(objects);
-  }
-
-  @Override
-  public boolean removeAll(Collection<?> objects) {
-    return list.removeAll(objects);
   }
 
   @Override
