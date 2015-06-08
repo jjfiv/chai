@@ -239,4 +239,22 @@ public class ListFns extends Module {
     int realEnd = Math.min(end, input.size());
     return input.subList(realStart, realEnd);
   }
+
+
+  /**
+   * When you have some set of items and you want to repeat them until you have at least X of them.
+   * @param input possibly small number of items.
+   * @param wanted the number of items to cycle these to at least.
+   * @param <T> the item type.
+   * @return a list of input repeated 0+ times so that the total length >= wanted.
+   */
+  public static <T> List<T> repeatUntilAtLeast(List<T> input, int wanted) {
+    if(input.size() == 0) throw new IllegalArgumentException("Can't repeat zero items!");
+    if(input.size() >= wanted) return input;
+    ArrayList<T> output = new ArrayList<>(wanted);
+    while(output.size() < wanted) {
+      output.addAll(input);
+    }
+    return output;
+  }
 }

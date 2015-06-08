@@ -121,4 +121,12 @@ public class ListFnsTest {
     assertEquals((List<Integer>) IntRange.exclusive(0,10), slice(x, -33, 10));
     assertEquals((List<Integer>) IntRange.exclusive(90,100), slice(x, 90, 400));
   }
+
+  @Test
+  public void repeat() {
+    assertEquals(Arrays.asList(1,2,3), ListFns.repeatUntilAtLeast(Arrays.asList(1,2,3), 3));
+    assertEquals(
+        Arrays.asList(1,2,3,1,2,3,1,2,3,1,2,3),
+        ListFns.repeatUntilAtLeast(Arrays.asList(1,2,3), 10));
+  }
 }
