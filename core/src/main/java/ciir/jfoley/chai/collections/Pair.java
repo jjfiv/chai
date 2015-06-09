@@ -1,10 +1,7 @@
 package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.util.Comparing;
-import ciir.jfoley.chai.fn.GenerateFn;
-import ciir.jfoley.chai.lang.LazyPtr;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -13,21 +10,13 @@ import java.util.Map;
 /**
 * @author jfoley
 */
-public class Pair<A,B> implements Map.Entry<A,B>, Comparable<Pair<A,B>> {
+public class Pair<A,B> implements Map.Entry<A,B> {
   public final A left;
   public final B right;
-  private LazyPtr<Comparator<? super Pair<A,B>>> comparator;
-
 
   public Pair(final A left, final B right) {
     this.left = left;
     this.right = right;
-    comparator = new LazyPtr<>(new GenerateFn<Comparator<? super Pair<A, B>>>() {
-      @Override
-      public Comparator<? super Pair<A, B>> get() {
-        return getBestComparator();
-      }
-    });
   }
   public Pair(Map.Entry<A,B> input) {
     this(input.getKey(), input.getValue());
@@ -80,11 +69,6 @@ public class Pair<A,B> implements Map.Entry<A,B>, Comparable<Pair<A,B>> {
       output.put(abPair.left, abPair.right);
     }
     return output;
-  }
-
-  @Override
-  public int compareTo(@Nonnull Pair<A,B> other) {
-    return comparator.get().compare(this, other);
   }
 
   /**
