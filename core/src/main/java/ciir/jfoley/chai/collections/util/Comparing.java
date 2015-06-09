@@ -47,4 +47,15 @@ public class Comparing extends Module {
       }
     };
   }
+
+  public static <T> Comparator<? super T> chained(final Comparator<? super T> first, final Comparator<? super T> then) {
+    return new Comparator<T>() {
+      @Override
+      public int compare(T o1, T o2) {
+        int cmp = first.compare(o1, o2);
+        if(cmp != 0) return cmp;
+        return then.compare(o1, o2);
+      }
+    };
+  }
 }

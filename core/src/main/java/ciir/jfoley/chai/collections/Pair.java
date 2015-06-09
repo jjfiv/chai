@@ -1,7 +1,10 @@
 package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.util.Comparing;
+import ciir.jfoley.chai.fn.GenerateFn;
+import ciir.jfoley.chai.lang.LazyPtr;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -10,13 +13,21 @@ import java.util.Map;
 /**
 * @author jfoley
 */
-public class Pair<A,B> implements Map.Entry<A,B> {
+public class Pair<A,B> implements Map.Entry<A,B>, Comparable<Pair<A,B>> {
   public final A left;
   public final B right;
+  private LazyPtr<Comparator<? super Pair<A,B>>> comparator;
 
-  public Pair(A left, B right) {
+
+  public Pair(final A left, final B right) {
     this.left = left;
     this.right = right;
+    comparator = new LazyPtr<>(new GenerateFn<Comparator<? super Pair<A, B>>>() {
+      @Override
+      public Comparator<? super Pair<A, B>> get() {
+        return getBestComparator();
+      }
+    });
   }
   public Pair(Map.Entry<A,B> input) {
     this(input.getKey(), input.getValue());
@@ -69,6 +80,29 @@ public class Pair<A,B> implements Map.Entry<A,B> {
       output.put(abPair.left, abPair.right);
     }
     return output;
+  }
+
+  @Override
+  public int compareTo(@Nonnull Pair<A,B> other) {
+    return comparator.get().compare(this, other);
+  }
+
+  /**
+   * Compare left first then right, only if the elements satisfy comparable.
+   * Note that naively chaining left and right without checking for Comparable is a bad idea.
+   * @return Comparator by left then right.
+   */
+  public Comparator<? super Pair<A, B>> getBestComparator() {
+    Comparator<? super Pair<A,B>> leftCmp = (left instanceof Comparable) ? Pair.<A,B>cmpLeft() : null;
+    Comparator<? super Pair<A,B>> rightCmp = (right instanceof Comparable) ? Pair.<A,B>cmpRight() : null;
+    if (leftCmp != null && rightCmp != null) {
+      return Comparing.chained(leftCmp, rightCmp);
+    } else if(leftCmp != null) {
+      return Pair.cmpLeft();
+    } else if(rightCmp != null) {
+      return Pair.cmpRight();
+    }
+    throw new IllegalArgumentException("Can't compare either element of Pair!");
   }
 
   public static <K, V> Pair<K,V> of(Map.Entry<K, V> input) {
