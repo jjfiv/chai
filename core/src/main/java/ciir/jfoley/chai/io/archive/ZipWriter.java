@@ -4,6 +4,7 @@ import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.io.IO;
 
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -15,14 +16,14 @@ import java.util.zip.ZipOutputStream;
 public class ZipWriter implements Closeable, Flushable {
   private final ZipOutputStream zos;
 
-  public ZipWriter(String fileName) throws IOException {
+  public ZipWriter(@Nonnull String fileName) throws IOException {
     this.zos = new ZipOutputStream(IO.openOutputStream(fileName));
   }
 
-  public void writeUTF8(String name, String contents) throws IOException {
+  public void writeUTF8(@Nonnull String name, @Nonnull String contents) throws IOException {
     write(name, contents.getBytes(Encodings.UTF8));
   }
-  public void write(String name, byte[] data) throws IOException {
+  public void write(@Nonnull String name, @Nonnull byte[] data) throws IOException {
     ZipEntry forWrite = new ZipEntry(name);
     forWrite.setSize(data.length);
     zos.putNextEntry(forWrite);
@@ -36,7 +37,7 @@ public class ZipWriter implements Closeable, Flushable {
    * @param fn the lambda that will receive an output stream.
    * @throws IOException
    */
-  public void write(String name, SinkFn<OutputStream> fn) throws IOException {
+  public void write(@Nonnull String name, @Nonnull SinkFn<OutputStream> fn) throws IOException {
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       fn.process(baos);
       baos.close();
