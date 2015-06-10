@@ -5,17 +5,20 @@ import ciir.jfoley.chai.fn.GenerateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
  * @author jfoley.
  */
 public class MapFns extends Module {
+	@Nullable
 	public static <K,V> V firstValue(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.values().iterator().next();
 	}
 
+	@Nullable
 	public static <K,V> K firstKey(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.keySet().iterator().next();

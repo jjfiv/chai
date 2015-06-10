@@ -6,6 +6,7 @@ import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -256,5 +257,11 @@ public class ListFns extends Module {
       output.addAll(input);
     }
     return output;
+  }
+
+  @Nullable
+  public static <T> T getLast(List<T> input) {
+    if(input.isEmpty()) return null;
+    return input.get(input.size() - 1);
   }
 }
