@@ -58,10 +58,14 @@ public class MapFns extends Module {
 	}
 
 	public static <K,T> void extendListInMap(Map<K, List<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new ArrayList<T>());
+		extendCollectionInMap(inMap, key, value, new GenerateFn<List<T>>() {
+			@Override public List<T> get() { return new ArrayList<>(); }
+		});
 	}
 	public static <K,T> void extendSetInMap(Map<K, Set<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new HashSet<T>());
+		extendCollectionInMap(inMap, key, value, new GenerateFn<Set<T>>() {
+			@Override public Set<T> get() { return new HashSet<>(); }
+		});
 	}
 
 	public static <K,V,VN> Map<K,VN> mapValues(Map<K, V> initial, TransformFn<V,VN> xfn) {
