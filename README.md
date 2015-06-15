@@ -48,6 +48,17 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
 
 ## History
 
+### v0.5
+ - ``StreamStat``
+ - ``finalize()`` in Temporary cleanup to find errors
+ - ``extendListInMap`` more efficient
+ - ``ListFns.getLast(list)``
+ - NonNull
+ - ``Pair.getBestComparator()``
+ - ``StreamFns.readChannel()`` returns a ``ByteBuffer``
+ - ``Sample.letters``
+ - ``ListFns.repeatUntilAtLeast``
+
 ### v0.4
  - Annotations: ``@Beta``, for classes that aren't ready, ``EmergencyUseOnly``, for methods that ought to be private but aren't.
  - Start using findbugs jsr305 ``@Nullable`` and ``@Nonnull``
