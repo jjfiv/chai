@@ -21,6 +21,7 @@ public class StreamingStats implements SinkFn<Double> {
   private double newS;
   private double max;
   private double min;
+  private double total;
 
   public StreamingStats() {
     clear();
@@ -30,6 +31,7 @@ public class StreamingStats implements SinkFn<Double> {
 
     max = Math.max(max, x);
     min = Math.min(min, x);
+    total += x;
 
     // See Knuth TAOCP vol 2, 3rd edition, page 232
     if (numberOfElements == 1) {
@@ -51,20 +53,24 @@ public class StreamingStats implements SinkFn<Double> {
     max = Double.MIN_VALUE;
     min = Double.MAX_VALUE;
   }
-  double getMean() {
+  public double getMean() {
     return numberOfElements > 0 ? newMean : 0.0;
   }
-  double getVariance() {
+  public double getVariance() {
     if(numberOfElements <= 1) return 0.0;
     return newS / (double) (numberOfElements - 1);
   }
-  double getStandardDeviation() { return Math.sqrt(getVariance()); }
-  double getMax() {
+  public double getStandardDeviation() { return Math.sqrt(getVariance()); }
+  public double getMax() {
     return max;
   }
-  double getMin() {
+  public double getMin() {
     return min;
   }
+  public double getTotal() {
+    return total;
+  }
+  public double getCount() { return numberOfElements; }
 
   public long count() {
     return numberOfElements;
@@ -77,6 +83,8 @@ public class StreamingStats implements SinkFn<Double> {
     results.put("stddev", getStandardDeviation());
     results.put("max", getMax());
     results.put("min", getMin());
+    results.put("total", getTotal());
+    results.put("count", getCount());
     return results;
   }
 
