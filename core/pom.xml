@@ -4,7 +4,7 @@
   <groupId>edu.umass.cs.ciir.jfoley</groupId>
   <artifactId>chai-core</artifactId>
   <name>chai-core</name>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.5</version>
   <packaging>jar</packaging>
 
   <properties>
@@ -102,7 +102,7 @@
           <aggregate>true</aggregate>
           <format>html</format>
           <quiet>true</quiet>
-          <check/>
+          <check />
         </configuration>
       </plugin>
 
