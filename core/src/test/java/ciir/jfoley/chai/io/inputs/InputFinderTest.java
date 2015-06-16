@@ -11,6 +11,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -117,8 +118,7 @@ public class InputFinderTest {
     final String testData = "Hello World!";
 
     List<String> found = new ArrayList<>();
-    try (TemporaryDirectory tarTmp = new TemporaryDirectory();
-         TemporaryDirectory tmpdir = new TemporaryDirectory()) {
+    try (TemporaryDirectory tmpdir = new TemporaryDirectory()) {
 
       List<String> tarEntries = new ArrayList<>();
       tarEntries.add("test.bz2");
@@ -127,10 +127,18 @@ public class InputFinderTest {
 
       try (TarArchiveOutputStream taos = new TarArchiveOutputStream(IO.openOutputStream(tmpdir.childPath("test.tar.gz")))) {
         for (String name : tarEntries) {
-          taos.putArchiveEntry(new TarArchiveEntry(name));
-          try (OutputStream out = CompressionCodec.wrapOutputStream(name, taos)) {
-            taos.write(testData.getBytes("UTF-8"));
+          byte[] data = testData.getBytes("UTF-8");
+          ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          try (OutputStream out = CompressionCodec.wrapOutputStream(name, baos)) {
+            out.write(data);
           }
+          byte[] actualData = baos.toByteArray();
+
+          TarArchiveEntry header = new TarArchiveEntry(name);
+          header.setSize(actualData.length);
+          taos.putArchiveEntry(header);
+          taos.write(actualData);
+          taos.closeArchiveEntry();
         }
       }
 
