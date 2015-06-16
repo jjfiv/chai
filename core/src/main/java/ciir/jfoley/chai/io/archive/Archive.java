@@ -1,21 +1,23 @@
 package ciir.jfoley.chai.io.archive;
 
-import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
+import ciir.jfoley.chai.collections.util.IterableFns;
+import ciir.jfoley.chai.fn.PredicateFn;
+import ciir.jfoley.chai.io.inputs.InputContainer;
 
 /**
  * @author jfoley
  */
-public abstract class Archive<T extends ArchiveEntry> implements Closeable {
-  public List<T> listFileEntries() {
-    List<T> output = new ArrayList<>();
-    for (T entry : listEntries()) {
-      if (entry.isDirectory()) continue;
-      output.add(entry);
-    }
-    return output;
+public abstract class Archive<T extends ArchiveEntry> implements InputContainer {
+  public Iterable<T> listFileEntries() {
+    return IterableFns.filter(listEntries(), new PredicateFn<T>() {
+      @Override
+      public boolean test(T input) {
+        return !input.isDirectory();
+      }
+    });
   }
 
-  public abstract List<T> listEntries();
+  public Iterable<T> getInputs() { return listFileEntries(); }
+
+  public abstract Iterable<T> listEntries();
 }

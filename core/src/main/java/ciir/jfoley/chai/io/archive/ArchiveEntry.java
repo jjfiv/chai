@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.io.archive;
 
 import ciir.jfoley.chai.io.LinesIterable;
+import ciir.jfoley.chai.io.inputs.InputStreamable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.io.InputStream;
  * Keeps a reference to the source file so that it can provide input interfaces as member functions.
  * {:link ZipArchiveEntry}.
  */
-public interface ArchiveEntry {
+public interface ArchiveEntry extends InputStreamable {
   boolean isDirectory();
 
   /**

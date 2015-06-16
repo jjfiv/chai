@@ -2,10 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.lang.Module;
 
-import java.io.ByteArrayInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 
@@ -76,4 +73,6 @@ public class StreamFns extends Module {
     InputStream str = fromByteBuffer(buffer);
     return readBytes(str, buffer.limit());
   }
+
+
 }
