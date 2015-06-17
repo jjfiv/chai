@@ -5,6 +5,7 @@ import ciir.jfoley.chai.io.Directory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -33,6 +34,23 @@ public class InputFinder {
   public interface FileHandler {
     boolean matches(File input);
     InputContainer getContainer(File input) throws IOException;
+  }
+
+  public List<? extends InputContainer> findAllInputs(List<String> paths) throws IOException {
+    ArrayList<InputContainer> output = new ArrayList<>();
+    for (String path : paths) {
+      output.addAll(findAllInputs(path));
+    }
+    return output;
+  }
+
+  public List<? extends InputContainer> findAllInputs(String path) throws IOException {
+    File fp = new File(path);
+    if(fp.isDirectory()) {
+      return findAllInputs(Directory.Read(path));
+    } else {
+      return Collections.singletonList(asInputContainer(fp));
+    }
   }
 
   public List<? extends InputContainer> findAllInputs(Directory dir) throws IOException {
