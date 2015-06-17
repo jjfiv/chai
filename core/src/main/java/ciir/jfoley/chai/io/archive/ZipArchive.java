@@ -28,7 +28,7 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
   }
 
   /**
-   * In case you need raw access for some reason.
+   * In case you need rawsort access for some reason.
    * @return the implementation ZipFile.
    */
   @EmergencyUseOnly

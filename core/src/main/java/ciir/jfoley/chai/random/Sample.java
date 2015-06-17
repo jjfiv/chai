@@ -59,12 +59,14 @@ public class Sample {
     return output;
   }
 
-  public static List<Integer> randomIntegers(int N, int bound) {
+  public static List<Integer> randomIntegers(Random rand, int N, int bound) {
     IntList output = new IntList(N);
-    Random rand = new Random();
     for (int i = 0; i < N; i++) {
       output.add(rand.nextInt(bound));
     }
     return output;
+  }
+  public static List<Integer> randomIntegers(int N, int bound) {
+    return randomIntegers(new Random(), N, bound);
   }
 }
