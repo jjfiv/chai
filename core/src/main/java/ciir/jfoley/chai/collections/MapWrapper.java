@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.collections;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -7,7 +8,6 @@ import java.util.Set;
 /**
  * @author jfoley.
  */
-@SuppressWarnings("NullableProblems")
 public class MapWrapper<K,V> implements Map<K,V> {
 	protected Map<K,V> inner;
 	public MapWrapper(Map<K,V> inner) {
@@ -50,7 +50,7 @@ public class MapWrapper<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public void putAll(Map<? extends K, ? extends V> map) {
+	public void putAll(@Nonnull Map<? extends K, ? extends V> map) {
 		inner.putAll(map);
 	}
 
@@ -60,16 +60,19 @@ public class MapWrapper<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	@Nonnull
 	public Set<K> keySet() {
 		return inner.keySet();
 	}
 
 	@Override
+	@Nonnull
 	public Collection<V> values() {
 		return inner.values();
 	}
 
 	@Override
+	@Nonnull
 	public Set<Entry<K, V>> entrySet() {
 		return inner.entrySet();
 	}
