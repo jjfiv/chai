@@ -19,16 +19,13 @@ public class LinesIterable implements Iterable<String>, Closeable {
 
 	@Override
 	public Iterator<String> iterator() {
-		return new UntilNullIterator<>(new UntilNullGenerator<String>() {
-			@Override
-			public String next() {
-				try {
-					return reader.readLine();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		});
+		return new UntilNullIterator<>(() -> {
+      try {
+        return reader.readLine();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    });
 	}
 
 	@Override

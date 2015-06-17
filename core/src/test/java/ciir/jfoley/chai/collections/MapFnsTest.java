@@ -39,12 +39,7 @@ public class MapFnsTest {
     assertEquals("two", offByOne.get(1));
     assertEquals("three", offByOne.get(2));
 
-    assertEquals(MapFns.mapKeys(offByOne, new TransformFn<Integer, Integer>() {
-      @Override
-      public Integer transform(Integer input) {
-        return input+1;
-      }
-    }), backwards);
+    assertEquals(MapFns.mapKeys(offByOne, input -> input+1), backwards);
   }
 
   @Test

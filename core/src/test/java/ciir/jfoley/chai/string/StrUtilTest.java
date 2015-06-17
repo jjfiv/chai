@@ -30,16 +30,13 @@ public class StrUtilTest {
   @Test
   public void testTransformBetween() throws Exception {
     String testInput = "this is a $(macro $(thing))";
-    String testOutput = transformBetween(testInput, Pattern.compile("\\$\\("), Pattern.compile("\\)"), new Transform() {
-      @Override
-      public String transform(String input) {
-        if (input.equals("thing")) {
-          return "bar";
-        } else if (input.equals("macro bar")) {
-          return "foo";
-        }
-        return "";
+    String testOutput = transformBetween(testInput, Pattern.compile("\\$\\("), Pattern.compile("\\)"), input -> {
+      if (input.equals("thing")) {
+        return "bar";
+      } else if (input.equals("macro bar")) {
+        return "foo";
       }
+      return "";
     });
 
     assertEquals("this is a foo", testOutput);

@@ -1,8 +1,6 @@
 package ciir.jfoley.chai.jvm;
 
 import ciir.jfoley.chai.collections.util.ListFns;
-import ciir.jfoley.chai.fn.GenerateFn;
-import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.ThreadsafeLazyPtr;
 import ciir.jfoley.chai.lang.annotations.Beta;
 
@@ -27,12 +25,7 @@ import java.util.logging.Logger;
 public class MemoryNotifier implements NotificationListener {
   private static final Logger logger = Logger.getLogger(MemoryNotifier.class.getName());
   private static final double MemoryFullFraction = 0.75;
-  public static final ThreadsafeLazyPtr<MemoryNotifier> instance = new ThreadsafeLazyPtr<>(new GenerateFn<MemoryNotifier>() {
-    @Override
-    public MemoryNotifier get() {
-      return new MemoryNotifier();
-    }
-  });
+  public static final ThreadsafeLazyPtr<MemoryNotifier> instance = new ThreadsafeLazyPtr<>(MemoryNotifier::new);
   private final List<Flushable> listeners;
   public MemoryNotifier() {
     this.listeners = new ArrayList<>();
@@ -106,12 +99,7 @@ public class MemoryNotifier implements NotificationListener {
       heaps.add(mxBean);
     }
 
-    return ListFns.maxBy(heaps, new TransformFn<MemoryPoolMXBean, Long>() {
-      @Override
-      public Long transform(MemoryPoolMXBean input) {
-        return input.getUsage().getMax();
-      }
-    });
+    return ListFns.maxBy(heaps, input -> input.getUsage().getMax());
   }
 
 }

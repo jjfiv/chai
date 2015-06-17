@@ -11,12 +11,6 @@ import static org.junit.Assert.*;
 public class BZipCodecTest {
 
 	@Test
-	public void bzipExistsOnClasspath() throws IOException {
-		BZipCodec codec = new BZipCodec();
-		assertNotNull(codec.getInputConstructor());
-		assertNotNull(codec.getOutputConstructor());
-	}
-	@Test
 	public void bzipWorksIfOnClasspath() throws IOException {
 		try(TemporaryFile tmpFile = TemporaryFile.create("abcd", ".bz2")) {
 			String path = tmpFile.getPath();

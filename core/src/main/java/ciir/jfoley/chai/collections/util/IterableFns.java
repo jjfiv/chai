@@ -22,32 +22,17 @@ public class IterableFns extends Module {
 	/** Provides a lazy map over an iterable, that assumes it is repeatable,
 	 *  but that's really up to the underlying implementation. */
 	public static <A, B> Iterable<B> map(final Iterable<A> coll, final TransformFn<A,B> mapfn) {
-		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<B>>() {
-			@Override
-			public Iterator<B> transform(Iterator<A> input) {
-				return new MappingIterator<>(input, mapfn);
-			}
-		});
+		return new IterableWrapper<>(coll, input -> new MappingIterator<>(input, mapfn));
 	}
 
 	/** Lazy, functional group-by (assumes sorted) */
 	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
-		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<List<A>>>() {
-			@Override
-			public Iterator<List<A>> transform(Iterator<A> input) {
-				return new GroupByIterator<>(input, cmpFn);
-			}
-		});
+		return new IterableWrapper<>(coll, input -> new GroupByIterator<>(input, cmpFn));
 	}
 
 	/** Lazy, functional group-by (assumes sorted) that compares on equality. */
 	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll) {
-		return new IterableWrapper<>(coll, new TransformFn<Iterator<A>, Iterator<List<A>>>() {
-			@Override
-			public Iterator<List<A>> transform(Iterator<A> input) {
-				return new GroupByIterator<>(input);
-			}
-		});
+		return new IterableWrapper<>(coll, GroupByIterator::new);
 	}
 
 	public static <A> Iterable<A> filter(final Iterable<A> input, final PredicateFn<A> filterFn) {

@@ -14,16 +14,13 @@ public class TimingTest {
   @Test
   public void sillyTest() {
     final long attemptedTime = 40;
-    long timeSpent = Timing.milliseconds(new Runnable() {
-      @Override
-      public void run() {
-        while(true) {
-          try {
-            Thread.sleep(attemptedTime);
-            break;
-          } catch (InterruptedException e) {
-            // try to sleep again.
-          }
+    long timeSpent = Timing.milliseconds((Runnable) () -> {
+      while(true) {
+        try {
+          Thread.sleep(attemptedTime);
+          break;
+        } catch (InterruptedException e) {
+          // try to sleep again.
         }
       }
     });

@@ -58,14 +58,10 @@ public class MapFns extends Module {
 	}
 
 	public static <K,T> void extendListInMap(Map<K, List<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new GenerateFn<List<T>>() {
-			@Override public List<T> get() { return new ArrayList<>(); }
-		});
+		extendCollectionInMap(inMap, key, value, (GenerateFn<List<T>>) ArrayList::new);
 	}
 	public static <K,T> void extendSetInMap(Map<K, Set<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new GenerateFn<Set<T>>() {
-			@Override public Set<T> get() { return new HashSet<>(); }
-		});
+		extendCollectionInMap(inMap, key, value, (GenerateFn<Set<T>>) HashSet::new);
 	}
 
 	public static <K,V,VN> Map<K,VN> mapValues(Map<K, V> initial, TransformFn<V,VN> xfn) {
@@ -91,12 +87,7 @@ public class MapFns extends Module {
 	}
 
 	public static <K,V> Iterable<Pair<K,V>> pairs(Map<K,V> input) {
-		return IterableFns.map(input.entrySet(), new TransformFn<Map.Entry<K,V>, Pair<K,V>>() {
-			@Override
-			public Pair<K, V> transform(Map.Entry<K, V> input) {
-				return Pair.of(input);
-			}
-		});
+		return IterableFns.map(input.entrySet(), Pair::of);
 	}
 
 	public static <K,V> Map<V,K> invert(Map<K,V> input) {

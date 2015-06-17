@@ -37,14 +37,11 @@ public class TarInputHandler implements InputFinder.FileHandler {
 
     @Override
     public Iterable<? extends InputStreamable> getInputs() {
-      return new Iterable<InputStreamable>() {
-        @Override
-        public Iterator<InputStreamable> iterator() {
-          try {
-            return new TarIterator(new TarArchiveInputStream(IO.openInputStream(input)));
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
+      return () -> {
+        try {
+          return new TarIterator(new TarArchiveInputStream(IO.openInputStream(input)));
+        } catch (IOException e) {
+          throw new RuntimeException(e);
         }
       };
     }

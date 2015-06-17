@@ -9,12 +9,7 @@ import ciir.jfoley.chai.io.inputs.InputContainer;
  */
 public abstract class Archive<T extends ArchiveEntry> implements InputContainer {
   public Iterable<T> listFileEntries() {
-    return IterableFns.filter(listEntries(), new PredicateFn<T>() {
-      @Override
-      public boolean test(T input) {
-        return !input.isDirectory();
-      }
-    });
+    return IterableFns.filter(listEntries(), input -> !input.isDirectory());
   }
 
   public Iterable<T> getInputs() { return listFileEntries(); }

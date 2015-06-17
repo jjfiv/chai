@@ -2,8 +2,6 @@ package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.chained.ChaiIterable;
 import ciir.jfoley.chai.fn.Fns;
-import ciir.jfoley.chai.fn.PredicateFn;
-import ciir.jfoley.chai.fn.TransformFn;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -16,18 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class ChaiIterableTest {
 	@Test
 	public void testMap() {
-		List<String> data = ChaiIterable.create(1, 2, 3).map(new TransformFn<Integer, Integer>() {
-			@Override
-			public Integer transform(Integer input) {
-				return input * 2;
-			}
-		}).map(new TransformFn<Integer, String>() {
-
-			@Override
-			public String transform(Integer input) {
-				return Integer.toString(input);
-			}
-		}).intoList();
+		List<String> data = ChaiIterable.create(1, 2, 3).map(input -> input * 2).map(input -> Integer.toString(input)).intoList();
 
 		assertEquals(Arrays.asList("2","4", "6"), data);
 	}
@@ -43,18 +30,7 @@ public class ChaiIterableTest {
 
 	@Test
 	public void testMapAndFilter() {
-		List<Integer> data = ChaiIterable.create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).map(new TransformFn<Integer, Integer>() {
-
-			@Override
-			public Integer transform(Integer input) {
-				return input / 2;
-			}
-		}).filter(new PredicateFn<Integer>() {
-			@Override
-			public boolean test(Integer input) {
-				return input <= 3;
-			}
-		}).intoList();
+		List<Integer> data = ChaiIterable.create(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).map(input -> input / 2).filter(input -> input <= 3).intoList();
 
 		assertEquals(Arrays.asList(0,1,1,2,2,3,3), data);
 	}

@@ -24,12 +24,7 @@ public class GroupByIterator<T> extends ReadOnlyIterator<List<T>> {
   }
 
   public GroupByIterator(Iterator<T> inner) {
-    this(inner, new CompareFn<T>() {
-      @Override
-      public boolean compare(T lhs, T rhs) {
-        return Objects.equals(lhs, rhs);
-      }
-    });
+    this(inner, Objects::equals);
   }
 
   private void fillBuffer() {
