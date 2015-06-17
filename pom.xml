@@ -4,7 +4,7 @@
   <groupId>edu.umass.cs.ciir.waltz</groupId>
   <artifactId>chai</artifactId>
   <packaging>pom</packaging>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.6-SNAPSHOT</version>
   <name>chai</name>
   <licenses>
     <license>
@@ -18,6 +18,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  <scm>
+    <developerConnection>scm:git:git@bitbucket.org:jfoley/chai.git</developerConnection>
+  </scm>
   <distributionManagement>
     <repository>
       <id>deployment</id>

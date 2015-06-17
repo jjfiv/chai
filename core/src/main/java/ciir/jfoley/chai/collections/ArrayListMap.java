@@ -2,6 +2,7 @@ package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.Checked;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
@@ -17,7 +18,6 @@ import java.util.*;
  *
  * @author jfoley.
  */
-@SuppressWarnings("NullableProblems")
 public class ArrayListMap<K,V> implements Map<K,V> {
 	private final ArrayList<Object> data;
 
@@ -104,7 +104,7 @@ public class ArrayListMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
-	public void putAll(Map<? extends K, ? extends V> map) {
+	public void putAll(@Nonnull Map<? extends K, ? extends V> map) {
 		for (Entry<? extends K, ? extends V> kv : map.entrySet()) {
 			put(kv.getKey(), kv.getValue());
 		}
@@ -116,6 +116,7 @@ public class ArrayListMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	@Nonnull
 	public Set<K> keySet() {
 		HashSet<K> keys = new HashSet<>();
 		for (int i = 0; i < data.size(); i+=2) {
@@ -125,6 +126,7 @@ public class ArrayListMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	@Nonnull
 	public Collection<V> values() {
 		HashSet<V> vals = new HashSet<>();
 		for (int i = 1; i < data.size(); i+=2) {
@@ -134,6 +136,7 @@ public class ArrayListMap<K,V> implements Map<K,V> {
 	}
 
 	@Override
+	@Nonnull
 	public Set<Entry<K, V>> entrySet() {
 		HashSet<Entry<K,V>> vals = new HashSet<>();
 		for (int i = 0; i < data.size(); i+=2) {

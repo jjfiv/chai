@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileAttribute;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 public class TemporaryDirectory extends Directory implements Closeable, GenerateFn<File> {
   private final static Logger logger = Logger.getLogger(TemporaryDirectory.class.getName());
   private final static FileAttribute[] None = new FileAttribute[0];
-
+  private boolean closed = false;
 
   public TemporaryDirectory(String prefix) throws IOException {
     super(Files.createTempDirectory(prefix, None).toFile());
@@ -27,12 +28,19 @@ public class TemporaryDirectory extends Directory implements Closeable, Generate
     this("chaitmpdir");
   }
 
+  @Override
+  public void finalize() throws Throwable {
+    super.finalize();
+    if(!closed) logger.log(Level.SEVERE, "Leaked TemporaryFile!");
+    assert(closed);
+  }
   /**
    * The idea here is to automagically delete all temporary contents when this close() gets called.
    * @throws IOException
    */
   @Override
   public void close() throws IOException {
+    closed = true;
     List<File> stubborn = this.removeRecursively();
     if(!stubborn.isEmpty()) {
       throw new IOException("Leaked " + stubborn.size() + " files because of TemporaryDirectory: " + dir.getAbsolutePath()+" ... Double check your permissions!");

@@ -2,11 +2,9 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.lang.Module;
 
-import java.io.ByteArrayInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  * @author jfoley
@@ -39,6 +37,22 @@ public class StreamFns extends Module {
     return buf;
   }
 
+  public static ByteBuffer readChannel(ReadableByteChannel channel, int amt) throws IOException {
+    ByteBuffer data = ByteBuffer.allocate(amt);
+    // Begin I/O loop:
+    while(true) {
+      int read = channel.read(data);
+      if (read < -1) {
+        throw new EOFException();
+      }
+      if(read == amt) break;
+
+      // Ugh; try again
+      amt -= read;
+    }
+    return data;
+  }
+
   /**
    * This method creates an input stream from a ByteBuffer.
    * @param bb the byte buffer.
@@ -59,4 +73,6 @@ public class StreamFns extends Module {
     InputStream str = fromByteBuffer(buffer);
     return readBytes(str, buffer.limit());
   }
+
+
 }

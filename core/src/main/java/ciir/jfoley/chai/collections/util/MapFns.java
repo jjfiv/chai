@@ -5,17 +5,20 @@ import ciir.jfoley.chai.fn.GenerateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
  * @author jfoley.
  */
 public class MapFns extends Module {
+	@Nullable
 	public static <K,V> V firstValue(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.values().iterator().next();
 	}
 
+	@Nullable
 	public static <K,V> K firstKey(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.keySet().iterator().next();
@@ -55,10 +58,14 @@ public class MapFns extends Module {
 	}
 
 	public static <K,T> void extendListInMap(Map<K, List<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new ArrayList<T>());
+		extendCollectionInMap(inMap, key, value, new GenerateFn<List<T>>() {
+			@Override public List<T> get() { return new ArrayList<>(); }
+		});
 	}
 	public static <K,T> void extendSetInMap(Map<K, Set<T>> inMap, K key, T value) {
-		extendCollectionInMap(inMap, key, value, new HashSet<T>());
+		extendCollectionInMap(inMap, key, value, new GenerateFn<Set<T>>() {
+			@Override public Set<T> get() { return new HashSet<>(); }
+		});
 	}
 
 	public static <K,V,VN> Map<K,VN> mapValues(Map<K, V> initial, TransformFn<V,VN> xfn) {

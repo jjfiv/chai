@@ -17,6 +17,15 @@ public final class CompressionCodec extends Module {
 		streamCodecs.put("bz|bz2", new BZipCodec());
 	}
 
+	public static OutputStream wrapOutputStream(String name, OutputStream base) throws IOException {
+		for (CompressionCodec.Impl codec : streamCodecs.values()) {
+			if (codec.matchesFileName(name)) {
+				return codec.openWriter(base);
+			}
+		}
+		return base;
+	}
+
 	public interface Impl {
 		boolean matchesFileName(String fileName);
 		InputStream openReader(InputStream fp) throws IOException;
@@ -36,11 +45,6 @@ public final class CompressionCodec extends Module {
 	}
 
 	public static OutputStream openOutputStream(String file) throws IOException {
-		for (CompressionCodec.Impl codec : streamCodecs.values()) {
-			if(codec.matchesFileName(file)) {
-				return codec.openWriter(new FileOutputStream(file));
-			}
-		}
-		return new FileOutputStream(file);
+		return wrapOutputStream(file, new FileOutputStream(file));
 	}
 }

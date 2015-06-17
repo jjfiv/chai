@@ -59,6 +59,31 @@ public class Sample {
     return output;
   }
 
+  public static List<String> letters(Random rand, int count) {
+    ArrayList<String> output = new ArrayList<>(count);
+    for (int n = 0; n < count; n++) {
+      // half the time, use a string over again:
+      if(output.size() > 0 && rand.nextDouble() > 0.5) {
+        output.add(output.get(rand.nextInt(output.size())));
+        continue;
+      }
+      // half the time, make a new string:
+      int length = rand.nextInt(12)+3;
+      byte[] data = new byte[length];
+      for (int index = 0; index < length; index++) {
+        data[index] = (byte) nextIntInclusive(rand,97,122); // see man ascii for these magic numbers.
+      }
+      output.add(new String(data, Charset.forName("ASCII")));
+    }
+    return output;
+  }
+
+  private static int nextIntInclusive(Random rand, int lower, int upper) {
+    assert(lower < upper);
+    int size = upper - lower + 1;
+    return rand.nextInt(size)+lower;
+  }
+
   public static List<Integer> randomIntegers(Random rand, int N, int bound) {
     IntList output = new IntList(N);
     for (int i = 0; i < N; i++) {

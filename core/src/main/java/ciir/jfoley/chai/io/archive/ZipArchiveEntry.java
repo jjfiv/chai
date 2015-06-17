@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.io.archive;
 
 import ciir.jfoley.chai.Encodings;
+import ciir.jfoley.chai.io.CompressionCodec;
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.io.LinesIterable;
 import ciir.jfoley.chai.lang.annotations.EmergencyUseOnly;
@@ -45,7 +46,8 @@ public class ZipArchiveEntry implements ArchiveEntry {
   }
   @Override
   public InputStream getInputStream() throws IOException {
-    return archive.getInputStream(entry);
+    InputStream rawInputStream = archive.getInputStream(entry);
+    return CompressionCodec.wrapInputStream(getName(), rawInputStream);
   }
 
   @Override

@@ -3,6 +3,7 @@ package ciir.jfoley.chai.io;
 import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.errors.FatalError;
 import ciir.jfoley.chai.lang.Module;
+import org.apache.commons.compress.utils.IOUtils;
 
 import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
@@ -74,6 +75,19 @@ public class IO extends Module {
     }
   }
 
+  /**
+   * Spit to an outputStream. Note that this closes the output stream, so only use this if you're done with the stream!
+   * @param data
+   * @param output
+   * @throws IOException
+   */
+  public static void spit(String data, OutputStream output) throws IOException {
+    PrintWriter pw = new PrintWriter(output);
+    pw.print(data);
+    pw.flush();
+    output.close();
+  }
+
   public static BufferedReader openReader(String file) throws IOException {
     return new BufferedReader(new InputStreamReader(openInputStream(file), Encodings.UTF8));
   }
@@ -120,4 +134,9 @@ public class IO extends Module {
     return slurp(resourceStream(name));
   }
 
+  public static byte[] slurpBytes(File tarEntry) throws IOException {
+    try (InputStream is = IO.openInputStream(tarEntry)) {
+      return IOUtils.toByteArray(is);
+    }
+  }
 }
