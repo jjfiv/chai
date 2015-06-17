@@ -16,7 +16,7 @@ Everyone has their own library of utility functions. Mine's just better tested t
 
 ## Version Support
 
-Supports the now-deprecated Java 7 and Java 8. I have Travis double-checking my commits so that I don't break anything.
+Supports Java 8 and above. I love default methods on interfaces and lambdas in general. I have Travis double-checking my commits so that I don't break anything.
 
 ## Documentation
 

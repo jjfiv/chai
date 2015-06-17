@@ -20,7 +20,9 @@ public interface ArchiveEntry extends InputStreamable {
    * @return a InputStream containing the data of this entry (after inherent decompression).
    * @throws IOException
    */
-  InputStream getInputStream() throws IOException;
+  @Override
+  InputStream getRawInputStream() throws IOException;
+
   /**
    * Read the data as a Reader.
    * @return a BufferedReader reading the UTF-8 data of this archive entry

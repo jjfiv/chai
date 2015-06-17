@@ -26,7 +26,7 @@ public class FileInput implements InputStreamable {
   }
 
   @Override
-  public InputStream getInputStream() throws IOException {
+  public InputStream getRawInputStream() throws IOException {
     return IO.openInputStream(input);
   }
 }

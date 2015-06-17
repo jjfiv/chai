@@ -1,11 +1,13 @@
 package ciir.jfoley.chai.io.inputs;
 
+import ciir.jfoley.chai.IntMath;
 import ciir.jfoley.chai.collections.iters.ClosingIterator;
-import ciir.jfoley.chai.io.CompressionCodec;
 import ciir.jfoley.chai.io.IO;
+import ciir.jfoley.chai.io.StreamFns;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,10 +54,13 @@ public class TarInputHandler implements InputFinder.FileHandler {
     }
   }
 
+  /**
+   * When you call hasNext() or next() you invalidate the previous InputStreamable.
+   */
   static class TarIterator implements ClosingIterator<InputStreamable> {
     public TarArchiveInputStream is;
     private TarArchiveEntry current;
-    private TarArchiveEntry NOT_SURE = (TarArchiveEntry) new Object();
+    private boolean needsConsume = true;
 
     TarIterator(TarArchiveInputStream is) throws IOException {
       this.is = is;
@@ -65,6 +70,7 @@ public class TarInputHandler implements InputFinder.FileHandler {
     private void consumeHeader() {
       try {
         current = is.getNextTarEntry();
+        needsConsume = false;
         if(current == null) close();
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -73,18 +79,16 @@ public class TarInputHandler implements InputFinder.FileHandler {
 
     @Override
     public boolean hasNext() {
-      if(current == NOT_SURE) {
-        consumeHeader();
-      }
+      if(needsConsume) consumeHeader();
       return current != null;
     }
 
     @Override
     public InputStreamable next() {
-      if(current == NOT_SURE) consumeHeader();
+      if(needsConsume) consumeHeader();
 
       final TarArchiveEntry prev = current;
-      current = NOT_SURE;
+      needsConsume = true; // need to pull next lazily so that they can read the adjacent stream:
       return new InputStreamable() {
         @Override
         public String getName() {
@@ -92,9 +96,10 @@ public class TarInputHandler implements InputFinder.FileHandler {
         }
 
         @Override
-        public InputStream getInputStream() throws IOException {
-          assert(current == NOT_SURE);
-          return CompressionCodec.wrapInputStream(prev.getName(), is);
+        public InputStream getRawInputStream() throws IOException {
+          assert(needsConsume);
+          // If they want it, slurp it to memory so that we they can't close the underlying Tar input stream.
+          return new ByteArrayInputStream(StreamFns.readBytes(is, IntMath.fromLong(prev.getSize())));
         }
       };
     }
@@ -102,6 +107,7 @@ public class TarInputHandler implements InputFinder.FileHandler {
     @Override
     public void close() throws IOException {
       IO.close(is);
+      needsConsume = false;
       is = null;
       current = null;
     }
