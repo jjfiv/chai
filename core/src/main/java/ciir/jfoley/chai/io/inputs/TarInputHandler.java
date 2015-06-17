@@ -11,7 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 /**
  * @author jfoley
@@ -44,6 +43,11 @@ public class TarInputHandler implements InputFinder.FileHandler {
           throw new RuntimeException(e);
         }
       };
+    }
+
+    @Override
+    public String getName() {
+      return input.getName();
     }
 
     @Override

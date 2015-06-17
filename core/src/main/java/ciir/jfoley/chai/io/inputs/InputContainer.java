@@ -7,4 +7,5 @@ import java.io.Closeable;
  */
 public interface InputContainer extends Closeable {
   Iterable<? extends InputStreamable> getInputs();
+  String getName();
 }

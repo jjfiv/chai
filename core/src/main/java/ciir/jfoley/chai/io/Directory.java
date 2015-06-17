@@ -74,4 +74,17 @@ public class Directory implements GenerateFn<File> {
   public String getPath() {
     return dir.getAbsolutePath();
   }
+
+  /**
+   * Create a directory of an already-existing path! This will crash if ofPath does not exist as a directory.
+   * @param ofPath the path.
+   * @return Directory
+   * @throws IOException if the directory does not exist.
+   */
+  public static Directory Read(String ofPath) throws IOException {
+    File fp = new File(ofPath);
+    if(!fp.exists()) throw new IOException("Directory: "+ofPath+" does not exist!");
+    if(!fp.isDirectory()) throw new IOException(ofPath+" is required to be a directory!");
+    return new Directory(fp);
+  }
 }

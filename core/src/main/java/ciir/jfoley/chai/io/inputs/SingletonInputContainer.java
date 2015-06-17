@@ -8,14 +8,21 @@ import java.util.Collections;
  */
 public class SingletonInputContainer implements InputContainer {
   public final InputStreamable input;
+  private final String name;
 
-  public SingletonInputContainer(InputStreamable input) {
+  public SingletonInputContainer(String name, InputStreamable input) {
+    this.name = name;
     this.input = input;
   }
 
   @Override
   public Iterable<? extends InputStreamable> getInputs() {
     return Collections.singleton(input);
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
   @Override

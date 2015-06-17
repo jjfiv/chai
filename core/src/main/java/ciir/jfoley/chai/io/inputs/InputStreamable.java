@@ -1,9 +1,12 @@
 package ciir.jfoley.chai.io.inputs;
 
+import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.io.CompressionCodec;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * @author jfoley
@@ -19,5 +22,9 @@ public interface InputStreamable {
    */
   default InputStream getInputStream() throws IOException {
     return CompressionCodec.wrapInputStream(getName(), getRawInputStream());
+  }
+
+  default BufferedReader getReader() throws IOException {
+    return new BufferedReader(new InputStreamReader(getInputStream(), Encodings.UTF8));
   }
 }

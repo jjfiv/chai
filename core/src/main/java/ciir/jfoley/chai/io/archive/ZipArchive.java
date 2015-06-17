@@ -15,8 +15,10 @@ import java.util.zip.ZipFile;
  */
 public class ZipArchive extends Archive<ZipArchiveEntry> {
   private final ZipFile zipFile;
+  private final File source;
 
-  ZipArchive(ZipFile zipFile) {
+  ZipArchive(File source, ZipFile zipFile) {
+    this.source = source;
     this.zipFile = zipFile;
   }
 
@@ -24,7 +26,7 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
     return open(new File(path));
   }
   public static ZipArchive open(File fp) throws IOException {
-    return new ZipArchive(new ZipFile(fp));
+    return new ZipArchive(fp, new ZipFile(fp));
   }
 
   /**
@@ -54,5 +56,10 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
   @Override
   public void close() throws IOException {
     zipFile.close();
+  }
+
+  @Override
+  public String getName() {
+    return source.getName();
   }
 }

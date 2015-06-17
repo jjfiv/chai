@@ -49,7 +49,7 @@ public class InputFinder {
         return handler.getContainer(child);
       }
     }
-    return new SingletonInputContainer(new FileInput(child));
+    return new SingletonInputContainer(child.getName(), new FileInput(child));
   }
 
 }
