@@ -72,7 +72,10 @@ public class IO extends Module {
   public static void spit(String data, File output) throws IOException {
     try (PrintWriter pw = openPrintWriter(output.getAbsolutePath())) {
       pw.print(data);
+      pw.flush();
     }
+
+    assert(IO.slurp(output).equals(data));
   }
 
   /**

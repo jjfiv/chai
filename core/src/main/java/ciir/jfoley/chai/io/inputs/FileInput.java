@@ -1,8 +1,7 @@
 package ciir.jfoley.chai.io.inputs;
 
-import ciir.jfoley.chai.io.IO;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,6 +26,6 @@ public class FileInput implements InputStreamable {
 
   @Override
   public InputStream getRawInputStream() throws IOException {
-    return IO.openInputStream(input);
+    return new FileInputStream(input);
   }
 }
