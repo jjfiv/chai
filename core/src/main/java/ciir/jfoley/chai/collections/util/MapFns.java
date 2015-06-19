@@ -5,6 +5,7 @@ import ciir.jfoley.chai.fn.GenerateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
@@ -16,6 +17,13 @@ public class MapFns extends Module {
 	public static <K,V> V firstValue(Map<K,V> input) {
 		if(input.isEmpty()) return null;
 		return input.values().iterator().next();
+	}
+
+	@Nonnull
+	public static <K,V> V firstValue(@Nonnull Map<K, V> input, @Nonnull V orElse) {
+		V val = firstValue(input);
+		if(val == null) return orElse;
+		return val;
 	}
 
 	@Nullable
@@ -135,4 +143,5 @@ public class MapFns extends Module {
 		}
 		return map;
 	}
+
 }
