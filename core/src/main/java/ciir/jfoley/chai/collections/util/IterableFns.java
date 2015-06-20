@@ -49,6 +49,12 @@ public class IterableFns extends Module {
 		return builder;
 	}
 
+	public static <T> void intoSink(Iterator<T> iter, SinkFn<T> output) {
+		while(iter.hasNext()) {
+			output.process(iter.next());
+		}
+	}
+
 	public static <T,X extends SinkFn<T>> X intoSink(Iterable<T> input, X sink) {
 		try (Closer<Iterable<T>> cc = Closer.of(input)) {
 			for (T x : cc.get()) {

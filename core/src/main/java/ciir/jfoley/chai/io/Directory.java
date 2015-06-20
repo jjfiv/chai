@@ -2,6 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.fn.GenerateFn;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -86,5 +87,16 @@ public class Directory implements GenerateFn<File> {
     if(!fp.exists()) throw new IOException("Directory: "+ofPath+" does not exist!");
     if(!fp.isDirectory()) throw new IOException(ofPath+" is required to be a directory!");
     return new Directory(fp);
+  }
+
+  @Nullable
+  public static Directory FirstExisting(String... paths) {
+    for (String path : paths) {
+      File fp = new File(path);
+      if(!fp.exists()) continue;
+      if(!fp.isDirectory()) continue;
+      return new Directory(fp);
+    }
+    return null;
   }
 }
