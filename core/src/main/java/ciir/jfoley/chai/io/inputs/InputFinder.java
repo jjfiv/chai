@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.io.inputs;
 
+import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.io.Directory;
 
 import java.io.File;
@@ -59,6 +60,17 @@ public class InputFinder {
       output.add(asInputContainer(child));
     }
     return output;
+  }
+
+  public void forEachPath(List<String> inputs, SinkFn<InputStreamable> output) throws IOException {
+    forEach(findAllInputs(inputs), output);
+  }
+  public void forEach(List<? extends InputContainer> inputs, SinkFn<InputStreamable> output) throws IOException {
+    for (InputContainer inputContainer : inputs) {
+      for (InputStreamable inputStreamable : inputContainer.getInputs()) {
+        output.process(inputStreamable);
+      }
+    }
   }
 
   public InputContainer asInputContainer(File child) throws IOException {

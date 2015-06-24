@@ -1,6 +1,5 @@
 package ciir.jfoley.chai.io;
 
-import ciir.jfoley.chai.collections.iters.UntilNullGenerator;
 import ciir.jfoley.chai.collections.iters.UntilNullIterator;
 
 import java.io.*;
@@ -12,8 +11,10 @@ import java.util.Iterator;
 public class LinesIterable implements Iterable<String>, Closeable {
 
 	private final BufferedReader reader;
+	private int lineNumber;
 
 	public LinesIterable(BufferedReader reader) {
+		lineNumber = 0;
 		this.reader = reader;
 	}
 
@@ -21,11 +22,16 @@ public class LinesIterable implements Iterable<String>, Closeable {
 	public Iterator<String> iterator() {
 		return new UntilNullIterator<>(() -> {
       try {
-        return reader.readLine();
+				return this.readLine();
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     });
+	}
+
+	public String readLine() throws IOException {
+		++this.lineNumber;
+		return reader.readLine();
 	}
 
 	@Override
@@ -49,5 +55,9 @@ public class LinesIterable implements Iterable<String>, Closeable {
 
 	public static LinesIterable fromFile(String path) throws IOException {
 		return of(IO.openReader(path));
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
 	}
 }
