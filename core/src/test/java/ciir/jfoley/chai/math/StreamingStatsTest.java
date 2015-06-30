@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author jfoley
@@ -41,5 +42,19 @@ public class StreamingStatsTest {
 
     assertEquals(Stats.mean(data), ss.getMean(), 1e-10);
     assertEquals(Stats.variance(data), ss.getVariance(), 1e-10);
+  }
+
+  @Test
+  public void testMaxOfNegatives() {
+    Random rand = new Random();
+    StreamingStats stats = new StreamingStats();
+    for (int i = 0; i < 1000; i++) {
+      double x = rand.nextGaussian() - 8;
+      stats.push(x);
+    }
+
+    assertTrue(stats.getMax() < 0);
+    assertTrue(stats.getMean() < 0);
+    assertTrue(stats.getMin() < 0);
   }
 }

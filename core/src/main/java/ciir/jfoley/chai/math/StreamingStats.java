@@ -50,7 +50,7 @@ public class StreamingStats implements SinkFn<Double> {
   public void clear() {
     numberOfElements = 0;
     oldMean = newMean = oldS = newS = 0;
-    max = Double.MIN_VALUE;
+    max = -Double.MAX_VALUE;
     min = Double.MAX_VALUE;
   }
   public double getMean() {
