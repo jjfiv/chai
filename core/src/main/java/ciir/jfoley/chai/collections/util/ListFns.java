@@ -6,6 +6,7 @@ import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
@@ -16,7 +17,8 @@ import java.util.*;
  */
 public class ListFns extends Module {
 	/** Specialized lazy List concat */
-	public static <T> List<T> lazyConcat(final List<T> first, final List<T> second) {
+  @Nonnull
+	public static <T> List<T> lazyConcat(@Nonnull final List<T> first, @Nonnull final List<T> second) {
 		return new AbstractList<T>() {
 			@Override
 			public T get(int i) {
@@ -34,7 +36,8 @@ public class ListFns extends Module {
 	}
 
   /** Take a view of up to amt items from the front of a list */
-  public static <T> List<T> take(List<T> input, int amt) {
+  @Nonnull
+  public static <T> List<T> take(@Nonnull List<T> input, int amt) {
     return input.subList(0, Math.min(input.size(), amt));
   }
 
@@ -45,7 +48,8 @@ public class ListFns extends Module {
    * @param <T> The type parameter of the input list.
    * @return A list of windows to process further.
    */
-  public static <T> List<List<T>> sliding(List<T> input, int window) {
+  @Nonnull
+  public static <T> List<List<T>> sliding(@Nonnull List<T> input, int window) {
     List<List<T>> windows = new ArrayList<>(input.size());
     for (int start = 0; (start+window-1) < input.size(); start++) {
       int end = start + window; // inclusive
@@ -60,7 +64,8 @@ public class ListFns extends Module {
    * @param <T> the parameter of the input list.
    * @return All unique order-independent pairs in the list.
    */
-  public static <T> List<Pair<T,T>> pairs(List<T> input) {
+  @Nonnull
+  public static <T> List<Pair<T,T>> pairs(@Nonnull List<T> input) {
     input = ensureRandomAccess(input);
     List<Pair<T,T>> output = new ArrayList<>(input.size()*(input.size()-1));
     for (int i = 0; i < input.size()-1; i++) {
@@ -79,7 +84,8 @@ public class ListFns extends Module {
    * @param splits the number of partitions to make of the original.
    * @return A list of subLists.
    */
-  public static <T> List<List<T>> partition(List<T> input, int splits) {
+  @Nonnull
+  public static <T> List<List<T>> partition(@Nonnull List<T> input, int splits) {
     input = ensureRandomAccess(input);
     int numberPerSplit = (int) Math.round(input.size() / (double) splits);
     List<List<T>> output = new ArrayList<>();
@@ -101,7 +107,8 @@ public class ListFns extends Module {
    * @param splits the number of partitions to make of the original.
    * @return A list of subLists.
    */
-  public static <T> List<List<T>> partitionRoundRobin(List<T> input, int splits) {
+  @Nonnull
+  public static <T> List<List<T>> partitionRoundRobin(@Nonnull List<T> input, int splits) {
     input = ensureRandomAccess(input);
     List<List<T>> output = new ArrayList<>();
     for (int i = 0; i < splits; i++) {
@@ -114,12 +121,14 @@ public class ListFns extends Module {
   }
 
   /** Copy this list into an ArrayList is if cannot be quickly accessed by index. */
-  public static <T> List<T> ensureRandomAccess(List<? extends T> input) {
+  @Nonnull
+  public static <T> List<T> ensureRandomAccess(@Nonnull List<? extends T> input) {
     if(input instanceof RandomAccess) return castView(input);
     return new ArrayList<>(input);
   }
 
-  public static <T> List<T> castView(final List<? extends T> input) {
+  @Nonnull
+  public static <T> List<T> castView(@Nonnull final List<? extends T> input) {
     return new AbstractList<T>() {
       @Override
       public T get(int index) {
@@ -139,7 +148,8 @@ public class ListFns extends Module {
    * @param <T> The type of contained values.
    * @return A list of the contained values. Makes a copy.
    */
-  public static <T> List<T> collect(Enumeration<? extends T> entries) {
+  @Nonnull
+  public static <T> List<T> collect(@Nonnull Enumeration<? extends T> entries) {
     List<T> results = new ArrayList<>();
     while (entries.hasMoreElements()) {
       results.add(entries.nextElement());
@@ -154,7 +164,8 @@ public class ListFns extends Module {
    * @param <T> the type of items.
    * @return a new list containing the original items + the new item.
    */
-  public static <T> List<T> pushToCopy(List<T> original, T newItem) {
+  @Nonnull
+  public static <T> List<T> pushToCopy(@Nonnull List<T> original, T newItem) {
     List<T> newList = new ArrayList<>(original);
     newList.add(newItem);
     return newList;
@@ -164,6 +175,7 @@ public class ListFns extends Module {
     return findFirst(input, condition) != null;
   }
 
+  @Nullable
   public static <T> T findFirst(List<T> input, PredicateFn<T> condition) {
     for (T t : input) {
       if(condition.test(t)) {
@@ -181,6 +193,7 @@ public class ListFns extends Module {
    * @param <V> the type of comparable objects.
    * @return the maximum T by V.
    */
+  @Nullable
   public static <T, V extends Comparable<V>> T maxBy(List<? extends T> objs, TransformFn<T,V> fn) {
     if(objs.isEmpty()) return null;
     T max = objs.get(0);
@@ -202,6 +215,7 @@ public class ListFns extends Module {
    * @param <T> the type of elements in the list.
    * @return an ordered de-duplication. Might not be as fast as unordered.
    */
+  @Nonnull
   public static <T> List<T> unique(List<? extends T> input) {
     return new ListBasedOrderedSet<>(input).toList();
   }
@@ -214,6 +228,7 @@ public class ListFns extends Module {
    * @param <B> type of right objects.
    * @return a list of pairs of equivalent-indexed elements.
    */
+  @Nonnull
   public static <A,B> List<Pair<A,B>> zip(List<? extends A> lhs, List<? extends B> rhs) {
     List<Pair<A,B>> output = new ArrayList<>();
 
@@ -235,7 +250,8 @@ public class ListFns extends Module {
    * @param <T> the type of the list.
    * @return a sublist approximating the request as best as possible.
    */
-  public static <T> List<T> slice(List<T> input, int start, int end) {
+  @Nonnull
+  public static <T> List<T> slice(@Nonnull List<T> input, int start, int end) {
     int realStart = Math.min(Math.max(0, start), input.size());
     int realEnd = Math.min(end, input.size());
     return input.subList(realStart, realEnd);
@@ -249,7 +265,8 @@ public class ListFns extends Module {
    * @param <T> the item type.
    * @return a list of input repeated 0+ times so that the total length >= wanted.
    */
-  public static <T> List<T> repeatUntilAtLeast(List<T> input, int wanted) {
+  @Nonnull
+  public static <T> List<T> repeatUntilAtLeast(@Nonnull List<T> input, int wanted) {
     if(input.size() == 0) throw new IllegalArgumentException("Can't repeat zero items!");
     if(input.size() >= wanted) return input;
     ArrayList<T> output = new ArrayList<>(wanted);
