@@ -236,7 +236,7 @@ public class ListFns extends Module {
    * @return a sublist approximating the request as best as possible.
    */
   public static <T> List<T> slice(List<T> input, int start, int end) {
-    int realStart = Math.max(0, start);
+    int realStart = Math.min(Math.max(0, start), input.size());
     int realEnd = Math.min(end, input.size());
     return input.subList(realStart, realEnd);
   }

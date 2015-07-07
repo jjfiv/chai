@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.list.AChaiList;
+import ciir.jfoley.chai.lang.annotations.Beta;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -54,5 +55,14 @@ public class IntRange extends AChaiList<Integer> implements List<Integer> {
   }
   public static IntRange exclusive(int begin, int end) {
     return new IntRange(begin, end-begin);
+  }
+
+  @Beta
+  public boolean intersects(IntRange originalTag) {
+    int al = this.start;
+    int bl = originalTag.start;
+    int ar = this.inclusiveEnd();
+    int br = originalTag.inclusiveEnd();
+    return ar >= bl && br >= al;
   }
 }
