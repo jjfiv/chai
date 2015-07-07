@@ -5,6 +5,8 @@ import ciir.jfoley.chai.fn.GenerateFn;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -76,6 +78,12 @@ public class Directory implements GenerateFn<File> {
     return dir.getAbsolutePath();
   }
 
+  public void ls(PrintStream output) throws IOException {
+    for (File file : children()) {
+      long size = Files.size(file.toPath());
+      output.printf("%-40s\t%d\n", file.getName(), size);
+    }
+  }
   /**
    * Create a directory of an already-existing path! This will crash if ofPath does not exist as a directory.
    * @param ofPath the path.
