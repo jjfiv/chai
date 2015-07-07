@@ -84,6 +84,7 @@ public class Directory implements GenerateFn<File> {
       output.printf("%-40s\t%d\n", file.getName(), size);
     }
   }
+
   /**
    * Create a directory of an already-existing path! This will crash if ofPath does not exist as a directory.
    * @param ofPath the path.
@@ -106,5 +107,9 @@ public class Directory implements GenerateFn<File> {
       return new Directory(fp);
     }
     return null;
+  }
+
+  public boolean isEmpty() throws IOException {
+    return children().isEmpty();
   }
 }
