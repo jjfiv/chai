@@ -3,6 +3,7 @@ package ciir.jfoley.chai.string;
 import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.TransformFn;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -347,5 +348,12 @@ public class StrUtil {
       result = result.replace(kv.getKey(), kv.getValue());
     }
     return result;
+  }
+
+  @Nonnull
+  public static String slice(String input, int start, int end) {
+    int begin = Math.min(input.length(), Math.max(0, start));
+    int size = Math.min(input.length(), (end - begin));
+    return input.substring(begin, size);
   }
 }

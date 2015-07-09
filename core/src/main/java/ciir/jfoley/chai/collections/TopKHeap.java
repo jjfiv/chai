@@ -1,8 +1,10 @@
 package ciir.jfoley.chai.collections;
 
 import ciir.jfoley.chai.collections.list.AChaiList;
+import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
@@ -17,6 +19,9 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   int fillPtr;
   final int maxSize;
 
+  public TopKHeap(int maxSize) {
+    this(maxSize, Comparing.defaultComparator());
+  }
   public TopKHeap(int maxSize, Comparator<? super T> cmp) {
     this.cmp = cmp;
     this.fillPtr = 0;
@@ -105,9 +110,8 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     return offer(input);
   }
 
-  @SuppressWarnings("NullableProblems")
   @Override
-  public boolean addAll(Collection<? extends T> other) {
+  public boolean addAll(@Nonnull Collection<? extends T> other) {
     List<T> candidates = new ArrayList<>(other);
     Collections.sort(candidates, cmp);
 
@@ -124,9 +128,11 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   }
 
 
+  @Nonnull
   public static <T> TopKHeap<T> maxItems(int maxSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(maxSize, cmp);
   }
+  @Nonnull
   public static <T> TopKHeap<T> minItems(int minSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(minSize, cmp.reversed());
   }

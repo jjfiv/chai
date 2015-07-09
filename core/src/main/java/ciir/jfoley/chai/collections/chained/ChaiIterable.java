@@ -5,11 +5,13 @@ import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.iters.OneShotIterable;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.collections.util.IterableFns;
+import ciir.jfoley.chai.fn.CompareFn;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.SinkFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.io.IO;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -24,7 +26,7 @@ public class ChaiIterable<T> extends AbstractCollection<T> implements Iterable<T
 		this.iterable = iter;
 	}
 
-	@Override
+	@Nonnull @Override
 	public Iterator<T> iterator() {
 		return iterable.iterator();
 	}
@@ -49,9 +51,14 @@ public class ChaiIterable<T> extends AbstractCollection<T> implements Iterable<T
 
 	/** Mutates this iterable; replacing insides with a List, so it can be visited multiple times, or making it unlazy. */
 	public ChaiIterable<T> compute() {
-		List<T> data = intoList();
-		iterable = data;
+		iterable = intoList();
 		return this;
+	}
+
+	public ChaiIterable<List<T>> sortedGroupBy(CompareFn<T> compareFn) {
+		return create(IterableFns.sortedStreamingGroupBy(
+				IterableFns.sorted(intoList(), Comparing.<T>defaultComparator()),
+				compareFn));
 	}
 
 	public <NT> ChaiIterable<NT> map(TransformFn<T, NT> transformFn) {
@@ -140,5 +147,11 @@ public class ChaiIterable<T> extends AbstractCollection<T> implements Iterable<T
 			output.push(t);
 		}
 		return ChaiIterable.create(output);
+	}
+
+	public void intoSink(SinkFn<T> target) {
+		for (T t : this) {
+			target.process(t);
+		}
 	}
 }

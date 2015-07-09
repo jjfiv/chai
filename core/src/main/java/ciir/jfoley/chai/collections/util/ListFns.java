@@ -2,6 +2,7 @@ package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.ListBasedOrderedSet;
 import ciir.jfoley.chai.collections.Pair;
+import ciir.jfoley.chai.collections.list.AChaiList;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
@@ -34,6 +35,29 @@ public class ListFns extends Module {
 			}
 		};
 	}
+
+  /**
+   * Return a lazily mapped view of a collection.
+   * @param input the base list
+   * @param mapper the element-wise mapping function
+   * @param <B> the new type of elements
+   * @param <T> the original type of elements
+   * @return a list view over the mapped collection
+   */
+  @Nonnull
+  public static <B, T> AChaiList<B> lazyMap(@Nonnull List<T> input, TransformFn<T, B> mapper) {
+    return new AChaiList<B>() {
+      @Override
+      public B get(int index) {
+        return mapper.transform(input.get(index));
+      }
+
+      @Override
+      public int size() {
+        return input.size();
+      }
+    };
+  }
 
   /** Take a view of up to amt items from the front of a list */
   @Nonnull

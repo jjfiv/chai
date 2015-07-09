@@ -10,6 +10,7 @@ import ciir.jfoley.chai.io.Closer;
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 /**
@@ -25,7 +26,12 @@ public class IterableFns extends Module {
 		return new IterableWrapper<>(coll, input -> new MappingIterator<>(input, mapfn));
 	}
 
+	@Nonnull
+	public static <A> Iterable<List<A>> sortedStreamingGroupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
+		return new IterableWrapper<>(coll, input -> new GroupByIterator<>(input, cmpFn));
+	}
 	/** Lazy, functional group-by (assumes sorted) */
+	@Deprecated
 	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
 		return new IterableWrapper<>(coll, input -> new GroupByIterator<>(input, cmpFn));
 	}
