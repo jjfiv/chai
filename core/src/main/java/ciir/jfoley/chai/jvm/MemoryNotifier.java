@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 @Beta
 public class MemoryNotifier implements NotificationListener {
   private static final Logger logger = Logger.getLogger(MemoryNotifier.class.getName());
-  private static final double MemoryFullFraction = 0.75;
+  private static final double MemoryFullFraction = 0.85;
   public static final ThreadsafeLazyPtr<MemoryNotifier> instance = new ThreadsafeLazyPtr<>(MemoryNotifier::new);
   private final List<Flushable> listeners;
   public MemoryNotifier() {

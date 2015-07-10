@@ -145,9 +145,10 @@ public class ListFns extends Module {
   }
 
   /** Copy this list into an ArrayList is if cannot be quickly accessed by index. */
+  @SuppressWarnings("unchecked")
   @Nonnull
-  public static <T> List<T> ensureRandomAccess(@Nonnull List<? extends T> input) {
-    if(input instanceof RandomAccess) return castView(input);
+  public static <T> List<T> ensureRandomAccess(@Nonnull Collection<? extends T> input) {
+    if(input instanceof RandomAccess && input instanceof List) return (List<T>) input;
     return new ArrayList<>(input);
   }
 

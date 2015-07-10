@@ -2,24 +2,26 @@ package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nonnull;
 import java.util.Comparator;
 
 /**
  * @author jfoley.
  */
 public class Comparing extends Module {
+  @SuppressWarnings("unchecked")
+  @Nonnull
 	public static <T> Comparator<T> defaultComparator() {
 		return (lhs, rhs) -> {
-      assert(lhs instanceof Comparable) : lhs.getClass().getName()+ " is not comparable!";
+      //assert(lhs instanceof Comparable) : lhs.getClass().getName()+ " is not comparable!";
       return ((Comparable) lhs).compareTo(rhs);
     };
 	}
 
+  @SuppressWarnings("unchecked")
+  @Nonnull
   public static <T> Comparator<T> reverseComparator() {
-    return (lhs, rhs) -> {
-      assert(lhs instanceof Comparable);
-      return ((Comparable) rhs).compareTo(lhs);
-    };
+    return (lhs, rhs) -> ((Comparable) rhs).compareTo(lhs);
   }
 
   public static Comparator<byte[]> byteArrays() {
