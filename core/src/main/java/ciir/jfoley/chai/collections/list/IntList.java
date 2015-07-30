@@ -33,7 +33,7 @@ public class IntList extends AChaiList<Integer> {
 
 	@Override
 	public boolean addAll(@Nonnull Collection<? extends Integer> other) {
-		reserve(fill+other.size());
+		reserve(fill + other.size());
 		for (Integer value : other) {
 			if(value == null) throw new NullPointerException();
 			data[fill++] = value;
@@ -109,4 +109,8 @@ public class IntList extends AChaiList<Integer> {
   public int getQuick(int key) {
     return data[key];
   }
+
+	public void sort() {
+		Arrays.sort(this.data, 0, this.fill);
+	}
 }
