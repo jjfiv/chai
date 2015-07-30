@@ -68,6 +68,11 @@ public class IntList extends AChaiList<Integer> {
 		return true;
 	}
 
+	public void push(int x) {
+		reserve(fill+1);
+		data[fill++] = x;
+	}
+
 	@Override
 	public void clear() {
 		fill = 0;

@@ -4,6 +4,7 @@ import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.TransformFn;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
  * @author jfoley.
  */
 public class StrUtil {
+  @Nonnull
   public static String removeBetween(String input, String start, String end) {
     StringBuilder text = new StringBuilder();
     int lastPos = 0;
@@ -29,6 +31,7 @@ public class StrUtil {
     return text.toString();
   }
 
+  @Nonnull
   public static String removeBetweenNested(String input, String start, String end) {
     StringBuilder text = new StringBuilder();
     int lastPos = 0;
@@ -60,6 +63,7 @@ public class StrUtil {
   /**
    * Calls transform on every string that exists between patterns start and end on input, and returns the result.
    */
+  @Nonnull
   public static String transformRecursively(String input, Pattern start, Pattern end, Transform fn, boolean inclusive) {
     StringBuilder text = new StringBuilder();
     int lastPos = 0;
@@ -102,6 +106,7 @@ public class StrUtil {
    * Calls transform on every string that exists between patterns start and end on input, and returns the result.
    * Exclusive of the matching patterns
    */
+  @Nonnull
   public static String transformBetween(String input, Pattern start, Pattern end, Transform transform) {
     return transformRecursively(input, start, end, transform, false);
   }
@@ -110,10 +115,12 @@ public class StrUtil {
    * Calls transform on every string that exists between patterns start and end on input, and returns the result.
    * Inclusive of the matching patterns
    */
+  @Nonnull
   public static String transformInclusive(String input, Pattern start, Pattern end, Transform transform) {
     return transformRecursively(input, start, end, transform, true);
   }
 
+  @Nonnull
   public static String removeBetween(String input, Pattern start, Pattern end) {
     StringBuilder text = new StringBuilder();
     int lastPos = 0;
@@ -129,6 +136,7 @@ public class StrUtil {
     return text.toString();
   }
 
+  @Nonnull
   public static String takeBefore(String input, String delim) {
     int pos = input.indexOf(delim);
     if(pos == -1) {
@@ -137,6 +145,7 @@ public class StrUtil {
     return input.substring(0, pos);
   }
 
+  @Nonnull
   public static String takeAfter(String input, String delim) {
     int pos = input.indexOf(delim);
     if(pos == -1) {
@@ -145,10 +154,12 @@ public class StrUtil {
     return input.substring(pos + delim.length());
   }
 
+  @Nonnull
   public static String takeBetween(String input, String prefix, String suffix) {
     return takeAfter(takeBefore(input, suffix), prefix);
   }
 
+  @Nonnull
   public static String preview(String input, int len) {
     input = compactSpaces(input);
     if(input.length() < len) {
@@ -158,6 +169,7 @@ public class StrUtil {
     }
   }
 
+  @Nonnull
   public static String firstWord(String text) {
     for(int i=0; i<text.length(); i++) {
       if(Character.isWhitespace(text.charAt(i)))
@@ -177,6 +189,7 @@ public class StrUtil {
     return true;
   }
 
+  @Nonnull
   public static String removeSpaces(String input) {
     StringBuilder output = new StringBuilder();
     for(char c : input.toCharArray()) {
@@ -187,6 +200,7 @@ public class StrUtil {
     return output.toString();
   }
 
+  @Nonnull
   public static String filterToAscii(String input) {
     StringBuilder ascii = new StringBuilder();
     for (int i = 0; i < input.length(); i++) {
@@ -207,6 +221,7 @@ public class StrUtil {
   }
 
   /** Simplify input string in terms of spaces; all space characters -&gt; ' ' and a maximum width of 1 space. */
+  @Nonnull
   public static String compactSpaces(CharSequence input) {
     StringBuilder sb = new StringBuilder();
     boolean lastWasSpace = true;
@@ -228,12 +243,14 @@ public class StrUtil {
   }
 
   /** Remove ending from input string */
+  @Nonnull
   public static String removeBack(String input, String suffix) {
     if(!input.endsWith(suffix)) return input;
     return input.substring(0, input.length() - suffix.length());
   }
 
   /** Remove ending from input string */
+  @Nonnull
   public static String removeBack(String input, int length) {
     return input.substring(0, input.length() - length);
   }
@@ -245,6 +262,7 @@ public class StrUtil {
   }
 
   /** Remove prefix and suffix from input string */
+  @Nonnull
   public static String removeSurrounding(String input, String prefix, String suffix) {
     if(!input.endsWith(suffix)) return removeFront(input, prefix);
     if(!input.startsWith(prefix)) return removeBack(input, suffix);
@@ -261,6 +279,7 @@ public class StrUtil {
     return false;
   }
 
+  @Nonnull
   public static String indent(String message, String tabChars) {
     StringBuilder sb = new StringBuilder();
     for (String line : message.split("\n")) {
@@ -271,7 +290,8 @@ public class StrUtil {
 
   public interface Transform extends TransformFn<String,String> { }
 
-  public static String[] pretendTokenize(String input) {
+  @Nonnull
+  public static String[] pretendTokenize(@Nonnull String input) {
     String cleaned = input
       .toLowerCase()
       .replaceAll("<script[^>]*>[^<]*</script>", " ")
@@ -286,13 +306,14 @@ public class StrUtil {
     return StrUtil.filterToAscii(cleaned).split("\\s+");
   }
 
-  public static boolean truthy(CharSequence seq) {
+  public static boolean truthy(@Nullable CharSequence seq) {
     return seq != null && seq.length() > 0;
   }
-  public static boolean falsy(CharSequence seq) {
+  public static boolean falsy(@Nullable CharSequence seq) {
     return !truthy(seq);
   }
 
+  @Nonnull
 	public static String join(List<? extends CharSequence> items, CharSequence delimiter) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < items.size(); i++) {
@@ -301,12 +322,22 @@ public class StrUtil {
 		}
 		return sb.toString();
 	}
+  @Nonnull
+  public static String join(List<? extends CharSequence> items) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < items.size(); i++) {
+      if(i != 0) sb.append(' ');
+      sb.append(items.get(i));
+    }
+    return sb.toString();
+  }
 
   /**
    * Copy the unicode code points out of a string and into a list.
    * @param input a string.
    * @return a list of unicode integer code points.
    */
+  @Nonnull
   public static IntList codePoints(String input) {
     IntList unicode = new IntList();
 
@@ -342,6 +373,7 @@ public class StrUtil {
     quoteMap.put("\u300c", "'");
     quoteMap.put("\u300d", "'");
   }
+  @Nonnull
   public static String replaceUnicodeQuotes(String input) {
     String result = input;
     for (Map.Entry<String, String> kv : quoteMap.entrySet()) {
