@@ -2,6 +2,7 @@ package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.io.compress.BZipCodec;
 import ciir.jfoley.chai.io.compress.GZipCodec;
+import ciir.jfoley.chai.io.compress.LZFCodec;
 import ciir.jfoley.chai.lang.Module;
 
 import java.io.*;
@@ -15,6 +16,7 @@ public final class CompressionCodec extends Module {
 	static {
 		streamCodecs.put("gz", new GZipCodec());
 		streamCodecs.put("bz|bz2", new BZipCodec());
+		streamCodecs.put("lzf", new LZFCodec());
 	}
 
 	public static OutputStream wrapOutputStream(String name, OutputStream base) throws IOException {

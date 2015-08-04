@@ -102,4 +102,10 @@ public class MemoryNotifier implements NotificationListener {
     return ListFns.maxBy(heaps, input -> input.getUsage().getMax());
   }
 
+
+  public double pollMemoryUsage() {
+    double free = Runtime.getRuntime().freeMemory();
+    double avail = Runtime.getRuntime().maxMemory();
+    return free / avail;
+  }
 }
