@@ -29,6 +29,11 @@ public class IntList extends AChaiList<Integer> {
 		addAll(other);
 	}
 
+	public IntList(int[] backing) {
+		this.data = backing;
+		this.fill = backing.length;
+		this.size = data.length;
+	}
 
 
 	@Override
