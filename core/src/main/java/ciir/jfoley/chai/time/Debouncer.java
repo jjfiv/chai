@@ -15,6 +15,9 @@ public class Debouncer {
     this.startTime = System.currentTimeMillis();
     this.lastTime = startTime - delay;
   }
+  public Debouncer() {
+    this(1000);
+  }
 
   public boolean ready() {
     long now = System.currentTimeMillis();

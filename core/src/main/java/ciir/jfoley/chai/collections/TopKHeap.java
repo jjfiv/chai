@@ -5,6 +5,7 @@ import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -32,8 +33,12 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     }
   }
 
+  @Nullable
   public T peek() {
-    return data.get(0);
+    if(fillPtr > 0) {
+      return data.get(0);
+    }
+    return null;
   }
 
   /**

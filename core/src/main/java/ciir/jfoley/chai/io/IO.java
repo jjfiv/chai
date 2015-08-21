@@ -74,8 +74,6 @@ public class IO extends Module {
       pw.print(data);
       pw.flush();
     }
-
-    assert(IO.slurp(output).equals(data));
   }
 
   /**
