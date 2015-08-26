@@ -42,6 +42,7 @@ public class BitVector {
   }
   public void set(int x) {
     int wordIndex = x / 64;
+    if(wordIndex >= words.length) return;
     int bitIndex = x % 64;
     words[wordIndex] |= (1L << bitIndex);
   }
@@ -128,6 +129,25 @@ public class BitVector {
     }
   }
 
+  public void andShl(BitVector other, int leftShift) {
+    if(leftShift == 0) {
+      and(other);
+      return;
+    }
+    assert(leftShift < 64 && leftShift > 0);
+    long wprev = other.words[0] >>> leftShift;
+
+    int off = (64 - leftShift);
+    long mask = ((1L << leftShift) - 1) << off;
+    for (int i = 1; i < words.length; i++) {
+      long wn = Long.rotateRight(other.words[i], leftShift);
+      wprev |= (mask & wn);
+      words[i-1] &= wprev;
+      wprev = wn & ~mask;
+    }
+    words[words.length - 1] &= wprev;
+  }
+
   public void or(BitVector other) {
     assert(this.words.length >= other.words.length);
     for (int i = 0; i < other.words.length; i++) {
@@ -154,5 +174,12 @@ public class BitVector {
     for (int i = 0; i < words.length; i++) {
       words[i] = ~words[i];
     }
+  }
+
+  public boolean zeros() {
+    for (long word : words) {
+      if (word != 0) return false;
+    }
+    return true;
   }
 }

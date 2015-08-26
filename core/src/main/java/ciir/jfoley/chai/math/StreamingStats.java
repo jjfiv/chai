@@ -48,6 +48,7 @@ public class StreamingStats implements SinkFn<Double> {
     oldS = newS;
   }
   public void clear() {
+    total = 0;
     numberOfElements = 0;
     oldMean = newMean = oldS = newS = 0;
     max = -Double.MAX_VALUE;

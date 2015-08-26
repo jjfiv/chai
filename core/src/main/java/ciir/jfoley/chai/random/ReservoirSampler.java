@@ -48,8 +48,9 @@ public class ReservoirSampler<T> extends AChaiList<T> implements SinkFn<T> {
 
   @Override
   public void process(T input) {
-    if(totalOffered < numSamples) {
-      storage.set(totalOffered++, input);
+    totalOffered++;
+    if(storage.size() < numSamples) {
+      storage.add(input);
       return;
     }
 
