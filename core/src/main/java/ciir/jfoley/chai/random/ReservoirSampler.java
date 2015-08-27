@@ -61,4 +61,14 @@ public class ReservoirSampler<T> extends AChaiList<T> implements SinkFn<T> {
     if(position >= numSamples) return;
     storage.set(position, input);
   }
+
+  @Override
+  public void clear() {
+    this.storage.clear();
+    totalOffered = 0;
+  }
+
+  public int total() {
+    return totalOffered;
+  }
 }

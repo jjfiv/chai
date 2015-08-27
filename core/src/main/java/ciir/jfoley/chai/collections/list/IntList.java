@@ -118,4 +118,11 @@ public class IntList extends AChaiList<Integer> {
 	public void sort() {
 		Arrays.sort(this.data, 0, this.fill);
 	}
+
+	public void setSize(int amount) {
+		fill = amount;
+		if(fill > size) {
+			resize(fill);
+		}
+	}
 }
