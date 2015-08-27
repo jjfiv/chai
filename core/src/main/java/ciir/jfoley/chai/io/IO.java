@@ -140,4 +140,10 @@ public class IO extends Module {
       return IOUtils.toByteArray(is);
     }
   }
+
+  public static void spit(byte[] data, File output) throws IOException {
+    try (OutputStream out = IO.openOutputStream(output)) {
+      out.write(data);
+    }
+  }
 }

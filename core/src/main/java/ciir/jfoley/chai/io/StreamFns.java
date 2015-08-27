@@ -24,6 +24,7 @@ public class StreamFns extends Module {
     // Begin I/O loop:
     int off = 0;
     while(true) {
+      assert(off+amt <= buf.length);
       int read = is.read(buf, off, amt);
       if (read < -1) {
         throw new EOFException();
