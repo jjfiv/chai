@@ -32,6 +32,12 @@ public class Debouncer {
     return new RateEstimate(System.currentTimeMillis() - startTime, currentItem, totalItems);
   }
 
+  public String estimate(int count) {
+    double timeDelta = System.currentTimeMillis() - startTime;
+    double rate = count / timeDelta;
+    return String.format("%4.1f items/s", rate * 1000.0);
+  }
+
   public static class RateEstimate {
     /** fraction of job complete */
     private final double fraction;
