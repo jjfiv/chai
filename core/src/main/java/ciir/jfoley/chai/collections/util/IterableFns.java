@@ -46,9 +46,9 @@ public class IterableFns extends Module {
 	}
 
 	/** Collect results into the given collection */
-	public static <T, Coll extends Collection<T>> Coll collect(Iterable<T> input, Coll builder) {
-		try (Closer<Iterable<T>> cc = Closer.of(input)) {
-			for (T t : cc.get()) {
+	public static <T, Coll extends Collection<T>> Coll collect(Iterable<? extends T> input, Coll builder) {
+		try (Closer<?> ignored = Closer.of(input)) {
+			for (T t : input) {
 				builder.add(t);
 			}
 		}
@@ -143,7 +143,7 @@ public class IterableFns extends Module {
 		return new OneShotIterable<>(lazyConcat(first.iterator(), second.iterator()));
 	}
 
-	public static <T> List<T> intoList(Iterable<T> of) {
+	public static <T> List<T> intoList(Iterable<? extends T> of) {
 		return collect(of, new ArrayList<T>());
 	}
 
