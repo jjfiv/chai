@@ -75,5 +75,49 @@ public class StreamFns extends Module {
     return readBytes(str, buffer.limit());
   }
 
+  /**
+   * Pulls the next byte to see if there is more data to read.
+   * @param input a PushBackInputStream
+   * @return false if there's no more bytes to read
+   * @throws IOException
+   */
+  public static boolean hasMoreData(PushbackInputStream input) throws IOException {
+    try {
+      int next = input.read();
+      if(next == -1) {
+        return false;
+      }
+      input.unread(next);
+      return true;
+    } catch (EOFException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Tries to use the mark functionality of input streams to see if the next byte read will return EOF or not.
+   * @param input a markable input stream or a PushBackInputStream
+   * @return false if there's no more bytes to read
+   * @throws IOException
+   */
+  public static boolean hasMoreData(InputStream input) throws IOException {
+    if(input instanceof PushbackInputStream) {
+      return hasMoreData((PushbackInputStream) input);
+    } else if(input.markSupported()) {
+      input.mark(1);
+      try {
+        int next = input.read();
+        if (next == -1) return false;
+        input.reset();
+        return true;
+      } catch (EOFException e) {
+        return false;
+      }
+    } else {
+      throw new IllegalArgumentException("Don't know how to peek on input stream of class="+input.getClass());
+    }
+  }
+
+
 
 }
