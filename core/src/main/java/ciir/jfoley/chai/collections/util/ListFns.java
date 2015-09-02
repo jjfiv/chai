@@ -306,4 +306,13 @@ public class ListFns extends Module {
     if(input.isEmpty()) return null;
     return input.get(input.size() - 1);
   }
+
+  @Nonnull
+  public static <B, T> List<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
+    ArrayList<B> output = new ArrayList<>(input.size());
+    for (T x : input) {
+      output.add(mapper.transform(x));
+    }
+    return output;
+  }
 }
