@@ -110,6 +110,9 @@ public class ListFns extends Module {
    */
   @Nonnull
   public static <T> List<List<T>> partition(@Nonnull List<T> input, int splits) {
+    if(splits == 1) {
+      return Collections.singletonList(input);
+    }
     input = ensureRandomAccess(input);
     int numberPerSplit = (int) Math.round(input.size() / (double) splits);
     List<List<T>> output = new ArrayList<>();
