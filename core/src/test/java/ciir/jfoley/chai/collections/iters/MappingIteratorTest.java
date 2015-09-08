@@ -18,6 +18,6 @@ public class MappingIteratorTest {
   public void testSimpleMapping() {
     List<Integer> data = Arrays.asList(1,2,3,4,5);
     Iterator<String> x = new MappingIterator<>(data.iterator(), input -> Integer.toString(input));
-    assertEquals(Arrays.asList("1", "2", "3", "4", "5"), IterableFns.intoList(new OneShotIterable<>(x)));
+    assertEquals(Arrays.asList("1", "2", "3", "4", "5"), IterableFns.intoList(() -> x));
   }
 }

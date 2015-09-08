@@ -26,7 +26,7 @@ public class UntilNullIteratorTest {
 
 	@Test
 	public void testUntilNullAsIterator() {
-		Iterable<Integer> oneTwoThree = new OneShotIterable<>(new UntilNullIterator<>(new Returns123()));
+		Iterable<Integer> oneTwoThree = new UntilNullIterator<>(new Returns123()).iterable();
 
 		Iterator<Integer> iter = oneTwoThree.iterator();
 		assertTrue(iter.hasNext());

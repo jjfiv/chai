@@ -2,10 +2,7 @@ package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.collections.TopKHeap;
 import ciir.jfoley.chai.collections.iters.*;
-import ciir.jfoley.chai.fn.CompareFn;
-import ciir.jfoley.chai.fn.PredicateFn;
-import ciir.jfoley.chai.fn.SinkFn;
-import ciir.jfoley.chai.fn.TransformFn;
+import ciir.jfoley.chai.fn.*;
 import ciir.jfoley.chai.io.Closer;
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.lang.Module;
@@ -23,26 +20,26 @@ public class IterableFns extends Module {
 	/** Provides a lazy map over an iterable, that assumes it is repeatable,
 	 *  but that's really up to the underlying implementation. */
 	public static <A, B> Iterable<B> map(final Iterable<A> coll, final TransformFn<A,B> mapfn) {
-		return new IterableWrapper<>(coll, input -> new MappingIterator<>(input, mapfn));
+		return () -> new MappingIterator<>(coll.iterator(), mapfn);
 	}
 
 	@Nonnull
 	public static <A> Iterable<List<A>> sortedStreamingGroupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
-		return new IterableWrapper<>(coll, input -> new GroupByIterator<>(input, cmpFn));
+		return () -> new GroupByIterator<A>(coll.iterator(), cmpFn);
 	}
 	/** Lazy, functional group-by (assumes sorted) */
 	@Deprecated
 	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll, final CompareFn<A> cmpFn) {
-		return new IterableWrapper<>(coll, input -> new GroupByIterator<>(input, cmpFn));
+		return () -> new GroupByIterator<A>(coll.iterator(), cmpFn);
 	}
 
 	/** Lazy, functional group-by (assumes sorted) that compares on equality. */
 	public static <A> Iterable<List<A>> groupBy(final Iterable<A> coll) {
-		return new IterableWrapper<>(coll, GroupByIterator::new);
+		return () -> new GroupByIterator<A>(coll.iterator());
 	}
 
 	public static <A> Iterable<A> filter(final Iterable<A> input, final PredicateFn<A> filterFn) {
-		return new OneShotIterable<>(new FilteringIterator<>(input.iterator(), filterFn));
+		return () -> new FilteringIterator<>(input.iterator(), filterFn);
 	}
 
 	/** Collect results into the given collection */
@@ -140,7 +137,7 @@ public class IterableFns extends Module {
 	}
 
 	public static <T> Iterable<T> lazyConcat(Iterable<T> first, Iterable<T> second) {
-		return new OneShotIterable<>(lazyConcat(first.iterator(), second.iterator()));
+		return () -> lazyConcat(first.iterator(), second.iterator());
 	}
 
 	public static <T> List<T> intoList(Iterable<? extends T> of) {
@@ -179,6 +176,10 @@ public class IterableFns extends Module {
 	}
 
 	public static <T> Iterable<List<T>> batches(Iterable<T> input, int size) {
-		return new OneShotIterable<>(new BatchedIterator<>(input, size));
+		return () -> new BatchedIterator<T>(input.iterator(), size);
+	}
+
+	public static <T> Iterable<T> lazyReduce(Iterable<T> input, LazyReduceFn<T> reducer) {
+		return () -> new ReducingIterator<>(input.iterator(), reducer);
 	}
 }

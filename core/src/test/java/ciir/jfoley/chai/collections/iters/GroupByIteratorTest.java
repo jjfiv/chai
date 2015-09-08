@@ -21,7 +21,7 @@ public class GroupByIteratorTest {
         4,4,4,4,
         6,6,6,6,6,6);
 
-    for (List<Integer> xs : new OneShotIterable<>(new GroupByIterator<>(data.iterator()))) {
+    for (List<Integer> xs : new GroupByIterator<>(data.iterator()).iterable()) {
       int value = xs.get(0);
       assertEquals(value, xs.size());
     }

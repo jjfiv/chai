@@ -2,7 +2,6 @@ package ciir.jfoley.chai.collections.chained;
 
 import ciir.jfoley.chai.Checked;
 import ciir.jfoley.chai.collections.Pair;
-import ciir.jfoley.chai.collections.iters.OneShotIterable;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.collections.util.IterableFns;
 import ciir.jfoley.chai.fn.CompareFn;
@@ -110,7 +109,7 @@ public class ChaiIterable<T> extends AbstractCollection<T> implements Iterable<T
   }
 
 	public static <T> ChaiIterable<T> create(Iterator<T> iter) {
-		return new ChaiIterable<>(new OneShotIterable<>(iter));
+		return new ChaiIterable<>(() -> iter);
 	}
 	public static <T> ChaiIterable<T> create(Iterable<T> iter) {
 		return new ChaiIterable<>(iter);
