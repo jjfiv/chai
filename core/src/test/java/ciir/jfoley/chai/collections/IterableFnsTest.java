@@ -67,8 +67,8 @@ public class IterableFnsTest {
         return lhs+rhs;
       }
     };
-    System.out.println(IterableFns.intoList(IterableFns.lazyReduce(data, reducefn)));
+    
     // 1+2, 3+4, 5+6, 7+8, 9+10
-    assertEquals(Arrays.asList(3,7,11,15,19), reducefn);
+    assertEquals(Arrays.asList(3,7,11,15,19), IterableFns.intoList(IterableFns.lazyReduce(data, reducefn)));
   }
 }
