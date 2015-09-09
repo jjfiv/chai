@@ -51,6 +51,11 @@ public class TarInputHandler implements InputFinder.FileHandler {
     }
 
     @Override
+    public boolean isParallel() {
+      return false;
+    }
+
+    @Override
     public void close() throws IOException {
     }
   }

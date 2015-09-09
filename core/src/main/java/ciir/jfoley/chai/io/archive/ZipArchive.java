@@ -62,4 +62,9 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
   public String getName() {
     return source.getName();
   }
+
+  @Override
+  public boolean isParallel() {
+    return true;
+  }
 }

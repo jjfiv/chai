@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class StreamingStats implements SinkFn<Double> {
   private long numberOfElements;
-  private double newMean;
-  private double newS;
+  private double mean;
+  private double sValue;
   private double max;
   private double min;
   private double total;
@@ -28,8 +28,8 @@ public class StreamingStats implements SinkFn<Double> {
     numberOfElements++;
 
     // set up for next iteration
-    double oldMean = newMean;
-    double oldS = newS;
+    double oldMean = mean;
+    double oldS = sValue;
 
     max = Math.max(max, x);
     min = Math.min(min, x);
@@ -37,26 +37,51 @@ public class StreamingStats implements SinkFn<Double> {
 
     // See Knuth TAOCP vol 2, 3rd edition, page 232
     if (numberOfElements == 1) {
-      newMean = x;
+      mean = x;
       return;
     }
 
-    newMean = oldMean + (x - oldMean)/ ((double) numberOfElements);
-    newS = oldS + (x - oldMean)*(x - newMean);
+    mean = oldMean + (x - oldMean)/ ((double) numberOfElements);
+    sValue = oldS + (x - oldMean)*(x - mean);
   }
+
+  /**
+   * Not lossless. The streaming method does better.
+   * @param other built up statistics.
+   */
+  public void add(StreamingStats other) {
+    long total = this.numberOfElements + other.numberOfElements;
+    double lhsFrac = this.numberOfElements / (double) total;
+    double rhsFrac = other.numberOfElements / (double) total;
+
+    double newMean = lhsFrac * this.mean + rhsFrac * other.mean;
+
+    double delta = other.mean - this.mean;
+    double delta2 = delta * delta;
+
+    double newS = this.sValue + other.sValue + (delta2 * lhsFrac * rhsFrac);
+
+    this.numberOfElements = total;
+    this.mean = newMean;
+    this.sValue = newS;
+    this.max = Math.max(this.max, other.max);
+    this.min = Math.min(this.min, other.min);
+    this.total += other.total;
+  }
+
   public void clear() {
     total = 0;
     numberOfElements = 0;
-    newMean = newS = 0;
+    mean = sValue = 0;
     max = -Double.MAX_VALUE;
     min = Double.MAX_VALUE;
   }
   public double getMean() {
-    return numberOfElements > 0 ? newMean : 0.0;
+    return mean;
   }
   public double getVariance() {
     if(numberOfElements <= 1) return 0.0;
-    return newS / (double) (numberOfElements - 1);
+    return sValue / (double) (numberOfElements - 1);
   }
   public double getStandardDeviation() { return Math.sqrt(getVariance()); }
   public double getMax() {

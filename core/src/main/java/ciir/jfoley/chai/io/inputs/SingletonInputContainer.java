@@ -26,6 +26,11 @@ public class SingletonInputContainer implements InputContainer {
   }
 
   @Override
+  public boolean isParallel() {
+    return true;
+  }
+
+  @Override
   public void close() throws IOException {
     // Nothing here.
   }
