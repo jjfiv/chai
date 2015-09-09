@@ -15,9 +15,7 @@ import java.util.Map;
  */
 public class StreamingStats implements SinkFn<Double> {
   private long numberOfElements;
-  private double oldMean;
   private double newMean;
-  private double oldS;
   private double newS;
   private double max;
   private double min;
@@ -29,28 +27,27 @@ public class StreamingStats implements SinkFn<Double> {
   public void push(double x) {
     numberOfElements++;
 
+    // set up for next iteration
+    double oldMean = newMean;
+    double oldS = newS;
+
     max = Math.max(max, x);
     min = Math.min(min, x);
     total += x;
 
     // See Knuth TAOCP vol 2, 3rd edition, page 232
     if (numberOfElements == 1) {
-      oldMean = newMean = x;
-      oldS = 0.0;
+      newMean = x;
       return;
     }
 
     newMean = oldMean + (x - oldMean)/ ((double) numberOfElements);
     newS = oldS + (x - oldMean)*(x - newMean);
-
-    // set up for next iteration
-    oldMean = newMean;
-    oldS = newS;
   }
   public void clear() {
     total = 0;
     numberOfElements = 0;
-    oldMean = newMean = oldS = newS = 0;
+    newMean = newS = 0;
     max = -Double.MAX_VALUE;
     min = Double.MAX_VALUE;
   }
