@@ -104,13 +104,15 @@ public class IntList extends AChaiList<Integer> {
 
 	@Override
 	public boolean equals(Object other) {
-		assert(other instanceof IntList);
-		IntList rhs = (IntList) other;
-		if(this.fill != rhs.fill) return false;
-		for (int i = 0; i < fill; i++) {
-			if(this.data[i] != rhs.data[i]) return false;
+		if(other == this) return true;
+		if(other instanceof IntList) {
+			IntList rhs = (IntList) other;
+			if (this.fill != rhs.fill) return false;
+			for (int i = 0; i < fill; i++) {
+				if (this.data[i] != rhs.data[i]) return false;
+			}
 		}
-		return true;
+		return super.equals(other);
 	}
 
 	@Override
