@@ -102,6 +102,26 @@ public class IntList extends AChaiList<Integer> {
 		return fill;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		assert(other instanceof IntList);
+		IntList rhs = (IntList) other;
+		if(this.fill != rhs.fill) return false;
+		for (int i = 0; i < fill; i++) {
+			if(this.data[i] != rhs.data[i]) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = 1;
+		for (int i = 0; i < fill; i++) {
+			hashCode = 31*hashCode + Integer.hashCode(data[i]);
+		}
+		return hashCode;
+	}
+
   /** This is toArray, but without the generic problems inherent to Java's toArray */
   public int[] asArray() {
     return Arrays.copyOfRange(data, 0, fill);
