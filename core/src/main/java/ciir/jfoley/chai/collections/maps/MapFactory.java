@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections.maps;
 import gnu.trove.TIntCollection;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.iterator.TLongIterator;
+import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
@@ -438,12 +439,31 @@ public class MapFactory {
     @Nonnull
     @Override
     public Set<Entry<Long, V>> entrySet() {
-      HashSet<Entry<Long, V>> entries = new HashSet<>();
-      inner.forEachEntry((k, v) -> {
-        entries.add(new AbstractMap.SimpleImmutableEntry<>(k, v));
-        return true;
-      });
-      return Collections.unmodifiableSet(entries);
+      return new AbstractSet<Entry<Long,V>>() {
+        @Nonnull
+        @Override
+        public Iterator<Entry<Long, V>> iterator() {
+          TLongObjectIterator<V> iter = inner.iterator();
+          return new Iterator<Entry<Long, V>>() {
+            @Override
+            public boolean hasNext() {
+              return iter.hasNext();
+            }
+
+            @Override
+            public Entry<Long, V> next() {
+              Entry<Long,V> e = new AbstractMap.SimpleImmutableEntry<>(iter.key(), iter.value());
+              iter.advance();
+              return e;
+            }
+          };
+        }
+
+        @Override
+        public int size() {
+          return inner.size();
+        }
+      };
     }
   }
 
