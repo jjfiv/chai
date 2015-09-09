@@ -45,9 +45,46 @@ public class QuickSort {
     swap(data, pivotIndex, right);
 
     // recurse left & right
-    sort(cmp, data, left, pivotIndex-1);
-    sort(cmp, data, pivotIndex+1, right);
+    sort(cmp, data, left, pivotIndex - 1);
+    sort(cmp, data, pivotIndex + 1, right);
   }
+
+  static <K,V> void swap(K[] keys, V[] values, int i, int j) {
+    K tmp = keys[i];
+    keys[i] = keys[j];
+    keys[j] = tmp;
+
+    V tmpV = values[i];
+    values[i] = values[j];
+    values[j] = tmpV;
+  }
+
+  static <K,V> void sort(Comparator<? super K> cmp, K[] keys, V[] values, int left, int right) {
+    if(left >= right) return;
+
+    // Partition
+    final int pivotCandidate = (left+right)/2;
+    // move pivot to rightmost
+    swap(keys, values, pivotCandidate, right);
+    // Determine pivot location while putting values in the correct half.
+    int pivotIndex = left;
+    K robj = keys[right];
+    for(int i=left; i<right; i++) {
+      if(cmp.compare(keys[i], robj) < 0) {
+        swap(keys, values, i, pivotIndex);
+        pivotIndex++;
+      }
+    }
+
+    // Now move pivot to where it really belongs.
+    swap(keys, values, pivotIndex, right);
+
+    // recurse left & right
+    sort(cmp, keys, values, left, pivotIndex-1);
+    sort(cmp, keys, values, pivotIndex+1, right);
+
+  }
+
 
   /**
    * QuickSort a list without making any copies of the damn thing. Looking at you, Collections.sort.
