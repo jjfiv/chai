@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.collections.list;
 
 import ciir.jfoley.chai.IntMath;
+import ciir.jfoley.chai.math.StreamingStats;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -148,6 +149,7 @@ public class DoubleList extends AChaiList<Double> {
   }
   
   public double mean() {
+    if(fill == 0) return 0;
     double sum = 0;
     for (int i = 0; i < fill; i++) {
       sum += data[i];
@@ -160,5 +162,11 @@ public class DoubleList extends AChaiList<Double> {
       sum += data[i];
     }
     return sum;
+  }
+
+  public void toStats(StreamingStats target) {
+    for (int i = 0; i < fill; i++) {
+      target.push(data[i]);
+    }
   }
 }
