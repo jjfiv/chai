@@ -35,7 +35,6 @@ public class IntList extends AChaiList<Integer> {
 		this.size = data.length;
 	}
 
-
 	@Override
 	public boolean addAll(@Nonnull Collection<? extends Integer> other) {
 		reserve(fill + other.size());
@@ -146,5 +145,18 @@ public class IntList extends AChaiList<Integer> {
 		if(fill > size) {
 			resize(fill);
 		}
+	}
+
+	public boolean containsInt(int i) {
+		for (int index = 0; index < fill; index++) {
+			if(data[index] == i) return true;
+		}
+		return false;
+	}
+	public int indexOfInt(int i) {
+		for (int index = 0; index < fill; index++) {
+			if(data[index] == i) return index;
+		}
+		return -1;
 	}
 }
