@@ -144,4 +144,15 @@ public class MapFns extends Module {
 		return map;
 	}
 
+	/**
+	 * Adds an item if it's unique and assigns an id; otherwise returns the item's older id.
+	 * @param vocabMap the vocabulary map
+	 * @param item the item to assign or retrieve an id for:
+	 * @param <K> the type of item
+	 * @return an integer id
+	 */
+	public static <K> int getOrInsert(Map<K,Integer> vocabMap, K item) {
+		return vocabMap.computeIfAbsent(item, (ignored) -> (vocabMap.size()+1));
+	}
+
 }

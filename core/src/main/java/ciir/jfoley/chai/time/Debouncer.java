@@ -35,10 +35,12 @@ public class Debouncer {
   public String estimate(double count) {
     double timeDelta = System.currentTimeMillis() - startTime;
     double rate = count / timeDelta;
-    return String.format("%4.1f items/s", rate * 1000.0);
+    return String.format("%4.1f items/s; total_time=%4.1fs", rate * 1000.0, timeDelta / 1000.0);
   }
 
   public static class RateEstimate {
+    /** time spent on job (s) */
+    private final long time;
     /** fraction of job complete */
     private final double fraction;
     /** items/ms */
@@ -47,11 +49,13 @@ public class Debouncer {
     private final double remaining;
 
     public RateEstimate(long timeDelta, long itemsComplete, long totalItems) {
+      this.time = timeDelta;
       this.fraction = itemsComplete / (double) totalItems;
       this.rate = itemsComplete / (double) timeDelta;
       this.remaining = (totalItems - itemsComplete) / rate;
     }
 
+    public double secondsInvested() { return time / 1000.0; }
     public double secondsLeft() {
       return remaining / 1000.0;
     }
@@ -63,7 +67,7 @@ public class Debouncer {
     }
 
     public String toString() {
-      return String.format("%4.1f items/s %4.1f seconds left, %2.1f%% complete.", itemsPerSecond(), secondsLeft(), percentComplete());
+      return String.format("%4.1f items/s %4.1f seconds left; %4.1f seconds spent, %2.1f%% complete.", itemsPerSecond(), secondsLeft(), secondsInvested(), percentComplete());
     }
   }
 }
