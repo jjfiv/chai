@@ -159,4 +159,15 @@ public class IntList extends AChaiList<Integer> {
 		}
 		return -1;
 	}
+
+	/**
+	 * Create an IntList based upon a slice of an original array:
+	 * @param original the array
+	 * @param pos the starting point
+	 * @param size the size of the slice
+	 * @return a copy of the the sub-data.
+	 */
+	public static IntList clone(int[] original, int pos, int size) {
+		return new IntList(Arrays.copyOfRange(original, pos, pos+size));
+	}
 }
