@@ -19,6 +19,7 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   final ArrayList<T> data;
   int fillPtr;
   final int maxSize;
+  long totalSeen = 0;
 
   public TopKHeap(int maxSize) {
     this(maxSize, Comparing.defaultComparator());
@@ -41,11 +42,16 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     return null;
   }
 
+  public long getTotalSeen() {
+    return totalSeen;
+  }
+
   /**
    * Adds an item to the heap IFF the heaps is small OR the min-item is worse than this item.
    * @return true if the item was kept, false if it was discarded.
    */
   public boolean offer(T d) {
+    totalSeen++;
     if (fillPtr < maxSize) {
       // If we've not yet filled the heap, push_back.
       data.set(fillPtr, d);
