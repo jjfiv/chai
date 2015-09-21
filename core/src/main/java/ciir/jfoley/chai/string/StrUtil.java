@@ -5,6 +5,7 @@ import ciir.jfoley.chai.fn.TransformFn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -387,5 +388,17 @@ public class StrUtil {
     int begin = Math.min(input.length(), Math.max(0, start));
     int size = Math.min(input.length(), (end - begin));
     return input.substring(begin, size);
+  }
+
+  private static Pattern diacriticMarks = Pattern.compile("\\p{InCombiningDiacriticalMarks}");
+  /**
+   * Convert all accents and tildes and other marks to normalized text for more aggressive matching.
+   * @param input the input pattern to convert
+   * @return the input without any marks.
+   */
+  @Nonnull
+  public static String collapseSpecialMarks(CharSequence input) {
+    String normed = replaceUnicodeQuotes(Normalizer.normalize(input, Normalizer.Form.NFD));
+    return diacriticMarks.matcher(normed).replaceAll("");
   }
 }
