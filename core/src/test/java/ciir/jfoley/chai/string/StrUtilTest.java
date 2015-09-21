@@ -126,4 +126,11 @@ public class StrUtilTest {
     String sample = "\u201e\u201c\u201awell";
     assertEquals("\"\"'well", replaceUnicodeQuotes(sample));
   }
+
+  @Test
+  public void testTildeAndAccentRemoval() {
+    assertEquals("El Nino", StrUtil.collapseSpecialMarks("El Niño"));
+    assertEquals("Papa, sinonimo de padre.", StrUtil.collapseSpecialMarks("Papá, sinónimo de padre."));
+  }
+
 }
