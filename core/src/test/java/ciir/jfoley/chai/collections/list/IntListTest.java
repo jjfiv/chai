@@ -2,6 +2,8 @@ package ciir.jfoley.chai.collections.list;
 
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,6 +50,22 @@ public class IntListTest {
 		List<Integer> original = Arrays.asList(1,2,3,4,5);
 		IntList test = new IntList(original);
 		assertEquals(original, test);
+	}
+
+	@Test
+	public void testEncodeDecode() throws IOException {
+		IntList foo = new IntList(Arrays.asList(1,2,3,4,5,6));
+		byte[] tmp = foo.encode();
+		assertArrayEquals(new byte[] {
+				0, 0, 0, 6,
+				0, 0, 0, 1,
+				0, 0, 0, 2,
+				0, 0, 0, 3,
+				0, 0, 0, 4,
+				0, 0, 0, 5,
+				0, 0, 0, 6}, tmp);
+		IntList foo2 = IntList.decode(new ByteArrayInputStream(tmp));
+		assertEquals(foo, foo2);
 	}
 
 }

@@ -1,8 +1,12 @@
 package ciir.jfoley.chai.collections.list;
 
 import ciir.jfoley.chai.IntMath;
+import ciir.jfoley.chai.io.StreamFns;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -158,6 +162,42 @@ public class IntList extends AChaiList<Integer> {
 			if(data[index] == i) return index;
 		}
 		return -1;
+	}
+
+	/**
+	 * Encode into a byte[] array with fixed-size count then items; super-fast.
+	 * Can get the info back with {@link #decode(InputStream)}
+	 * @return array of length (this.size()+1)*4;
+	 */
+	public byte[] encode() {
+		byte[] data = new byte[(fill+1)*4];
+		ByteBuffer buf = ByteBuffer.wrap(data);
+		buf.putInt(0, fill);
+		for (int i = 0; i < fill; i++) {
+			buf.putInt(4+i*4, this.data[i]);
+		}
+		return data;
+	}
+
+	/**
+	 * Decode self from InputStream; opposite of {@link #encode()}
+	 * @param in the InputStream to read from.
+	 * @return a populated IntList
+	 * @throws IOException generally just an EOFException unless your InputStream class is broken.
+	 */
+	public static IntList decode(InputStream in) throws IOException {
+		// Read count first:
+		ByteBuffer countBuf = ByteBuffer.wrap(StreamFns.readBytes(in, 4));
+		int count = countBuf.getInt();
+
+		// Read data now:
+		int bytes = count*4;
+		ByteBuffer data = ByteBuffer.wrap(StreamFns.readBytes(in, bytes));
+		int[] target = new int[count];
+		for (int i = 0; i < count; i++) {
+			target[i] = data.getInt(i*4);
+		}
+		return new IntList(target);
 	}
 
 	/**

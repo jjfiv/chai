@@ -1,7 +1,6 @@
 package ciir.jfoley.chai.collections.list;
 
 import javax.annotation.Nonnull;
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -72,26 +71,6 @@ public class CircularIntBuffer extends AChaiList<Integer> {
       hashCode = 31*hashCode + data[pos];
     }
     return hashCode;
-  }
-
-  @Nonnull
-  @Override
-  public Iterator<Integer> iterator() {
-    int read = (count == size) ? fill : 0;
-    return new Iterator<Integer>() {
-      int i=0;
-      @Override
-      public boolean hasNext() {
-        return i<count;
-      }
-
-      @Nonnull
-      @Override
-      public Integer next() {
-        i++;
-        return data[(read+i) % size];
-      }
-    };
   }
 
   /**

@@ -41,6 +41,7 @@ public final class CompressionCodec extends Module {
 			}
 		}
 		return base;
+		//return new BufferedInputStream(base);
 	}
 	public static InputStream openInputStream(String file) throws IOException {
 		return wrapInputStream(file, new FileInputStream(file));
