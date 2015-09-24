@@ -318,4 +318,12 @@ public class ListFns extends Module {
     }
     return output;
   }
+
+  public static <T> List<T> fill(int size, @Nonnull TransformFn<Integer, T> mapper) {
+    ArrayList<T> output = new ArrayList<>(size);
+    for (int i = 0; i < size; i++) {
+      output.add(mapper.transform(i));
+    }
+    return output;
+  }
 }
