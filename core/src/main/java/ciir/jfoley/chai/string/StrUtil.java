@@ -146,6 +146,14 @@ public class StrUtil {
     return input.substring(0, pos);
   }
   @Nonnull
+  public static String takeBeforeLast(String input, String delim) {
+    int pos = input.lastIndexOf(delim);
+    if(pos == -1) {
+      return input;
+    }
+    return input.substring(0, pos);
+  }
+  @Nonnull
   public static String takeBefore(String input, char delim) {
     int pos = input.indexOf(delim);
     if(pos == -1) {

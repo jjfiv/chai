@@ -34,6 +34,14 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     }
   }
 
+  @Override
+  public void clear() {
+    this.fillPtr = 0;
+    for (int i = 0; i < maxSize; i++) {
+      data.add(null);
+    }
+  }
+
   @Nullable
   public T peek() {
     if(fillPtr > 0) {
