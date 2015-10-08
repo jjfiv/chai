@@ -3,7 +3,9 @@ package ciir.jfoley.chai.io;
 import ciir.jfoley.chai.collections.iters.UntilNullIterator;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author jfoley.
@@ -37,6 +39,22 @@ public class LinesIterable implements Iterable<String>, Closeable {
 	@Override
 	public void close() throws IOException {
 		reader.close();
+	}
+
+	/**
+	 *
+	 * @return
+	 * @throws IOException
+	 */
+	public List<String> slurp() throws IOException {
+		ArrayList<String> data = new ArrayList<>();
+		while(true) {
+			String line = reader.readLine();
+			if(line == null) break;
+			data.add(line);
+		}
+		close();
+		return data;
 	}
 
 	public static LinesIterable of(BufferedReader reader) {
