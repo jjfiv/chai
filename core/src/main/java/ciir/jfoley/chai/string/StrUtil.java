@@ -305,6 +305,12 @@ public class StrUtil {
     return sb.toString();
   }
 
+  public static String takeAfterLast(String input, char pattern) {
+    int index = input.lastIndexOf(pattern);
+    if(index < 0) return input;
+    return input.substring(index+1);
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull
