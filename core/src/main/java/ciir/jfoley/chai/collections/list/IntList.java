@@ -190,6 +190,10 @@ public class IntList extends AChaiList<Integer> {
 		ByteBuffer countBuf = ByteBuffer.wrap(StreamFns.readBytes(in, 4));
 		int count = countBuf.getInt();
 
+		if(count == 0) {
+			return new IntList();
+		}
+
 		// Read data now:
 		int bytes = count*4;
 		ByteBuffer data = ByteBuffer.wrap(StreamFns.readBytes(in, bytes));
@@ -209,5 +213,9 @@ public class IntList extends AChaiList<Integer> {
 	 */
 	public static IntList clone(int[] original, int pos, int size) {
 		return new IntList(Arrays.copyOfRange(original, pos, pos+size));
+	}
+
+	public void setQuick(int word, int val) {
+		data[word] = val;
 	}
 }

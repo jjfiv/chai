@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -66,6 +67,26 @@ public class IntListTest {
 				0, 0, 0, 6}, tmp);
 		IntList foo2 = IntList.decode(new ByteArrayInputStream(tmp));
 		assertEquals(foo, foo2);
+	}
+
+	@Test
+	public void testEncodeDecodeRand() throws IOException {
+		Random rand = new Random();
+		for (int N : Arrays.asList(237, 15, 7, 0)){
+			IntList original = new IntList(N);
+			for (int i = 0; i < N; i++) {
+				int nibble = rand.nextInt();
+				original.push(nibble);
+			}
+
+			byte[] data = original.encode();
+			IntList decode = IntList.decode(new ByteArrayInputStream(data));
+
+			assertEquals(decode, original);
+			for (int i = 0; i < original.size(); i++) {
+				assertEquals(original.getQuick(i), decode.getQuick(i));
+			}
+		}
 	}
 
 }

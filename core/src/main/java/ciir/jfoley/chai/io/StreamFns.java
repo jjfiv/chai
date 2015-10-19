@@ -19,6 +19,7 @@ public class StreamFns extends Module {
    * @throws IOException if the stream complains
    */
   public static byte[] readBytes(InputStream is, int amt) throws IOException {
+    if(amt == 0) { return new byte[0]; }
     byte[] buf = new byte[amt];
 
     // Begin I/O loop:
