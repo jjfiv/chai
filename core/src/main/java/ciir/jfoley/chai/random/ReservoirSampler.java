@@ -76,7 +76,7 @@ public class ReservoirSampler<T> extends AChaiList<T> implements SinkFn<T> {
   public static <V> List<V> take(int k, Iterable<V> input) {
     ReservoirSampler<V> out = new ReservoirSampler<V>(k);
     for (V v : input) {
-      out.process(v);
+      out.add(v);
     }
     return new ArrayList<>(out);
   }
