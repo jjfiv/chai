@@ -113,12 +113,13 @@ public class NibbleList extends AChaiList<Integer> {
    * @return array of length (this.size()+1)*4;
    */
   public byte[] encode() {
-    byte[] data = new byte[(fill+1)*4];
-    ByteBuffer buf = ByteBuffer.wrap(data);
-    buf.putInt(0, fill);
 
     int fillWords = numWordsNeeded(fill);
     int backing[] = this.data.unsafeArray();
+
+    byte[] data = new byte[(fillWords+1)*4];
+    ByteBuffer buf = ByteBuffer.wrap(data);
+    buf.putInt(0, fill);
 
     for (int i = 0; i < fillWords; i++) {
       buf.putInt(4+i*4, backing[i]);
