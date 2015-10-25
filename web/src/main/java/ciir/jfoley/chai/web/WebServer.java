@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author jfoley
  */
 public class WebServer {
-  private static Logger logger = Logger.getLogger("WebServer");
+  public static Logger logger = Logger.getLogger("WebServer");
   private final Server jetty;
 
   public WebServer(Server jetty) {
