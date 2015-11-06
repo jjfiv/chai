@@ -13,7 +13,7 @@ import java.util.Map;
  * http://www.johndcook.com/blog/standard_deviation/
  * @author jfoley
  */
-public class StreamingStats implements SinkFn<Double> {
+public final class StreamingStats implements SinkFn<Double> {
   private long numberOfElements;
   private double mean;
   private double sValue;
@@ -24,7 +24,7 @@ public class StreamingStats implements SinkFn<Double> {
   public StreamingStats() {
     clear();
   }
-  public void push(double x) {
+  public final void push(double x) {
     numberOfElements++;
 
     // set up for next iteration
@@ -49,7 +49,7 @@ public class StreamingStats implements SinkFn<Double> {
    * Not lossless. The streaming method does better.
    * @param other built up statistics.
    */
-  public void add(StreamingStats other) {
+  public final void add(StreamingStats other) {
     long total = this.numberOfElements + other.numberOfElements;
     double lhsFrac = this.numberOfElements / (double) total;
     double rhsFrac = other.numberOfElements / (double) total;
@@ -69,37 +69,37 @@ public class StreamingStats implements SinkFn<Double> {
     this.total += other.total;
   }
 
-  public void clear() {
+  public final void clear() {
     total = 0;
     numberOfElements = 0;
     mean = sValue = 0;
     max = -Double.MAX_VALUE;
     min = Double.MAX_VALUE;
   }
-  public double getMean() {
+  public final double getMean() {
     return mean;
   }
-  public double getVariance() {
+  public final double getVariance() {
     if(numberOfElements <= 1) return 0.0;
     return sValue / (double) (numberOfElements - 1);
   }
-  public double getStandardDeviation() { return Math.sqrt(getVariance()); }
-  public double getMax() {
+  public final double getStandardDeviation() { return Math.sqrt(getVariance()); }
+  public final double getMax() {
     return max;
   }
-  public double getMin() {
+  public final double getMin() {
     return min;
   }
-  public double getTotal() {
+  public final double getTotal() {
     return total;
   }
-  public double getCount() { return numberOfElements; }
+  public final double getCount() { return numberOfElements; }
 
-  public long count() {
+  public final long count() {
     return numberOfElements;
   }
 
-  public Map<String, Double> features() {
+  public final Map<String, Double> features() {
     Map<String,Double> results = new ArrayListMap<>();
     results.put("mean", getMean());
     results.put("variance", getVariance());
@@ -117,7 +117,11 @@ public class StreamingStats implements SinkFn<Double> {
   }
 
   @Override
-  public void process(Double input) {
+  public final void process(Double input) {
     push(input);
+  }
+
+  public final void pushAll(float[] data) {
+    for (float v : data) { push(v); }
   }
 }
