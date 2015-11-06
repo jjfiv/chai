@@ -21,6 +21,58 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   final int maxSize;
   long totalSeen = 0;
 
+  /**
+   * Use this class if you want an easy weighting of any T.
+   * @param <T>
+   */
+  public static class Weighted<T> implements Comparable<Weighted<?>>, Map.Entry<T, Double> {
+    public final double weight;
+    public final T object;
+
+    public Weighted(double weight, T object) {
+      this.weight = weight;
+      this.object = object;
+    }
+
+    @Override
+    public int compareTo(@Nonnull Weighted<?> o) {
+      return Double.compare(this.weight, o.weight);
+    }
+
+    public int hashCode() {
+      return object.hashCode();
+    }
+
+    @Override
+    public String toString() {
+      return object.toString()+":"+weight;
+    }
+
+    @Override
+    public T getKey() {
+      return object;
+    }
+
+    @Override
+    public Double getValue() {
+      return weight;
+    }
+
+    @Override
+    public Double setValue(Double value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if(other instanceof Weighted) {
+        Weighted w = (Weighted) other;
+        return Objects.equals(object, w.object);
+      }
+      return false;
+    }
+  }
+
   public TopKHeap(int maxSize) {
     this(maxSize, Comparing.defaultComparator());
   }
@@ -154,6 +206,14 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   @Nonnull
   public static <T> TopKHeap<T> minItems(int minSize, Comparator<? super T> cmp) {
     return new TopKHeap<>(minSize, cmp.reversed());
+  }
+
+  public static <T> List<T> takeTop(int k, Iterable<T> input) {
+    TopKHeap<T> top = new TopKHeap<T>(k);
+    for (T t : input) {
+      top.process(t);
+    }
+    return top.getSorted();
   }
 
   @Override
