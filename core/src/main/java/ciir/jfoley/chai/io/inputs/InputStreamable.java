@@ -2,6 +2,7 @@ package ciir.jfoley.chai.io.inputs;
 
 import ciir.jfoley.chai.Encodings;
 import ciir.jfoley.chai.io.CompressionCodec;
+import ciir.jfoley.chai.io.LinesIterable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,5 +27,9 @@ public interface InputStreamable {
 
   default BufferedReader getReader() throws IOException {
     return new BufferedReader(new InputStreamReader(getInputStream(), Encodings.UTF8));
+  }
+
+  default LinesIterable lines() throws IOException {
+    return LinesIterable.of(getReader());
   }
 }
