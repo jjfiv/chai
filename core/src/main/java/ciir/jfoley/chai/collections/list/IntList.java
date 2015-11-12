@@ -61,7 +61,7 @@ public class IntList extends AChaiList<Integer> {
 	 * Reserve at least amt number of items; uses the nearest power of two
 	 * @param amt number of items to reserve
 	 */
-	public void reserve(int amt) {
+	public final void reserve(int amt) {
 		if(amt >= size) {
 			size = IntMath.nearestPowerOfTwo(amt);
 		}
@@ -76,7 +76,7 @@ public class IntList extends AChaiList<Integer> {
 		return true;
 	}
 
-	public void push(int x) {
+	public final void push(int x) {
 		reserve(fill+1);
 		data[fill++] = x;
 	}
