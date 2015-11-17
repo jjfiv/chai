@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  * @author jfoley.
  */
-public class IntList extends AChaiList<Integer> {
+public final class IntList extends AChaiList<Integer> {
 	int fill;
 	int size;
 	int[] data;
@@ -217,5 +217,9 @@ public class IntList extends AChaiList<Integer> {
 
 	public void setQuick(int word, int val) {
 		data[word] = val;
+	}
+
+	public void unsafeSetFill(int fill) {
+		this.fill = fill;
 	}
 }
