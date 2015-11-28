@@ -88,9 +88,9 @@ public class StrUtil {
 
       text.append(input.substring(lastPos, startMatch.begin));
       if(inclusive) {
-        text.append(fn.transform(input.substring(startMatch.begin, endMatch.end)));
+        text.append(fn.transform(substr(input, startMatch.begin, endMatch.end)));
       } else {
-        text.append(fn.transform(input.substring(startMatch.end, endMatch.begin)));
+        text.append(fn.transform(substr(input, startMatch.end, endMatch.begin)));
       }
       lastPos = endMatch.end;
     }
@@ -101,6 +101,13 @@ public class StrUtil {
       return transformRecursively(text.toString(), start, end, fn, inclusive);
     }
     return text.toString();
+  }
+
+  public static String substr(String what, int begin, int end) {
+    if(begin > end) {
+      return "";
+    }
+    return what.substring(Math.max(0, begin), Math.min(end, what.length()-1));
   }
 
   /**
