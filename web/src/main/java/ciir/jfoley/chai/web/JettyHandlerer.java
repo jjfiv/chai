@@ -25,6 +25,7 @@ public final class JettyHandlerer extends AbstractHandler {
     // CORS-stuff
     response.addHeader("Access-Control-Allow-Origin", "*");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.addHeader("Access-Control-Allow-Headers", "Content-Type");
     if ("OPTIONS".equals(request.getMethod())) {
       response.setStatus(200);
       response.setContentType("text/plain");

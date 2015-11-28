@@ -76,6 +76,8 @@ public class JSONAPI {
         jresp = Parameters.create();
       }
 
+      resp.setContentType("application/json");
+
       try (PrintWriter out = resp.getWriter()) {
         out.println(jresp.toString());
         resp.setStatus(200);
