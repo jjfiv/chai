@@ -345,6 +345,7 @@ public class StrUtil {
 
   @Nonnull
 	public static String join(List<? extends CharSequence> items, CharSequence delimiter) {
+    if(items.size() == 1) { return items.get(0).toString(); }
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < items.size(); i++) {
 			if(i != 0) sb.append(delimiter);
