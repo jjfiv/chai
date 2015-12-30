@@ -19,6 +19,8 @@ import java.util.Map;
  * @author jfoley
  */
 public class JSONAPI {
+  public static boolean appendRequestTime = true;
+
   public static WebServer start(int port, Map<String, JSONMethod> methods) {
     // check for silly mistakes.
     for (String s : methods.keySet()) {
@@ -38,6 +40,8 @@ public class JSONAPI {
 
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+      long startTime = System.currentTimeMillis();
+
       String method = req.getMethod();
       switch (method) {
         case "POST":
@@ -74,6 +78,11 @@ public class JSONAPI {
       Parameters jresp = m.process(jreq);
       if(jresp == null) {
         jresp = Parameters.create();
+      }
+
+      long endTime = System.currentTimeMillis();
+      if(appendRequestTime) {
+        jresp.put("requestTime", (endTime - startTime));
       }
 
       resp.setContentType("application/json");
