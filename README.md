@@ -48,6 +48,62 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
 
 ## History
 
+### v0.8
+ - InputFinder, TarIterator
+ - Java v8
+ - CircularIntBuffer
+ - IntList.encode, decode
+ - LinesIterable counts line numbers
+ - Directory.Read
+ - Nonnull fixes
+ - ListFns.slice
+ - ShardedTextWriter
+ - Directory.ls
+ - Directory.isEmpty
+ - IterableFns.sortedStreamingGroupBy
+ - StrUtil.slice
+ - ListFns.lazyMap
+ - Debouncer for time-limited messages
+ - IntList.push(int)
+ - StrUtil.join
+ - IntList.sort()
+ - LZFCodec
+ - MemoryNotifier.pollMemoryUsage
+ - TopKHeap.peek() is now @Nullable
+ - FixedSlidingWindow<T> for circular buffer
+ - ReservoirSampler<T>
+ - BitVector
+ - IO.spit(bytes, file)
+ - ListFns.map
+ - StreamFns.hasMoreData() works with PushBackInputStream and InputStreams that have mark() and reset() impl.
+ - ListFns.partition(list, 1) faster
+ - ReducingIterator, LazyReduceFn
+ - IntList.equals, IntList.hashCode faster
+ - trove4j wrappers in MapFactory (@Beta)
+ - QuickSort.sort(cmp, keys[], values[])
+ - StreamingStats::add
+ - InputContainer::isParallel
+ - DoubleList like IntList, DoubleList.toStats()
+ - MapFns.getOrInsert()
+ - StrUtil.collapseSpecialMarks()
+ - IntRange.intersects(IntRange)
+ - ``TopKHeap.getTotalSeen() -> long``
+ - TopKHeap.clear
+ - ListFns.fill(size, index -> ?)
+ - ``StringIntHashMap @Beta``
+ - StrUtil.takeBeforeLast, StrUtil.takeAfterLast
+ - LinesIterable.slurp
+ - NibbleList
+ - chai-web JSONAPI, depends on galago:utility
+ - InputStreamable.lines isa LinesIterable
+ - Weighted<T> in TopKHeap helper object
+ - IntList final fixes
+ - PMIObject<T>
+ - UserData class-based map
+ - StrUtil.substr() like ListFns.slice
+ - StreamingStats.pushAll(List<Double>)
+
+
 ### v0.5
  - ``StreamStat``
  - ``finalize()`` in Temporary cleanup to find errors
