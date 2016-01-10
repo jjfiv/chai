@@ -4,7 +4,7 @@
   <groupId>edu.umass.cs.ciir.waltz</groupId>
   <artifactId>chai</artifactId>
   <packaging>pom</packaging>
-  <version>0.8-SNAPSHOT</version>
+  <version>0.9-SNAPSHOT</version>
   <name>chai</name>
   <licenses>
     <license>

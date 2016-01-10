@@ -6,6 +6,7 @@ package ciir.jfoley.chai.math;
 import ciir.jfoley.chai.collections.ArrayListMap;
 import ciir.jfoley.chai.fn.SinkFn;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -123,5 +124,11 @@ public final class StreamingStats implements SinkFn<Double> {
 
   public final void pushAll(float[] data) {
     for (float v : data) { push(v); }
+  }
+
+  public void pushAll(List<Double> select) {
+    for (Double x : select) {
+      push(x);
+    }
   }
 }
