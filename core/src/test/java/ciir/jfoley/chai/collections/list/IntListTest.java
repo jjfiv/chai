@@ -89,4 +89,21 @@ public class IntListTest {
 		}
 	}
 
+	@Test
+	public void testRemove() {
+		IntList foo = new IntList(Arrays.asList(1,2,3,4,5,6));
+		foo.removeInt(2);
+		assertEquals(new IntList(Arrays.asList(1,3,4,5,6)), foo);
+		foo.removeInt(3);
+		assertEquals(new IntList(Arrays.asList(1,4,5,6)), foo);
+		foo.removeInt(6);
+		assertEquals(new IntList(Arrays.asList(1,4,5)), foo);
+		foo.removeInt(1);
+		assertEquals(new IntList(Arrays.asList(4,5)), foo);
+		foo.removeInt(4);
+		assertEquals(new IntList(Arrays.asList(5)), foo);
+		foo.removeInt(5);
+		assertEquals(new IntList(Arrays.asList()), foo);
+	}
+
 }

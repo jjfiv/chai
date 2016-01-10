@@ -164,6 +164,15 @@ public final class IntList extends AChaiList<Integer> {
 		}
 		return -1;
 	}
+	public boolean removeInt(int i) {
+		int pos = indexOfInt(i);
+		if(pos == -1) return false;
+		for (int j = pos+1; j < fill; j++) {
+			data[j-1] = data[j];
+		}
+		fill--;
+		return true;
+	}
 
 	/**
 	 * Encode into a byte[] array with fixed-size count then items; super-fast.
