@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author jfoley.
@@ -213,6 +214,16 @@ public final class IntList extends AChaiList<Integer> {
 	 */
 	public static IntList clone(int[] original, int pos, int size) {
 		return new IntList(Arrays.copyOfRange(original, pos, pos+size));
+	}
+
+	public void shuffle() {
+		Collections.shuffle(this);
+	}
+
+	public void swap(int i, int j) {
+		int tmp = data[i];
+		data[i] = data[j];
+		data[j] = tmp;
 	}
 
 	public void setQuick(int word, int val) {

@@ -212,6 +212,11 @@ public class StrUtil {
     }
     return true;
   }
+  private static final int numDigitsMaxInt = Integer.toString(Integer.MAX_VALUE).length();
+
+  public static boolean looksLikeInt(String str) {
+    return looksLikeInt(str, numDigitsMaxInt);
+  }
 
   @Nonnull
   public static String removeSpaces(String input) {
