@@ -245,7 +245,7 @@ public class ListFns extends Module {
    */
   @Nonnull
   public static <T> List<T> unique(List<? extends T> input) {
-    return new ListBasedOrderedSet<>(input).toList();
+    return new ListBasedOrderedSet<T>(input).toList();
   }
 
   /**

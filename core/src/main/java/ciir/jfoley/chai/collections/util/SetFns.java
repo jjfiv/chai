@@ -55,4 +55,11 @@ public class SetFns extends Module {
 		double isectSize = intersection(a, b).size();
 		return 2 * isectSize / (a.size() + b.size());
 	}
+
+	/** Return the items in A that are not in B. */
+	public static <T> Set<T> difference(Collection<T> A, Collection<T> B) {
+		HashSet<T> results = new HashSet<>(A);
+		results.removeAll(B);
+		return results;
+	}
 }
