@@ -16,7 +16,7 @@ public class StringIntHashMapTest {
 
   @Test
   public void speedTest1() {
-    int N = 10000;
+    int N = 1000;
 
     StreamingStats stats2 = new StreamingStats();
     ConcurrentHashMap<String,Integer> vocab2 = new ConcurrentHashMap<>();

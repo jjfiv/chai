@@ -16,16 +16,15 @@ import java.util.Collections;
  */
 public final class IntList extends AChaiList<Integer> {
 	int fill;
-	int size;
-	int[] data;
+	private int[] data;
 
 	public IntList() {
 		this(16);
 	}
 
 	public IntList(int size) {
-		this.size = IntMath.nearestPowerOfTwo(size);
-		this.data = new int[this.size];
+		size = IntMath.nearestPowerOfTwo(size);
+		this.data = new int[size];
 		this.fill = 0;
 	}
 
@@ -37,7 +36,6 @@ public final class IntList extends AChaiList<Integer> {
 	public IntList(int[] backing) {
 		this.data = backing;
 		this.fill = backing.length;
-		this.size = data.length;
 	}
 
 	@Override
@@ -56,6 +54,7 @@ public final class IntList extends AChaiList<Integer> {
 	 */
 	public void resize(int amt) {
 		data = Arrays.copyOf(data, amt);
+		fill = amt;
 	}
 
 	/**
@@ -63,6 +62,7 @@ public final class IntList extends AChaiList<Integer> {
 	 * @param amt number of items to reserve
 	 */
 	public final void reserve(int amt) {
+		int size = data.length;
 		if(amt >= size) {
 			size = IntMath.nearestPowerOfTwo(amt);
 		}
@@ -147,7 +147,7 @@ public final class IntList extends AChaiList<Integer> {
 
 	public void setSize(int amount) {
 		fill = amount;
-		if(fill > size) {
+		if(fill > data.length) {
 			resize(fill);
 		}
 	}
@@ -241,5 +241,9 @@ public final class IntList extends AChaiList<Integer> {
 
 	public void unsafeSetFill(int fill) {
 		this.fill = fill;
+	}
+
+	public int capacity() {
+		return data.length;
 	}
 }

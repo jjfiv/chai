@@ -24,7 +24,7 @@ public class IntListTest {
 
 		assertEquals(Arrays.asList(1,2,3,4,5), test);
     assertArrayEquals(new int[]{1, 2, 3, 4, 5}, test.asArray());
-		assertEquals(8, test.size);
+		assertEquals(8, test.capacity());
 	}
 
 	@Test
