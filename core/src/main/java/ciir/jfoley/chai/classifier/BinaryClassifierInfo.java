@@ -36,6 +36,7 @@ public class BinaryClassifierInfo implements Serializable {
   }
 
   public float getPositiveF1() {
+    if(predPositive == 0) return 0;
     float prec = getPositivePrecision();
     float recall = getPositiveRecall();
     return 2.0f * (prec * recall) / (prec + recall);
@@ -50,6 +51,7 @@ public class BinaryClassifierInfo implements Serializable {
   }
 
   public float getNegativeF1() {
+    if(predNegative == 0) return 0;
     float prec = getNegativePrecision();
     float recall = getNegativeRecall();
     return 2.0f * (prec * recall) / (prec + recall);
@@ -60,6 +62,22 @@ public class BinaryClassifierInfo implements Serializable {
   }
   public int getNumFalseNegatives() {
     return predNegative - numPredTrueNegative;
+  }
+
+  public void update(boolean plabel, boolean label) {
+    numTotal++;
+
+    if (label) numTruePositive++;
+    else numTrueNegative++;
+
+    if (plabel) predPositive++;
+    else predNegative++;
+
+    if (label == plabel) {
+      if (label) numPredTruePositive++;
+      else numPredTrueNegative++;
+      numCorrect++;
+    }
   }
 
   public String toString() {

@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Perceptron implements Serializable {
 
-  public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input) {
+  public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input, Random rand) {
     List<Pair<Integer, float[]>> neg = new ArrayList<>();
     List<Pair<Integer, float[]>> pos = new ArrayList<>();
 
@@ -27,13 +27,15 @@ public class Perceptron implements Serializable {
     List<Pair<Integer, float[]>> larger = neg.size() < pos.size() ? pos : neg;
 
     List<Pair<Integer, float[]>> clones = new ArrayList<>();
-    Random rand = new Random();
     for (int i = smaller.size(); i < larger.size(); i++) {
       clones.add(smaller.get(rand.nextInt(smaller.size())));
     }
     clones.addAll(smaller);
     clones.addAll(larger);
     return clones;
+  }
+  public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input) {
+    return balance(input, new Random());
   }
 
   private static final long serialVersionUID = 0x71f941717ddd39b1L;
@@ -138,24 +140,13 @@ public class Perceptron implements Serializable {
 
   public BinaryClassifierInfo validate(List<Pair<Integer, float[]>> validateData) {
     BinaryClassifierInfo out = new BinaryClassifierInfo();
-    out.numTotal = validateData.size();
 
     long startTime = System.currentTimeMillis();
     for (Pair<Integer, float[]> kv : validateData) {
       int label = kv.getKey();
       float[] fv = kv.getValue();
       int plabel = predict(fv);
-      if (label >= 0) out.numTruePositive++;
-      if (label < 0) out.numTrueNegative++;
-
-      if (plabel >= 0) out.predPositive++;
-      if (plabel < 0) out.predNegative++;
-
-      if (label == plabel) {
-        if (label >= 0) out.numPredTruePositive++;
-        if (label < 0) out.numPredTrueNegative++;
-        out.numCorrect++;
-      }
+      out.update(plabel >= 0, label >= 0);
     }
     long endTime = System.currentTimeMillis();
     out.time = endTime - startTime;

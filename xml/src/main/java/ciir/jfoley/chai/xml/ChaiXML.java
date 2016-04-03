@@ -1,5 +1,8 @@
 package ciir.jfoley.chai.xml;
 
+import ciir.jfoley.chai.fn.GenerateFn;
+import ciir.jfoley.chai.lang.LazyPtr;
+import ciir.jfoley.chai.lang.Module;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
