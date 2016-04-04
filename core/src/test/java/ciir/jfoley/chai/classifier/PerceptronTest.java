@@ -31,8 +31,9 @@ public class PerceptronTest {
 
     int numDim = 2;
     int maxIters = 100;
-    Perceptron perceptron = new Perceptron(numDim);
-    BinaryClassifierInfo train = perceptron.train(dataset, maxIters);
+    Perceptron perceptron = new Perceptron(numDim, maxIters);
+    perceptron.setRandomSeed(13);
+    BinaryClassifierInfo train = perceptron.train(dataset);
 
     // easy data, should converge:
     assertEquals(1.0, train.getAccuracy(), 0.0001);
@@ -53,8 +54,9 @@ public class PerceptronTest {
 
     int numDim = 2;
     int maxIters = 100;
-    Perceptron perceptron = new Perceptron(numDim);
-    BinaryClassifierInfo train = perceptron.train(dataset, maxIters);
+    Perceptron perceptron = new Perceptron(numDim, maxIters);
+    perceptron.setRandomSeed(13);
+    BinaryClassifierInfo train = perceptron.train(dataset);
 
     // easy data, should converge:
     assertEquals(1.0, train.getAccuracy(), 0.0001);
@@ -74,11 +76,10 @@ public class PerceptronTest {
 
     int numDim = 2;
     int maxIters = 100;
-    Perceptron perceptron = new Perceptron(numDim);
+    Perceptron perceptron = new Perceptron(numDim, maxIters);
     perceptron.setRandomSeed(14);
-    BinaryClassifierInfo train = perceptron.train(dataset, maxIters);
+    BinaryClassifierInfo train = perceptron.train(dataset);
 
-    System.out.println(train);
     // should get 4/5 right, can't distinguish the last one.
     assertEquals(maxIters, train.numIterations);
     assertEquals(0.8, train.getAccuracy(), 0.001);
