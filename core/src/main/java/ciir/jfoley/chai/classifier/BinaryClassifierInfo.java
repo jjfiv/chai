@@ -43,10 +43,12 @@ public class BinaryClassifierInfo implements Serializable {
   }
 
   public float getNegativePrecision() {
+    if(predNegative == 0) return 0;
     return numPredTrueNegative / (float) predNegative;
   }
 
   public float getNegativeRecall() {
+    if(predNegative == 0) return 0;
     return numPredTrueNegative / (float) numTrueNegative;
   }
 
@@ -83,8 +85,8 @@ public class BinaryClassifierInfo implements Serializable {
   public String toString() {
     return String.format("\tNumTotal: "+numTotal+" NumIters: "+numIterations+"\n"+
         "\tTP: %d, FP: %d, TN: %d, FN: %d\n" +
-        "\tP: %1.3f, R: %1.3f, F1: %1.3f\n",
+        "\tP: %1.3f, R: %1.3f, F1: %1.3f, Acc: %1.3f\n",
         numPredTruePositive,getNumFalsePositives(),numPredTrueNegative,getNumFalseNegatives(),
-        getPositivePrecision(),getPositiveRecall(),getPositiveF1());
+        getPositivePrecision(),getPositiveRecall(),getPositiveF1(), getAccuracy());
   }
 }

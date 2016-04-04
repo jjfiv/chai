@@ -9,6 +9,7 @@ import java.util.*;
  * @author jfoley
  */
 public class Perceptron implements Serializable {
+  public Random random = new Random();
 
   public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input, Random rand) {
     List<Pair<Integer, float[]>> neg = new ArrayList<>();
@@ -51,6 +52,10 @@ public class Perceptron implements Serializable {
     reset();
   }
 
+  public void setRandomSeed(int x) {
+    this.random = new Random(x);
+  }
+
   public void reset() {
     Arrays.fill(w, 0.0f);
     w[ND] = 1;
@@ -59,7 +64,7 @@ public class Perceptron implements Serializable {
   }
 
   public BinaryClassifierInfo train(List<Pair<Integer, float[]>> data, int numIterations) {
-    Collections.shuffle(data);
+    Collections.shuffle(data, this.random);
 
     assert (ND == data.get(0).right.length);
 
@@ -78,6 +83,7 @@ public class Perceptron implements Serializable {
     long startTime = System.currentTimeMillis();
     for (numIters = 0; numIters < numIterations; numIters++) {
       correct = 0;
+      changed = false;
       for (Pair<Integer, float[]> labeledData : data) {
         int label = labeledData.left;
         float[] fv = labeledData.right;
@@ -105,8 +111,12 @@ public class Perceptron implements Serializable {
         }
       } // data-loop
 
+      //System.out.printf("Iteration: %d, correct:%d/%d, changed=%s\n", numIters, correct, total, changed);
       // skip iterations if we're somehow perfect:
-      if (!changed && correct == total) break;
+      if (!changed && correct == total) {
+        numIters+=1;
+        break;
+      }
     } // iter-loop
     long endTime = System.currentTimeMillis();
 
@@ -136,6 +146,10 @@ public class Perceptron implements Serializable {
     }
     dotP += w[w.length - 1]; // * 1.0 if we extended all the features.
     return dotP >= 0 ? 1 : -1;
+  }
+
+  public String toString() {
+    return "Perceptron("+Arrays.toString(w)+")";
   }
 
   public BinaryClassifierInfo validate(List<Pair<Integer, float[]>> validateData) {
