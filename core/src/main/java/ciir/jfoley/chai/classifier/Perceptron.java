@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
+ * Slight misnomer, actually an Averaged-Perceptron.
  * @author jfoley
  */
 public class Perceptron extends Classifier implements Serializable {
   private final int maxIterations;
-  public transient Random random = new Random();
   private static final long serialVersionUID = 0x71f941717ddd39b1L;
 
   final int ND;
