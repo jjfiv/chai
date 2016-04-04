@@ -8,69 +8,35 @@ import java.util.*;
 /**
  * @author jfoley
  */
-public class Perceptron implements Serializable {
-  public Random random = new Random();
-
-  public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input, Random rand) {
-    List<Pair<Integer, float[]>> neg = new ArrayList<>();
-    List<Pair<Integer, float[]>> pos = new ArrayList<>();
-
-    for (Pair<Integer, float[]> instance : input) {
-      if(instance.left < 0) {
-        neg.add(instance);
-      } else {
-        pos.add(instance);
-      }
-    }
-    if(neg.size() == pos.size()) return input;
-
-    List<Pair<Integer, float[]>> smaller = neg.size() < pos.size() ? neg : pos;
-    List<Pair<Integer, float[]>> larger = neg.size() < pos.size() ? pos : neg;
-
-    List<Pair<Integer, float[]>> clones = new ArrayList<>();
-    for (int i = smaller.size(); i < larger.size(); i++) {
-      clones.add(smaller.get(rand.nextInt(smaller.size())));
-    }
-    clones.addAll(smaller);
-    clones.addAll(larger);
-    return clones;
-  }
-  public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input) {
-    return balance(input, new Random());
-  }
-
+public class Perceptron extends Classifier implements Serializable {
+  private final int maxIterations;
+  public transient Random random = new Random();
   private static final long serialVersionUID = 0x71f941717ddd39b1L;
+
   final int ND;
   float w[];
-  float trainingAccuracy;
-  int trainingNumIters;
 
-
-  public Perceptron(int nd) {
+  public Perceptron(int nd, int maxIterations) {
+    this.maxIterations = maxIterations;
     ND = nd;
     w = new float[ND + 1];
     reset();
   }
 
-  public void setRandomSeed(int x) {
-    this.random = new Random(x);
-  }
-
+  @Override
   public void reset() {
     Arrays.fill(w, 0.0f);
     w[ND] = 1;
-    trainingAccuracy = Float.NaN;
-    trainingNumIters = 0;
   }
 
-  public BinaryClassifierInfo train(List<Pair<Integer, float[]>> data, int numIterations) {
+  @Override
+  public BinaryClassifierInfo train(List<Pair<Integer, float[]>> data) {
     Collections.shuffle(data, this.random);
 
     assert (ND == data.get(0).right.length);
 
     int total = data.size();
     int correct = 0;
-    int updates = 0;
     boolean changed = false;
     int numIters;
 
@@ -81,7 +47,7 @@ public class Perceptron implements Serializable {
     int wLife = 0;
 
     long startTime = System.currentTimeMillis();
-    for (numIters = 0; numIters < numIterations; numIters++) {
+    for (numIters = 0; numIters < maxIterations; numIters++) {
       correct = 0;
       changed = false;
       for (Pair<Integer, float[]> labeledData : data) {
@@ -103,7 +69,6 @@ public class Perceptron implements Serializable {
           w[w.length - 1] += label;
 
           changed = true;
-          updates++;
           wLife = 0;
         } else {
           wLife++;
@@ -125,7 +90,7 @@ public class Perceptron implements Serializable {
       w[i] += wLife * tmpW[i];
     }
 
-    BinaryClassifierInfo trainedInfo = validate(data);
+    BinaryClassifierInfo trainedInfo = predict(data);
     trainedInfo.numIterations = numIters;
     trainedInfo.time = endTime - startTime;
     return trainedInfo;
@@ -135,6 +100,7 @@ public class Perceptron implements Serializable {
    * @param fv input feature vector.
    * @return 1 if true, -1 if false class.
    */
+  @Override
   public final int predict(float[] fv) {
     return predict(ND, w, fv);
   }
@@ -150,22 +116,6 @@ public class Perceptron implements Serializable {
 
   public String toString() {
     return "Perceptron("+Arrays.toString(w)+")";
-  }
-
-  public BinaryClassifierInfo validate(List<Pair<Integer, float[]>> validateData) {
-    BinaryClassifierInfo out = new BinaryClassifierInfo();
-
-    long startTime = System.currentTimeMillis();
-    for (Pair<Integer, float[]> kv : validateData) {
-      int label = kv.getKey();
-      float[] fv = kv.getValue();
-      int plabel = predict(fv);
-      out.update(plabel >= 0, label >= 0);
-    }
-    long endTime = System.currentTimeMillis();
-    out.time = endTime - startTime;
-
-    return out;
   }
 
   public double cosineSimilarity(float[] fv) {
