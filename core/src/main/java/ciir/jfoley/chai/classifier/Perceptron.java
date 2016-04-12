@@ -29,6 +29,18 @@ public class Perceptron extends Classifier implements Serializable {
     w[ND] = 1;
   }
 
+  /** For online training, classify and update if necessary. */
+  public void trainSingleInstance(int label, float[] fv) {
+    int predicted = predict(ND, w, fv);
+    if (predicted != label) {
+      // update:
+      for (int i = 0; i < ND; i++) {
+        w[i] += label * fv[i];
+      }
+      w[w.length - 1] += label;
+    }
+  }
+
   @Override
   public BinaryClassifierInfo train(List<Pair<Integer, float[]>> data) {
     Collections.shuffle(data, this.random);
@@ -118,6 +130,13 @@ public class Perceptron extends Classifier implements Serializable {
     return "Perceptron("+Arrays.toString(w)+")";
   }
 
+  public float dotP(float[] fv) {
+    float dotP = 0f;
+    for (int i = 0; i < ND; i++) {
+      dotP += w[i] * fv[i];
+    }
+    return dotP;
+  }
   public double cosineSimilarity(float[] fv) {
     double dotP = 0.0;
     double lhs = 0.0;
@@ -128,5 +147,16 @@ public class Perceptron extends Classifier implements Serializable {
       rhs += fv[i] * fv[i];
     }
     return dotP / (lhs * rhs);
+  }
+
+  public void normalize() {
+    float total = 0f;
+    for (int i = 0; i < w.length; i++) {
+      total += w[i];
+    }
+    if(total == 0) return;
+    for (int i = 0; i < w.length; i++) {
+      w[i] /= total;
+    }
   }
 }
