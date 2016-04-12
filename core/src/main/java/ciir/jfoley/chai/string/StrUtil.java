@@ -413,7 +413,7 @@ public class StrUtil {
   public static String replaceUnicodeQuotes(String input) {
     String result = input;
     for (Map.Entry<String, String> kv : quoteMap.entrySet()) {
-      result = result.replace(kv.getKey(), kv.getValue());
+      result = result.replaceAll(kv.getKey(), kv.getValue());
     }
     return result;
   }

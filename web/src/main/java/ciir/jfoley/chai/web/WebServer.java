@@ -3,6 +3,7 @@ package ciir.jfoley.chai.web;
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.string.StrUtil;
 import org.eclipse.jetty.server.Server;
+import org.lemurproject.galago.utility.Parameters;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +48,17 @@ public class WebServer {
 
   public static WebServer create(int port, Handler handler) {
     Server jetty = new Server(port);
+    jetty.setHandler(new JettyHandlerer(handler));
+    return new WebServer(jetty);
+  }
+
+  public static WebServer create(Parameters argp, Handler handler) {
+    Server jetty;
+    if(argp.isString("host")) {
+      jetty = new Server(new InetSocketAddress(argp.getString("host"), argp.getInt("port")));
+    } else {
+      jetty = new Server(argp.getInt("port"));
+    }
     jetty.setHandler(new JettyHandlerer(handler));
     return new WebServer(jetty);
   }

@@ -30,6 +30,15 @@ public class JSONAPI {
     }
     return WebServer.create(port, new JSONHandler(methods)).start();
   }
+  public static WebServer start(Parameters argp, Map<String, JSONMethod> methods) {
+    // check for silly mistakes.
+    for (String s : methods.keySet()) {
+      if(!s.startsWith("/")) {
+        throw new IllegalArgumentException("API method that will never match on a path: <<"+s+">> does not start with /");
+      }
+    }
+    return WebServer.create(argp, new JSONHandler(methods)).start();
+  }
 
   public static class JSONHandler implements Handler {
     public final Map<String, JSONMethod> methods;
