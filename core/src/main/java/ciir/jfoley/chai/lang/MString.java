@@ -34,6 +34,10 @@ public class MString implements CharSequence, Appendable {
     this(input.length()+16);
     append(input);
   }
+  public MString(MString input) {
+    this.copyFrom(input);
+  }
+
   /**
    * Resize to exact value.
    * @param amount the exact number of items this should be able to hold.
@@ -224,6 +228,10 @@ public class MString implements CharSequence, Appendable {
   public void copyFrom(MString root) {
     this.data = Arrays.copyOf(root.data, root.fill);
     this.fill = root.fill;
-    this.hash = 0;
+    this.hash = root.hash;
+  }
+
+  public MString copy() {
+    return new MString(this);
   }
 }
