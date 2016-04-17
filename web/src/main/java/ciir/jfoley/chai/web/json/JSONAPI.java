@@ -74,7 +74,13 @@ public class JSONAPI {
         switch (contentType) {
           case "application/json":
           case "text/json":
-            jreq = Parameters.parseString(WebServer.readBody(req));
+            String body = WebServer.readBody(req);
+            try {
+              jreq = Parameters.parseString(body);
+            } catch (Throwable jsonParseError) {
+              System.err.println(body); // for debugging
+              throw new ServerErr(400, "Bad Request - JSON Parse Error!");
+            }
             break;
           default:
             throw new ServerErr(400, "Bad Request!");
