@@ -67,4 +67,102 @@ public class AUC {
   public static void main(String[] args) {
 
   }
+
+  /** Returns a cutoff that maximizes accuracy. */
+  public static double maximizeAccuracy(List<Pair<Boolean, Double>> inPoints) {
+    List<Pair<Boolean, Double>> points = new ArrayList<>(inPoints);
+    // order by prediction confidence:
+    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+
+    double[] acc = new double[points.size()];
+
+    for (int i = 0; i < points.size(); i++) {
+      BinaryClassifierInfo info = new BinaryClassifierInfo();
+      for (int j = 0; j < points.size(); j++) {
+        if(j <= i) {
+          info.update(true, points.get(j).left);
+        } else {
+          info.update(false, points.get(j).left);
+        }
+      }
+      acc[i] = info.getAccuracy();
+    }
+
+    int best_index = 0;
+    double maxAcc = 0;
+    for (int i = 0; i < acc.length; i++) {
+      if(acc[i] > maxAcc) {
+        maxAcc = acc[i];
+        best_index = i;
+      }
+    }
+
+    //System.out.println("Best F1: "+maxF1+" at rank="+(best_index+1));
+
+    int lhs = best_index;
+    int rhs = best_index+1;
+    if(rhs >= points.size()) {
+      double leftleft = points.get(lhs-1).right;
+      double here = points.get(lhs).right;
+      double diff = leftleft - here;
+      return here - diff;
+    } else {
+      return (points.get(lhs).right + points.get(rhs).right) / 2.0;
+    }
+  }
+
+  public static double maximizeF1(List<Pair<Boolean, Double>> inPoints) {
+    return maximizeFScore(inPoints, 1.0);
+  }
+  public static double maximizeFScore(List<Pair<Boolean, Double>> inPoints, double beta) {
+    List<Pair<Boolean, Double>> points = new ArrayList<>(inPoints);
+    // order by prediction confidence:
+    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+
+    int total_true_pos = 0;
+    for (Pair<Boolean, Double> point : points) {
+      if(point.left)
+        total_true_pos++;
+    }
+
+    double[] f1 = new double[points.size()];
+    double betaSq = beta * beta;
+
+    int true_pos = 0;
+    for (int i = 0; i < points.size(); i++) {
+      if (points.get(i).left) {
+        true_pos++;
+      }
+      double k = i + 1;
+      if(true_pos == 0) {
+        f1[i] = 0;
+      } else {
+        double prec_k = true_pos / k;
+        double recall_k = true_pos / (double) total_true_pos;
+        f1[i] = (1.0 + betaSq) * (prec_k * recall_k) / ((betaSq * prec_k) + recall_k);
+      }
+    }
+
+    int best_index = 0;
+    double maxF1 = 0;
+    for (int i = 0; i < f1.length; i++) {
+      if(f1[i] > maxF1) {
+        maxF1 = f1[i];
+        best_index = i;
+      }
+    }
+
+    //System.out.println("Best F1: "+maxF1+" at rank="+(best_index+1));
+
+    int lhs = best_index;
+    int rhs = best_index+1;
+    if(rhs >= points.size()) {
+      double leftleft = points.get(lhs-1).right;
+      double here = points.get(lhs).right;
+      double diff = leftleft - here;
+      return here - diff;
+    } else {
+      return (points.get(lhs).right + points.get(rhs).right) / 2.0;
+    }
+  }
 }
