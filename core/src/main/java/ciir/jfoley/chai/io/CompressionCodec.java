@@ -5,6 +5,7 @@ import ciir.jfoley.chai.io.compress.GZipCodec;
 import ciir.jfoley.chai.io.compress.LZFCodec;
 import ciir.jfoley.chai.lang.Module;
 
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,7 +20,8 @@ public final class CompressionCodec extends Module {
 		streamCodecs.put("lzf", new LZFCodec());
 	}
 
-	public static OutputStream wrapOutputStream(String name, OutputStream base) throws IOException {
+	@Nonnull
+	public static OutputStream wrapOutputStream(@Nonnull String name, @Nonnull OutputStream base) throws IOException {
 		for (CompressionCodec.Impl codec : streamCodecs.values()) {
 			if (codec.matchesFileName(name)) {
 				return codec.openWriter(base);
@@ -34,7 +36,8 @@ public final class CompressionCodec extends Module {
 		OutputStream openWriter(OutputStream fp) throws IOException;
 	}
 
-	public static InputStream wrapInputStream(String name, InputStream base) throws IOException {
+	@Nonnull
+	public static InputStream wrapInputStream(@Nonnull String name, @Nonnull InputStream base) throws IOException {
 		for (CompressionCodec.Impl codec : streamCodecs.values()) {
 			if (codec.matchesFileName(name)) {
 				return codec.openReader(base);
@@ -43,10 +46,13 @@ public final class CompressionCodec extends Module {
 		return base;
 		//return new BufferedInputStream(base);
 	}
+
+	@Nonnull
 	public static InputStream openInputStream(String file) throws IOException {
 		return wrapInputStream(file, new FileInputStream(file));
 	}
 
+	@Nonnull
 	public static OutputStream openOutputStream(String file) throws IOException {
 		return wrapOutputStream(file, new FileOutputStream(file));
 	}

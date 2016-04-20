@@ -5,6 +5,7 @@ import ciir.jfoley.chai.errors.FatalError;
 import ciir.jfoley.chai.lang.Module;
 import org.apache.commons.compress.utils.IOUtils;
 
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
 
@@ -120,9 +121,22 @@ public class IO extends Module {
     return openOutputStream(output.getAbsolutePath());
   }
 
+  @Nullable
   public static InputStream resourceStream(String name) throws IOException {
-    return CompressionCodec.wrapInputStream(name, IO.class.getResourceAsStream(name));
+    InputStream resourceAsStream = IO.class.getResourceAsStream(name);
+    if(resourceAsStream == null) {
+      return null;
+    }
+    return CompressionCodec.wrapInputStream(name, resourceAsStream);
   }
+
+  @Nullable
+  public static BufferedReader resourceReader(String name) throws IOException {
+    InputStream stream = resourceStream(name);
+    if(stream == null) return null;
+    return new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+  }
+
   public static String slurp(InputStream inputStream) throws IOException {
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
       return readAll(reader);
@@ -131,8 +145,13 @@ public class IO extends Module {
     }
   }
 
+  @Nullable
   public static String resource(String name) throws IOException {
-    return slurp(resourceStream(name));
+    InputStream inputStream = resourceStream(name);
+    if(inputStream == null) {
+      return null;
+    }
+    return slurp(inputStream);
   }
 
   public static byte[] slurpBytes(File tarEntry) throws IOException {
