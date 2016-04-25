@@ -1,6 +1,9 @@
 package ciir.jfoley.chai.classifier;
 
+import ciir.jfoley.chai.collections.Pair;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author jfoley
@@ -88,5 +91,17 @@ public class BinaryClassifierInfo implements Serializable {
         "\tP: %1.3f, R: %1.3f, F1: %1.3f, Acc: %1.3f\n",
         numPredTruePositive,getNumFalsePositives(),numPredTrueNegative,getNumFalseNegatives(),
         getPositivePrecision(),getPositiveRecall(),getPositiveF1(), getAccuracy());
+  }
+
+  public static double computeAccuracy(List<Pair<Boolean, Double>> toEval, double cutoff) {
+    BinaryClassifierInfo info = new BinaryClassifierInfo();
+    info.update(toEval, cutoff);
+    return info.getAccuracy();
+  }
+
+  public void update(List<Pair<Boolean, Double>> toEval, double cutoff) {
+    for (Pair<Boolean, Double> pred : toEval) {
+      update(pred.left, pred.right > cutoff);
+    }
   }
 }
