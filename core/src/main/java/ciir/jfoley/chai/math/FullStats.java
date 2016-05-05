@@ -1,0 +1,48 @@
+package ciir.jfoley.chai.math;
+
+import gnu.trove.list.array.TDoubleArrayList;
+
+import java.util.Map;
+
+/**
+ * For when you want percentiles; need to keep them around since the streaming versions of percentiles aren't great and are hard to code.
+ * @author jfoley
+ */
+public class FullStats {
+  TDoubleArrayList observed = new TDoubleArrayList();
+  StreamingStats summaryStats = new StreamingStats();
+  boolean sorted = false;
+
+  public int getN() {
+    return Math.toIntExact(summaryStats.getN());
+  }
+
+  public void push(double val) {
+    observed.add(val);
+    summaryStats.push(val);
+    sorted = false;
+  }
+
+  public double getPercentile(double n) {
+    if(!sorted) {
+      observed.sort();
+      sorted = true;
+    }
+    int N = getN();
+    int index = (int) (N * (n / 100.0));
+    return observed.get(index);
+  }
+
+  public Map<String, Double> features() {
+    Map<String, Double> start = summaryStats.features();
+    start.put("5th", getPercentile(5));
+    start.put("median", getPercentile(50));
+    start.put("95th", getPercentile(95));
+    return start;
+  }
+
+  @Override
+  public String toString() {
+    return features().toString();
+  }
+}

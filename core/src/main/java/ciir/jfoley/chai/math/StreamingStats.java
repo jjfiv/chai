@@ -131,4 +131,8 @@ public final class StreamingStats implements SinkFn<Double> {
       push(x);
     }
   }
+
+  public long getN() {
+    return numberOfElements;
+  }
 }

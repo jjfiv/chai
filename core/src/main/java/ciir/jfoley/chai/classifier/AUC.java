@@ -165,4 +165,50 @@ public class AUC {
       return (points.get(lhs).right + points.get(rhs).right) / 2.0;
     }
   }
+
+  public static double computePrec(List<Pair<Boolean, Double>> data, int cutoff) {
+    List<Pair<Boolean, Double>> points = new ArrayList<>(data);
+    // order by prediction confidence:
+    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+    int N = Math.min(cutoff, data.size());
+    int correct = 0;
+    for (int i = 0; i < N; i++) {
+      if(data.get(i).left) {
+        correct++;
+      }
+    }
+    return correct / (double) N;
+  }
+
+  public static double computeAP(List<Pair<Boolean, Double>> data) {
+    int numRelevant = 0;
+    for (Pair<Boolean, Double> booleanDoublePair : data) {
+      if(booleanDoublePair.left) numRelevant++;
+    }
+    return computeAP(data, numRelevant);
+  }
+  public static double computeAP(List<Pair<Boolean, Double>> data, int numRelevant) {
+    // if there are no relevant documents,
+    // the average is artificially defined as zero, to mimic trec_eval
+    // Really, the output is NaN, or the query should be ignored.
+    if(numRelevant == 0) return 0;
+
+    List<Pair<Boolean, Double>> points = new ArrayList<>(data);
+    // order by prediction confidence:
+    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+
+    double sumPrecision = 0;
+    int recallPointCount = 0;
+
+    for (int i = 0; i < points.size(); i++) {
+      Pair<Boolean, Double> point = points.get(i);
+      if(point.left) {
+        double rank = i + 1;
+        recallPointCount++;
+        sumPrecision += recallPointCount / rank;
+      }
+    }
+
+    return sumPrecision / numRelevant;
+  }
 }
