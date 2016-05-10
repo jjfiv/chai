@@ -41,7 +41,16 @@ public class FullStats {
     return start;
   }
 
-  @Override
+  public final double getMean() { return summaryStats.getMean(); }
+  public final double getVariance() { return summaryStats.getVariance(); }
+  public final double getStandardDeviation() { return summaryStats.getStandardDeviation(); }
+  public final double getMax() { return summaryStats.getMax(); }
+  public final double getMin() { return summaryStats.getMin(); }
+  public final double getTotal() { return summaryStats.getTotal(); }
+  public final double getCount() { return summaryStats.getCount(); }
+  public final long count() { return observed.size(); }
+
+    @Override
   public String toString() {
     return features().toString();
   }
