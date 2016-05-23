@@ -56,6 +56,11 @@ public class TarInputHandler implements InputFinder.FileHandler {
     }
 
     @Override
+    public long estimateCount() {
+      return 0;
+    }
+
+    @Override
     public void close() throws IOException {
     }
   }

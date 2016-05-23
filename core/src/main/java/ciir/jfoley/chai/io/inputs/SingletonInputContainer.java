@@ -31,6 +31,11 @@ public class SingletonInputContainer implements InputContainer {
   }
 
   @Override
+  public long estimateCount() {
+    return 1;
+  }
+
+  @Override
   public void close() throws IOException {
     // Nothing here.
   }

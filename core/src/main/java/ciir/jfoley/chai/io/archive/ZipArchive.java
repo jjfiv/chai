@@ -67,4 +67,9 @@ public class ZipArchive extends Archive<ZipArchiveEntry> {
   public boolean isParallel() {
     return true;
   }
+
+  @Override
+  public long estimateCount() {
+    return zipFile.size();
+  }
 }

@@ -323,6 +323,19 @@ public class StrUtil {
     return input.substring(index+1);
   }
 
+  public static CharSequence replaceAny(String matching, String withWhat, String expr) {
+    StringBuilder output = new StringBuilder();
+    char[] original = expr.toCharArray();
+    for (char ch : original) {
+      if (matching.indexOf(ch) >= 0) {
+        output.append(withWhat);
+      } else {
+        output.append(ch);
+      }
+    }
+    return output;
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull
