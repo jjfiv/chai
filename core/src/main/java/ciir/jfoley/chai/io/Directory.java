@@ -93,8 +93,11 @@ public class Directory implements GenerateFn<File> {
    */
   public static Directory Read(String ofPath) throws IOException {
     File fp = new File(ofPath);
-    if(!fp.exists()) throw new IOException("Directory: "+ofPath+" does not exist!");
-    if(!fp.isDirectory()) throw new IOException(ofPath+" is required to be a directory!");
+    return Read(fp);
+  }
+  public static Directory Read(File fp) throws IOException {
+    if(!fp.exists()) throw new IOException("Directory: "+fp+" does not exist!");
+    if(!fp.isDirectory()) throw new IOException(fp+" is required to be a directory!");
     return new Directory(fp);
   }
 
