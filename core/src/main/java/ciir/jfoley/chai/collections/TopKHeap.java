@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections;
 import ciir.jfoley.chai.collections.list.AChaiList;
 import ciir.jfoley.chai.collections.util.Comparing;
 import ciir.jfoley.chai.fn.SinkFn;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -213,6 +214,15 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     for (T t : input) {
       top.process(t);
     }
+    return top.getSorted();
+  }
+
+  public static <T> List<Weighted<T>> takeTop(int k, TObjectIntHashMap<T> objects) {
+    TopKHeap<Weighted<T>> top = new TopKHeap<>(k);
+    objects.forEachEntry((obj, count) -> {
+      top.offer(new Weighted<>(count, obj));
+      return true;
+    });
     return top.getSorted();
   }
 
