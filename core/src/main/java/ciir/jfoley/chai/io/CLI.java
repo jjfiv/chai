@@ -1,5 +1,6 @@
 package ciir.jfoley.chai.io;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 /**
@@ -12,7 +13,8 @@ public class CLI {
    * @param prompt question to ask, e.g. "Enter Command: "
    * @return the string typed by the user
    */
- public static String readString(String prompt) {
+  @Nullable
+  public static String readString(String prompt) {
     System.out.print(prompt);
     StringBuilder sb = new StringBuilder();
     while(true) {
@@ -22,7 +24,7 @@ public class CLI {
       } catch (IOException e) {
         break;
       }
-      if(ch == -1) break;
+      if(ch == -1) return null;
       if(ch == '\n' || ch == '\r') break;
       sb.append((char) ch);
     }
