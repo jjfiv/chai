@@ -35,4 +35,7 @@ public interface RandGen {
         long data = nextLong();
         return (int)(data >>> (48-bits));
     }
+    default boolean nextBoolean() {
+        return (nextLong() & 0x1L) > 0;
+    }
 }
