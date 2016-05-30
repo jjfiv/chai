@@ -15,18 +15,19 @@ package ciir.jfoley.chai.collections.interval;
 import java.util.LinkedList;
 import java.util.List;
 
+// Mapping of [Comparable,Comparable] Interval to T objects.
 public class IntervalTree<T>
 {
-    private final IntervalNode head;
+    private final IntervalNode<T> head;
 
-    public IntervalTree(List<Interval> intervals)
+    public IntervalTree(List<Interval<T>> intervals)
     {
-        head = new IntervalNode(intervals);
+        head = new IntervalNode<>(intervals);
     }
 
-    public List<T> search(Interval searchInterval)
+    public List<T> search(Interval<T> searchInterval)
     {
-        List<T> retlist = new LinkedList<T>();
+        List<T> retlist = new LinkedList<>();
         searchInternal(head, searchInterval, retlist);
         return retlist;
     }
@@ -34,8 +35,6 @@ public class IntervalTree<T>
     protected void searchInternal(IntervalNode<T> node, Interval<T> searchInterval, List<T> retList)
     {
         if(null == node || node.v_pt == null)
-            return;
-        if(null == node)
             return;
         //if searchInterval.contains(node.v_pt)
         //then add every interval contained in this node to the result set then search left and right for further

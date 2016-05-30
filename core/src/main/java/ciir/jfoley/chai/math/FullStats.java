@@ -9,9 +9,9 @@ import java.util.Map;
  * @author jfoley
  */
 public class FullStats {
-  TDoubleArrayList observed = new TDoubleArrayList();
-  StreamingStats summaryStats = new StreamingStats();
-  boolean sorted = false;
+  public TDoubleArrayList observed = new TDoubleArrayList();
+  public StreamingStats summaryStats = new StreamingStats();
+  public boolean sorted = false;
 
   public int getN() {
     return Math.toIntExact(summaryStats.getN());
