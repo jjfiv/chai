@@ -311,7 +311,7 @@ public class ListFns extends Module {
   }
 
   @Nonnull
-  public static <B, T> List<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
+  public static <B, T> ArrayList<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
     ArrayList<B> output = new ArrayList<>(input.size());
     for (T x : input) {
       output.add(mapper.transform(x));
@@ -319,7 +319,7 @@ public class ListFns extends Module {
     return output;
   }
 
-  public static <T> List<T> fill(int size, @Nonnull TransformFn<Integer, T> mapper) {
+  public static <T> ArrayList<T> fill(int size, @Nonnull TransformFn<Integer, T> mapper) {
     ArrayList<T> output = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
       output.add(mapper.transform(i));
