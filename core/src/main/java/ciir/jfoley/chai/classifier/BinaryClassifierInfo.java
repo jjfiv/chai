@@ -104,4 +104,12 @@ public class BinaryClassifierInfo implements Serializable {
       update(pred.left, pred.right > cutoff);
     }
   }
+
+  public double getPositiveF(double beta) {
+    if(predPositive == 0) return 0;
+    double betaSq = beta*beta;
+    float prec = getPositivePrecision();
+    float recall = getPositiveRecall();
+    return (1+betaSq) * (prec * recall) / ((betaSq*prec) + recall);
+  }
 }
