@@ -33,6 +33,10 @@ public class FullStats {
     return observed.get(index);
   }
 
+  public double getMedian() {
+    return getPercentile(50);
+  }
+
   public Map<String, Double> features() {
     Map<String, Double> start = summaryStats.features();
     start.put("5th", getPercentile(5));
