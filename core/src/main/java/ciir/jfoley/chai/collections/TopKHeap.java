@@ -131,6 +131,26 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
     return false;
   }
 
+  public boolean offerAndCheckFull(T d) {
+    totalSeen++;
+    if (fillPtr < maxSize) {
+      // If we've not yet filled the heap, push_back.
+      data.set(fillPtr, d);
+      fillPtr++;
+      bubbleUp(fillPtr - 1);
+
+      return fillPtr >= maxSize;
+    } else if (cmp.compare(d, data.get(0)) > 0) {
+      // or if smallest item is worse than this document
+      data.set(0, d);
+      bubbleDown(0);
+      return true;
+    }
+
+    // No change.
+    return false;
+  }
+
   public List<T> getSorted() {
     List<T> data = getUnsortedList();
     Collections.sort(data, Collections.reverseOrder(cmp));
