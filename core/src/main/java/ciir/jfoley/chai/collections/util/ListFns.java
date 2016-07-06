@@ -285,6 +285,22 @@ public class ListFns extends Module {
     return input.subList(realStart, realEnd);
   }
 
+  /**
+   * Takes a sublist, whether there are items inside or not, avoiding out-of-bounds errors.
+   * Note that ends are exclusive in Java's subList and here too.
+   *
+   * @param input the list to splice.
+   * @param start the start (may be negative)
+   * @param <T> the type of the list.
+   * @return a sublist approximating the request as best as possible.
+   */
+  @Nonnull
+  public static <T> List<T> slice(@Nonnull List<T> input, int start) {
+    int realEnd = input.size();
+    int realStart = Math.min(Math.max(0, start), realEnd);
+    return input.subList(realStart, realEnd);
+  }
+
 
   /**
    * When you have some set of items and you want to repeat them until you have at least X of them.
