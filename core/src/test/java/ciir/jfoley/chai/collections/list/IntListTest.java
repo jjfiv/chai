@@ -90,6 +90,30 @@ public class IntListTest {
 	}
 
 	@Test
+	public void pushAllRand() throws IOException {
+		Random rand = new Random();
+
+		for (int N : Arrays.asList(237, 15, 7, 0)){
+			IntList original = new IntList(N);
+			IntList right = new IntList(N);
+			for (int i = 0; i < N; i++) {
+				original.push(rand.nextInt());
+				right.push(rand.nextInt());
+			}
+
+			IntList totalA = new IntList();
+			totalA.addAll(original);
+			totalA.addAll(right);
+
+			IntList totalB = new IntList();
+			totalB.pushAll(original);
+			totalB.pushAll(right);
+
+			assertEquals(totalA, totalB);
+		}
+	}
+
+	@Test
 	public void testRemove() {
 		IntList foo = new IntList(Arrays.asList(1,2,3,4,5,6));
 		foo.removeInt(2);

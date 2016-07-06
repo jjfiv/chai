@@ -2,6 +2,7 @@ package ciir.jfoley.chai.collections.list;
 
 import ciir.jfoley.chai.IntMath;
 import ciir.jfoley.chai.io.StreamFns;
+import gnu.trove.procedure.TIntProcedure;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -45,6 +46,15 @@ public final class IntList extends AChaiList<Integer> {
 			if(value == null) throw new NullPointerException();
 			data[fill++] = value;
 		}
+		return true;
+	}
+
+	public boolean pushAll(IntList right) {
+		final int size = right.size();
+		reserve(fill + size);
+		final int[] rhs = right.unsafeArray();
+		System.arraycopy(rhs, 0, data, fill, size);
+		fill += size;
 		return true;
 	}
 
@@ -245,5 +255,12 @@ public final class IntList extends AChaiList<Integer> {
 
 	public int capacity() {
 		return data.length;
+	}
+
+
+	public void forEach(TIntProcedure apply) {
+		for (int each : data) {
+			if (!apply.execute(each)) { break; }
+		}
 	}
 }
