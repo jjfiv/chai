@@ -22,6 +22,10 @@ public class TopKHeap<T> extends AChaiList<T> implements SinkFn<T> {
   final int maxSize;
   long totalSeen = 0;
 
+  public boolean isFull() {
+    return fillPtr >= maxSize;
+  }
+
   /**
    * Use this class if you want an easy weighting of any T.
    * @param <T>
