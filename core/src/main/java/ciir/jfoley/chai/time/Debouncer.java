@@ -38,6 +38,11 @@ public class Debouncer {
     return String.format("%d items, %4.1f items/s; total_time=%4.1fs", (long) count, rate * 1000.0, timeDelta / 1000.0);
   }
 
+  public String estimateStr(long processed, long total) {
+    if(total <= 0) return estimate(processed);
+    return estimate(processed, total).toString();
+  }
+
   public static class RateEstimate {
     /** time spent on job (s) */
     private final long time;

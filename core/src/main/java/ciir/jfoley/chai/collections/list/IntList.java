@@ -263,4 +263,12 @@ public final class IntList extends AChaiList<Integer> {
 			if (!apply.execute(each)) { break; }
 		}
 	}
+
+	/**
+	 * @throws ArrayIndexOutOfBoundsException
+	 * @return the last element of this array.
+   */
+	public int last() {
+		return data[fill-1];
+	}
 }
