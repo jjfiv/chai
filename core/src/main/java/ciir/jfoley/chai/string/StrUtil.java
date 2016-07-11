@@ -336,6 +336,16 @@ public class StrUtil {
     return output;
   }
 
+  public static boolean containsLetterOrDigit(CharSequence input) {
+    for (int i = 0; i < input.length(); i++) {
+      char c = input.charAt(i);
+      if(Character.isLetterOrDigit(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull
