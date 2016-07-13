@@ -82,4 +82,11 @@ public class SetFns extends Module {
 		results.removeAll(B);
 		return results;
 	}
+
+	public static <T> boolean containsAny(Set<T> haystack, Collection<? extends T> needles) {
+		for (T needle : needles) {
+			if(haystack.contains(needle)) return true;
+		}
+		return false;
+	}
 }

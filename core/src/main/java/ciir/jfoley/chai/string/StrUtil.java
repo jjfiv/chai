@@ -2,6 +2,7 @@ package ciir.jfoley.chai.string;
 
 import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.TransformFn;
+import gnu.trove.list.array.TCharArrayList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -336,6 +337,29 @@ public class StrUtil {
     return output;
   }
 
+  public static Long longFromDigits(CharSequence input) {
+    TCharArrayList digits = new TCharArrayList();
+    for (int i = 0; i < input.length(); i++) {
+      char c = input.charAt(i);
+      if(Character.isDigit(c)) {
+        digits.add(c);
+        for (int j = i+1; j < input.length(); j++) {
+          final char nc = input.charAt(j);
+          if(Character.isDigit(nc)) {
+            digits.add(nc);
+          } else {
+            break;
+          }
+        }
+        break;
+      }
+    }
+    if(digits.isEmpty()) {
+      return null;
+    }
+    return Long.parseLong(new String(digits.toArray()));
+  }
+
   public static boolean containsLetterOrDigit(CharSequence input) {
     for (int i = 0; i < input.length(); i++) {
       char c = input.charAt(i);
@@ -442,7 +466,13 @@ public class StrUtil {
   }
 
   @Nonnull
-  public static String slice(String input, int start, int end) {
+  public static String slice(@Nonnull String input, int start) {
+    int begin = Math.min(input.length(), Math.max(0, start));
+    return input.substring(begin);
+  }
+
+  @Nonnull
+  public static String slice(@Nonnull String input, int start, int end) {
     int begin = Math.min(input.length(), Math.max(0, start));
     int size = Math.min(input.length(), (end - begin));
     return input.substring(begin, size);
