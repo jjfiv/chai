@@ -7,9 +7,7 @@ import gnu.trove.list.array.TCharArrayList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.Normalizer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -488,5 +486,64 @@ public class StrUtil {
   public static String collapseSpecialMarks(CharSequence input) {
     String normed = replaceUnicodeQuotes(Normalizer.normalize(input, Normalizer.Form.NFD));
     return diacriticMarks.matcher(normed).replaceAll("");
+  }
+
+  public static List<String> wordWrap(String input, int width) {
+    ArrayList<String> output = new ArrayList<>();
+    final char[] chars = input.toCharArray();
+    final int N = input.length();
+
+    if(N < width) {
+      return Arrays.asList(input.split("\n"));
+    }
+    int prevLine = 0;
+    while(true) {
+      int newline = -1;
+      int maxspace = -1;
+      for (int i = 0; i <= Math.min(N-prevLine-1, width); i++) {
+        final char c = chars[prevLine + i];
+        if(c == '\n') {
+          newline = i;
+          break;
+        }
+        if(Character.isWhitespace(c) || c == '-') {
+          maxspace = Math.max(prevLine+i, maxspace);
+        }
+      }
+
+      // handle newlines:
+      if(newline >= prevLine) {
+        output.add(new String(chars, prevLine, newline));
+        prevLine = newline + 1;
+        continue;
+      }
+
+      int guess = prevLine+width;
+      //System.out.println(prevLine+", "+guess+", "+chars.length);
+      int split = -1;
+      if(guess >= chars.length) { // end of string.
+        split = chars.length;
+      } else {
+        split = maxspace;
+      }
+
+      Character hyphen = null;
+      if(split == -1 && chars[split+1] != ' ') {
+        hyphen = '-';
+        split = guess-1;
+      }
+      StringBuilder sb = new StringBuilder();
+      sb.append(chars, prevLine, split-prevLine);
+      if(hyphen != null) {
+        sb.append(hyphen);
+        prevLine = split;
+      } else {
+        prevLine = split + 1;
+      }
+
+      output.add(sb.toString());
+      if(split == chars.length) break;
+    }
+    return output;
   }
 }
