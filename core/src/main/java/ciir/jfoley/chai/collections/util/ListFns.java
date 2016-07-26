@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections.util;
 import ciir.jfoley.chai.collections.ListBasedOrderedSet;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.list.AChaiList;
+import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
@@ -341,5 +342,51 @@ public class ListFns extends Module {
       output.add(mapper.transform(i));
     }
     return output;
+  }
+
+  public static <T> IntList findAll(List<T> haystack, List<T> needle) {
+    IntList hits = new IntList();
+    if(needle.isEmpty()) return hits;
+    final T firstQ = needle.get(0);
+
+    for (int i = 0; i < haystack.size(); i++) {
+      if(haystack.get(i).equals(firstQ)) {
+        boolean matches = true;
+        int k = 1;
+        for (int j = i+1; j < haystack.size() && k < needle.size(); j++, k++) {
+          if(!haystack.get(j).equals(needle.get(k))) {
+            matches = false;
+            break;
+          }
+        }
+        if(matches && k == needle.size()) {
+          hits.add(i);
+        }
+      }
+    }
+    return hits;
+  }
+
+  public interface GroupHandler<K,V> {
+    void onStartKey(@Nonnull K key);
+    void onValue(V value);
+    void onEndKey(@Nonnull K key);
+  }
+  public static <T, K> void changeDetect(Iterable<T> input, TransformFn<T, K> keyFn, GroupHandler<K,T> groupFn) {
+    K prev = null;
+    for (T t : input) {
+      K curr = keyFn.transform(t);
+      if(!Objects.equals(curr, prev)) {
+        if(prev != null) {
+          groupFn.onEndKey(prev);
+        }
+        prev = curr;
+        groupFn.onStartKey(curr);
+      }
+      groupFn.onValue(t);
+    }
+    if(prev != null) {
+      groupFn.onEndKey(prev);
+    }
   }
 }

@@ -1,11 +1,13 @@
 package ciir.jfoley.chai.io;
 
 import ciir.jfoley.chai.collections.iters.UntilNullIterator;
+import ciir.jfoley.chai.time.Debouncer;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author jfoley.
@@ -13,7 +15,7 @@ import java.util.List;
 public class LinesIterable implements Iterable<String>, Closeable {
 
 	private final BufferedReader reader;
-	private int lineNumber;
+	private long lineNumber;
 
 	public LinesIterable(BufferedReader reader) {
 		lineNumber = 0;
@@ -76,6 +78,19 @@ public class LinesIterable implements Iterable<String>, Closeable {
 	}
 
 	public int getLineNumber() {
-		return lineNumber;
+		return Math.toIntExact(lineNumber);
+	}
+
+	public void progressForEach(Consumer<String> onEach) {
+		progressForEach(0L, onEach);
+	}
+	public void progressForEach(long total, Consumer<String> onEach) {
+		Debouncer msg = new Debouncer();
+		for (String line : this) {
+			onEach.accept(line);
+			if(msg.ready()) {
+				System.out.println(msg.estimateStr(getLineNumber(), total));
+			}
+		}
 	}
 }

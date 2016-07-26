@@ -22,7 +22,6 @@ public class IntMath extends Module {
    * @return (int) l if possible.
    */
   public static int fromLong(long l) {
-    if(l > Integer.MAX_VALUE || l < Integer.MIN_VALUE) throw new NumberFormatException("Can't fit the long into an int!");
-    return (int) l;
+    return Math.toIntExact(l);
   }
 }

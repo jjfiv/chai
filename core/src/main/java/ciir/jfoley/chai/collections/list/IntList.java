@@ -271,4 +271,6 @@ public final class IntList extends AChaiList<Integer> {
 	public int last() {
 		return data[fill-1];
 	}
+
+	public static IntList from(int... arr) { return new IntList(arr); }
 }
