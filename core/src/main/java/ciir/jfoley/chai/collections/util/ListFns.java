@@ -11,6 +11,7 @@ import ciir.jfoley.chai.lang.Module;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.BiPredicate;
 
 /**
  * This module contains a number of functions meant to operate on lists (sometimes it's much easier than the related iterables)
@@ -344,17 +345,17 @@ public class ListFns extends Module {
     return output;
   }
 
-  public static <T> IntList findAll(List<T> haystack, List<T> needle) {
+  public static <T> IntList findAll(List<T> haystack, List<T> needle, BiPredicate<T,T> isEqualsFn) {
     IntList hits = new IntList();
     if(needle.isEmpty()) return hits;
     final T firstQ = needle.get(0);
 
     for (int i = 0; i < haystack.size(); i++) {
-      if(haystack.get(i).equals(firstQ)) {
+      if(isEqualsFn.test(firstQ, haystack.get(i))) {
         boolean matches = true;
         int k = 1;
         for (int j = i+1; j < haystack.size() && k < needle.size(); j++, k++) {
-          if(!haystack.get(j).equals(needle.get(k))) {
+          if(!isEqualsFn.test(haystack.get(j), needle.get(k))) {
             matches = false;
             break;
           }
@@ -365,6 +366,11 @@ public class ListFns extends Module {
       }
     }
     return hits;
+
+  }
+
+  public static <T> IntList findAll(List<T> haystack, List<T> needle) {
+    return findAll(haystack, needle, Objects::equals);
   }
 
   public interface GroupHandler<K,V> {

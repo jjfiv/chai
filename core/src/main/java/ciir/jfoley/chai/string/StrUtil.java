@@ -368,6 +368,13 @@ public class StrUtil {
     return false;
   }
 
+  public static String capitalize(String token) {
+    if(token.length() == 0) return "";
+    char cap = Character.toUpperCase(token.charAt(0));
+    if(token.length() == 1) return Character.toString(cap);
+    return cap + token.substring(1);
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull

@@ -41,6 +41,11 @@ public class IntRange extends AChaiList<Integer> implements List<Integer> {
     return start + index;
   }
 
+  @Override
+  public String toString() {
+    return "IntRange["+start+", "+(start+size)+")";
+  }
+
   public List<Integer> asList() {
     return this;
   }
@@ -64,5 +69,9 @@ public class IntRange extends AChaiList<Integer> implements List<Integer> {
     int ar = this.inclusiveEnd();
     int br = originalTag.inclusiveEnd();
     return ar >= bl && br >= al;
+  }
+
+  public int getStart() {
+    return start;
   }
 }
