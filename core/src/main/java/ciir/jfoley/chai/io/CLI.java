@@ -22,7 +22,7 @@ public class CLI {
       try {
         ch = System.in.read();
       } catch (IOException e) {
-        break;
+        return null;
       }
       if(ch == -1) return null;
       if(ch == '\n' || ch == '\r') break;

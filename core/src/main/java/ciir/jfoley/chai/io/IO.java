@@ -104,6 +104,9 @@ public class IO extends Module {
   public static PrintWriter openPrintWriter(String file) throws IOException {
     return new PrintWriter(openOutputStream(file));
   }
+  public static PrintWriter openPrintWriter(File fp) throws IOException {
+    return new PrintWriter(openOutputStream(fp));
+  }
 
   public static BufferedReader openReader(File fp) throws IOException {
     return openReader(fp.getAbsolutePath());

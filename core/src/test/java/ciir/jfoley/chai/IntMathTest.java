@@ -24,7 +24,7 @@ public class IntMathTest {
     try {
       assertEquals(0, IntMath.fromLong(1L << 45));
       fail("This is super un-possible.");
-    } catch (NumberFormatException nfe) {
+    } catch (ArithmeticException nfe) {
 
     }
     // assertEquals(1<<31, IntMath.fromLong(1L << 31)); // This one wraps negative!

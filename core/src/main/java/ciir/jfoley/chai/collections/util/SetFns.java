@@ -1,8 +1,10 @@
 package ciir.jfoley.chai.collections.util;
 
 import ciir.jfoley.chai.lang.Module;
+import gnu.trove.set.hash.TIntHashSet;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author jfoley.
@@ -40,6 +42,24 @@ public class SetFns extends Module {
 		return results;
 	}
 
+	public static double jaccardIndex(TIntHashSet a, TIntHashSet b) {
+		TIntHashSet union = new TIntHashSet(a);
+		union.addAll(b);
+
+		// count up intersection:
+		AtomicInteger count = new AtomicInteger();
+		a.forEach(x -> {
+			if(b.contains(x)) {
+				count.incrementAndGet();
+			}
+			return true;
+		});
+
+		double unionSize = union.size();
+		double isectSize = count.get();
+		return isectSize / unionSize;
+	}
+
 	public static <T> double jaccardIndex(Collection<T> a, Collection<T> b) {
 		double unionSize = union(a,b).size();
 		if(unionSize == 0) return 0;
@@ -61,5 +81,12 @@ public class SetFns extends Module {
 		HashSet<T> results = new HashSet<>(A);
 		results.removeAll(B);
 		return results;
+	}
+
+	public static <T> boolean containsAny(Set<T> haystack, Collection<? extends T> needles) {
+		for (T needle : needles) {
+			if(haystack.contains(needle)) return true;
+		}
+		return false;
 	}
 }

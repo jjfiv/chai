@@ -36,4 +36,7 @@ public abstract class UserData {
     }
   }
 
+  public boolean hasUserData(Class<?> klazz) {
+    return userData.containsKey(klazz);
+  }
 }

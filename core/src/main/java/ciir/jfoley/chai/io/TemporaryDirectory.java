@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileAttribute;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +20,8 @@ public class TemporaryDirectory extends Directory implements Closeable, Generate
   private final static Logger logger = Logger.getLogger(TemporaryDirectory.class.getName());
   private final static FileAttribute[] None = new FileAttribute[0];
   private boolean closed = false;
+
+  private AtomicLong uid = new AtomicLong(1);
 
   public TemporaryDirectory(String prefix) throws IOException {
     super(Files.createTempDirectory(prefix, None).toFile());
@@ -34,6 +37,11 @@ public class TemporaryDirectory extends Directory implements Closeable, Generate
     if(!closed) logger.log(Level.SEVERE, "Leaked TemporaryFile!");
     assert(closed);
   }
+
+  public File newOrderedFile(String ext) {
+    return this.child(uid.getAndIncrement()+ext);
+  }
+
   /**
    * The idea here is to automagically delete all temporary contents when this close() gets called.
    * @throws IOException

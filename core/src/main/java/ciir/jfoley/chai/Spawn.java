@@ -30,6 +30,15 @@ public class Spawn extends Module {
     doProcess(0, args);
   }
 
+	public static int doProcess(List<String> cmds, File stdout, File stderr) throws IOException, InterruptedException {
+		ProcessBuilder pb = new ProcessBuilder(cmds);
+		pb.redirectError(stderr);
+		pb.redirectOutput(stdout);
+		pb.directory(null);
+		Process exec = pb.start();
+		return exec.waitFor();
+	}
+
 	public static class AsyncCommand implements Closeable {
 		private final Process process;
 		File tmpOutput;

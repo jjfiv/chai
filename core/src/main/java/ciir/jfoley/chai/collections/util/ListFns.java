@@ -3,6 +3,7 @@ package ciir.jfoley.chai.collections.util;
 import ciir.jfoley.chai.collections.ListBasedOrderedSet;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.list.AChaiList;
+import ciir.jfoley.chai.collections.list.IntList;
 import ciir.jfoley.chai.fn.PredicateFn;
 import ciir.jfoley.chai.fn.TransformFn;
 import ciir.jfoley.chai.lang.Module;
@@ -10,6 +11,7 @@ import ciir.jfoley.chai.lang.Module;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.BiPredicate;
 
 /**
  * This module contains a number of functions meant to operate on lists (sometimes it's much easier than the related iterables)
@@ -285,6 +287,22 @@ public class ListFns extends Module {
     return input.subList(realStart, realEnd);
   }
 
+  /**
+   * Takes a sublist, whether there are items inside or not, avoiding out-of-bounds errors.
+   * Note that ends are exclusive in Java's subList and here too.
+   *
+   * @param input the list to splice.
+   * @param start the start (may be negative)
+   * @param <T> the type of the list.
+   * @return a sublist approximating the request as best as possible.
+   */
+  @Nonnull
+  public static <T> List<T> slice(@Nonnull List<T> input, int start) {
+    int realEnd = input.size();
+    int realStart = Math.min(Math.max(0, start), realEnd);
+    return input.subList(realStart, realEnd);
+  }
+
 
   /**
    * When you have some set of items and you want to repeat them until you have at least X of them.
@@ -311,7 +329,7 @@ public class ListFns extends Module {
   }
 
   @Nonnull
-  public static <B, T> List<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
+  public static <B, T> ArrayList<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
     ArrayList<B> output = new ArrayList<>(input.size());
     for (T x : input) {
       output.add(mapper.transform(x));
@@ -319,11 +337,62 @@ public class ListFns extends Module {
     return output;
   }
 
-  public static <T> List<T> fill(int size, @Nonnull TransformFn<Integer, T> mapper) {
+  public static <T> ArrayList<T> fill(int size, @Nonnull TransformFn<Integer, T> mapper) {
     ArrayList<T> output = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
       output.add(mapper.transform(i));
     }
     return output;
+  }
+
+  public static <T> IntList findAll(List<T> haystack, List<T> needle, BiPredicate<T,T> isEqualsFn) {
+    IntList hits = new IntList();
+    if(needle.isEmpty()) return hits;
+    final T firstQ = needle.get(0);
+
+    for (int i = 0; i < haystack.size(); i++) {
+      if(isEqualsFn.test(firstQ, haystack.get(i))) {
+        boolean matches = true;
+        int k = 1;
+        for (int j = i+1; j < haystack.size() && k < needle.size(); j++, k++) {
+          if(!isEqualsFn.test(haystack.get(j), needle.get(k))) {
+            matches = false;
+            break;
+          }
+        }
+        if(matches && k == needle.size()) {
+          hits.add(i);
+        }
+      }
+    }
+    return hits;
+
+  }
+
+  public static <T> IntList findAll(List<T> haystack, List<T> needle) {
+    return findAll(haystack, needle, Objects::equals);
+  }
+
+  public interface GroupHandler<K,V> {
+    void onStartKey(@Nonnull K key);
+    void onValue(V value);
+    void onEndKey(@Nonnull K key);
+  }
+  public static <T, K> void changeDetect(Iterable<T> input, TransformFn<T, K> keyFn, GroupHandler<K,T> groupFn) {
+    K prev = null;
+    for (T t : input) {
+      K curr = keyFn.transform(t);
+      if(!Objects.equals(curr, prev)) {
+        if(prev != null) {
+          groupFn.onEndKey(prev);
+        }
+        prev = curr;
+        groupFn.onStartKey(curr);
+      }
+      groupFn.onValue(t);
+    }
+    if(prev != null) {
+      groupFn.onEndKey(prev);
+    }
   }
 }

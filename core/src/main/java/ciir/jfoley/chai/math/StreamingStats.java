@@ -114,7 +114,10 @@ public final class StreamingStats implements SinkFn<Double> {
 
   @Override
   public String toString() {
-    return features().toString();
+    if(count() > 0) {
+      return features().toString();
+    }
+    return "EMPTY";
   }
 
   @Override

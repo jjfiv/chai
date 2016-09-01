@@ -133,4 +133,12 @@ public class StrUtilTest {
     assertEquals("Papa, sinonimo de padre.", StrUtil.collapseSpecialMarks("Papá, sinónimo de padre."));
   }
 
+  @Test
+  public void wordWrap() {
+    assertEquals(Arrays.asList("the quick brown fox jumped", "over the lazy dog"), StrUtil.wordWrap("the quick brown fox jumped over the lazy dog", 30));
+    assertEquals(Arrays.asList("the quick brown fox", "jumpedoverthe lazy dog"), StrUtil.wordWrap("the quick brown fox jumpedoverthe lazy dog", 30));
+    assertEquals(Arrays.asList("thequickb-", "rownfoxju-", "mped over", "the lazy", "dog"), StrUtil.wordWrap("thequickbrownfoxjumped over the lazy dog", 10));
+    assertEquals(Arrays.asList("the", "quick", "brownfoxj-", "umped over", "the lazy", "dog"), StrUtil.wordWrap("the\nquick brownfoxjumped over the lazy dog", 10));
+  }
+
 }
