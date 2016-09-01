@@ -16,7 +16,7 @@ public class BinaryClassifierInfo implements Serializable {
   public int predPositive;
   int numTruePositive;
 
-  int numPredTrueNegative;
+  public int numPredTrueNegative;
   int predNegative;
   int numTrueNegative;
 

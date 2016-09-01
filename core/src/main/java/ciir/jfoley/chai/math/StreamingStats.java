@@ -138,4 +138,8 @@ public final class StreamingStats implements SinkFn<Double> {
   public long getN() {
     return numberOfElements;
   }
+
+  public boolean isEmpty() {
+    return numberOfElements == 0;
+  }
 }

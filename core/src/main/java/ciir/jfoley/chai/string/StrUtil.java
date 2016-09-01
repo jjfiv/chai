@@ -322,7 +322,7 @@ public class StrUtil {
     return input.substring(index+1);
   }
 
-  public static CharSequence replaceAny(String matching, String withWhat, String expr) {
+  public static StringBuilder replaceAny(String matching, String withWhat, String expr) {
     StringBuilder output = new StringBuilder();
     char[] original = expr.toCharArray();
     for (char ch : original) {
