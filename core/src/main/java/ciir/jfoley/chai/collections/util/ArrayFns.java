@@ -41,6 +41,19 @@ public class ArrayFns extends Module {
     return data;
   }
 
+  /**
+   * Reverse an array
+   * @param input an array of doubles
+   * @return a copy of the input array, reversed
+   */
+  public static double[] reverse(double[] input) {
+    double[] output = new double[input.length];
+    for(int i=0; i<input.length; i++) {
+      output[input.length-i-1] = input[i];
+    }
+    return output;
+  }
+
   public static <T> List<T> toList(T[] data, int startIndex) {
     return new ArrayList<>(Arrays.asList(data).subList(startIndex, data.length));
   }
