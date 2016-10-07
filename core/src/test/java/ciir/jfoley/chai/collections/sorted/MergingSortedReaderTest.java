@@ -59,11 +59,11 @@ public class MergingSortedReaderTest {
         IntRange.exclusive(3, 10)
     );
 
-    MergingSortedReader<Integer> reader = new MergingSortedReader<>(ListFns.map(data, ListSortedReader::new));
+    MergingSortedReader<Integer> reader = new MergingSortedReader<>(Integer::compare, ListFns.map(data, ListSortedReader::new));
     IntList collected = new IntList();
     reader.forAll(collected::add);
 
-    MergingSortedReader<Integer> reader2 = new MergingSortedReader<>(ListFns.map(data, ListSortedReader::new));
+    MergingSortedReader<Integer> reader2 = new MergingSortedReader<>(Integer::compare, ListFns.map(data, ListSortedReader::new));
 
     IntList collected2 = new IntList();
     while(reader2.hasNext()) {
@@ -89,11 +89,11 @@ public class MergingSortedReaderTest {
         IntRange.exclusive(3, 10)
     );
 
-    MergingSortedReader<Integer> reader = new MergingSortedReader<>(ListFns.map(data, ListSortedReader::new));
+    MergingSortedReader<Integer> reader = new MergingSortedReader<>(Integer::compare, ListFns.map(data, ListSortedReader::new));
     IntList collected = new IntList();
     reader.forAll(collected::add);
 
-    MergingSortedReader<Integer> reader2 = new MergingSortedReader<>(ListFns.map(data, ListSortedReader::new));
+    MergingSortedReader<Integer> reader2 = new MergingSortedReader<>(Integer::compare, ListFns.map(data, ListSortedReader::new));
 
     IntList collected2 = new IntList();
     while(reader2.hasNext()) {

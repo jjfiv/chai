@@ -5,16 +5,19 @@ import ciir.jfoley.chai.io.IO;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
  * @author jfoley
  */
-public class MergingSortedReader<T extends Comparable<T>> implements SortedReader<T> {
+public class MergingSortedReader<T> implements SortedReader<T> {
   private final PriorityQueue<SortedReader<T>> queue;
+  private final Comparator<T> cmp;
 
-  public MergingSortedReader(Collection<SortedReader<T>> readers) {
-    this.queue = new PriorityQueue<>();
+  public MergingSortedReader(Comparator<T> cmp, Collection<? extends SortedReader<T>> readers) {
+    this.cmp = cmp;
+    this.queue = new PriorityQueue<>((lhs, rhs) -> cmp.compare(lhs.peek(), rhs.peek()));
     for (SortedReader<T> reader : readers) {
       queue.offer(reader);
     }
@@ -64,7 +67,7 @@ public class MergingSortedReader<T extends Comparable<T>> implements SortedReade
       // go until nextBest needs to go.
       SortedReader<T> nextBest = queue.peek();
 
-      while(minimum.hasNext() && minimum.compareTo(nextBest) <= 0) {
+      while(minimum.hasNext() && cmp.compare(minimum.peek(), nextBest.peek()) <= 0) {
         collector.process(minimum.next());
       }
       if(minimum.hasNext()) {
