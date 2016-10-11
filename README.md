@@ -1,4 +1,5 @@
-# Chai [![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai)
+# Chai 
+[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai) [![Coverage Status](https://coveralls.io/repos/github/jjfiv/chai/badge.svg?branch=master)](https://coveralls.io/github/jjfiv/chai?branch=master)
 
 *Because I don't like coffee, but I like Java. Mostly.*
 
