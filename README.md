@@ -48,6 +48,48 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
 
 ## History
 
+### v0.9
+ - SortedReader, MergeSortedReader (for disk-based merge-sorting)
+ - ArrayFns.reverse
+ - StreamingStats.isEmpty
+ - ClassDataDirectory
+ - LinesIterable.progressForEach, ListFns.findAll, IntList.from(int...)
+ - StrUtil.wordWrap -> List<String> (Not perfect)
+ - depend on Galago utility
+ - StrUtil.containsLetterOrDigit
+ - IntList::last
+ - Debouncer.estimateStr(i,total) to choose which estimate to use
+ - public check to see if heap is full
+ - UserData::hasUserData(Class<?> klazz)
+ - CLI
+ - ListFns.slice
+ - IntList::pushAll(IntList)
+ - IntLIst::forEach(TIntProcedure) leaning on trove here
+ - process spawning (Spawn)
+ - ClassifierInfo::getPostiiveF scores
+ - SetFns for trove
+ - ListFns now return ArrayList if important
+ - IntervalTree<T> from Apache Cassandra
+ - FullStats public
+ - fast nextBoolean
+ - TopKHeap::takeTop(TObjectIntHashMap<T>)
+ - HTTPUtil
+ - InputContainer::estimateCount
+ - StrUtil::replaceAny
+ - AUC.computeAP
+ - IO.resource now nullable output
+ - AUC.compute() from Wikipedia, SciKit Learn
+ - Perceptron : Classifier
+ - WebServer, JSONAPI support hostname
+ - MString mutable string
+ - remove .size on IntList
+ - SetFns.difference
+ - IntList.removeInt(); to avoid boxing and confusion
+ - AChaiList::chooseRandomly
+ - IntList.shuffle
+ - StrUtil.looksLikeInt
+ - CLI.readString
+
 ### v0.8
  - InputFinder, TarIterator
  - Java v8
