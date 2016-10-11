@@ -21,7 +21,6 @@ import java.util.Map;
  */
 public class JSONAPI {
   public static boolean appendRequestTime = true;
-  public static boolean supportsQuit = false;
 
   public static WebServer start(int port, Map<String, JSONMethod> methods) {
     // check for silly mistakes.
@@ -64,10 +63,6 @@ public class JSONAPI {
       }
 
       String path = req.getPathInfo();
-
-      if(supportsQuit && "/quit".equals(path)) {
-        throw new JettyHandlerer.QuitEventException();
-      }
 
       JSONMethod m = methods.get(path);
       if(m == null) {

@@ -48,7 +48,7 @@ public class WebServer {
 
   public static WebServer create(int port, Handler handler) {
     Server jetty = new Server(port);
-    jetty.setHandler(new JettyHandlerer(handler, jetty));
+    jetty.setHandler(new JettyHandlerer(handler));
     return new WebServer(jetty);
   }
 
@@ -59,7 +59,7 @@ public class WebServer {
     } else {
       jetty = new Server(argp.getInt("port"));
     }
-    jetty.setHandler(new JettyHandlerer(handler, jetty));
+    jetty.setHandler(new JettyHandlerer(handler));
     return new WebServer(jetty);
   }
 
@@ -115,4 +115,7 @@ public class WebServer {
     }
   }
 
+  public void stop() throws Exception {
+    this.jetty.stop();
+  }
 }

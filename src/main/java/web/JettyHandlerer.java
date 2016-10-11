@@ -1,7 +1,6 @@
 package web;
 
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
 import javax.servlet.ServletException;
@@ -14,14 +13,10 @@ import java.io.IOException;
  */
 public final class JettyHandlerer extends AbstractHandler {
   final Handler handler;
-  private final Server server;
 
-  public JettyHandlerer(Handler handler, Server jetty) {
-    this.server = jetty;
+  public JettyHandlerer(Handler handler) {
     this.handler = handler;
   }
-
-  public static class QuitEventException extends Exception { }
 
   @Override
   public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -42,12 +37,6 @@ public final class JettyHandlerer extends AbstractHandler {
       handler.handle(request, response);
     } catch (ServerErr e) {
       WebServer.sendErrorMsg(response, e.msg, e.code, e);
-    } catch (QuitEventException e) {
-      try {
-        server.stop();
-      } catch (Exception e1) {
-        e1.printStackTrace(System.err);
-      }
     } catch (Exception e) {
       WebServer.sendErrorMsg(response, e.getMessage(), 500, e);
     }

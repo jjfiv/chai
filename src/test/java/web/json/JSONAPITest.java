@@ -5,8 +5,6 @@ import org.lemurproject.galago.utility.Parameters;
 import web.HTTPUtil;
 import web.WebServer;
 
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,40 +17,34 @@ import static org.junit.Assert.assertEquals;
 public class JSONAPITest {
   private static final Map<String, JSONMethod> testMethods = new HashMap<>();
   static {
-    JSONAPI.supportsQuit = true;
     testMethods.put("/null", p -> null);
     testMethods.put("/empty", p -> Parameters.create());
   }
 
   private static final AtomicBoolean started = new AtomicBoolean(false);
+  private static WebServer server = null;
 
   @Test
-  public void testSimpleJSONAPI() throws InterruptedException, IOException {
+  public void testSimpleJSONAPI() throws Exception {
     final int port = 12345;
     Runnable bg = () -> {
-      WebServer start = JSONAPI.start(port, testMethods);
-      started.set(true);
-      start.join();
+      server = JSONAPI.start(port, testMethods);
+      server.join();
     };
     Thread bgThread = new Thread(bg);
     bgThread.start();
 
-    for (int i = 0; !started.get() && i < 1000; i++) {
-      System.out.println("Waiting for started=true");
+    for (int i = 0; server == null && i < 1000; i++) {
+      System.out.println("Waiting for server start");
       Thread.sleep(500);
     }
-    String server = "http://localhost:"+port;
+    String serverURL = "http://localhost:"+port;
 
-    HTTPUtil.Response response = HTTPUtil.get(server, "/empty", Parameters.create());
+    HTTPUtil.Response response = HTTPUtil.get(serverURL, "/empty", Parameters.create());
     assertEquals(200, response.status);
     assertEquals(Parameters.create(), Parameters.parseString(response.body));
 
-    // send quit message:
-    try {
-      HTTPUtil.get(server, "/quit", Parameters.create());
-    } catch (ConnectException err) {
-      // maybe connection-refused here:
-    }
+    server.stop();
     bgThread.join();
   }
 
