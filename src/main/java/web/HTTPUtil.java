@@ -126,14 +126,14 @@ public class HTTPUtil {
     }
   }
 
-  public static HttpResponse get(String url, String path, Parameters p) throws IOException {
+  public static Response get(String url, String path, Parameters p) throws IOException {
     log.info("GET url="+url+" path="+path+" p="+p);
     assert(path.startsWith("/"));
 
     try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
       String urlWithParams = encodeInURL(url + path, p);
       HttpGet get = new HttpGet(urlWithParams);
-      return client.execute(get);
+      return new Response(client.execute(get));
     }
   }
 

@@ -2,6 +2,7 @@ package web.json;
 
 import ciir.jfoley.chai.collections.util.ListFns;
 import web.Handler;
+import web.JettyHandlerer;
 import web.ServerErr;
 import web.WebServer;
 import org.lemurproject.galago.utility.Parameters;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 public class JSONAPI {
   public static boolean appendRequestTime = true;
+  public static boolean supportsQuit = false;
 
   public static WebServer start(int port, Map<String, JSONMethod> methods) {
     // check for silly mistakes.
@@ -62,6 +64,11 @@ public class JSONAPI {
       }
 
       String path = req.getPathInfo();
+
+      if(supportsQuit && "/quit".equals(path)) {
+        throw new JettyHandlerer.QuitEventException();
+      }
+
       JSONMethod m = methods.get(path);
       if(m == null) {
         WebServer.sendErrorMsg(resp, "No such API method="+method, 404);
