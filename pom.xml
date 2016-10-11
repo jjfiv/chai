@@ -16,9 +16,11 @@
     <javaVersion>1.8</javaVersion>
     <galagoVersion>3.11-SNAPSHOT</galagoVersion>
   </properties>
+  
   <scm>
     <developerConnection>scm:git:git@bitbucket.org:jfoley/chai.git</developerConnection>
   </scm>
+
   <distributionManagement>
     <repository>
       <id>deployment</id>
@@ -31,6 +33,18 @@
       <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>edu.umass.ciir.releases</id>
+      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>edu.umass.ciir.snapshots</id>
+      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
