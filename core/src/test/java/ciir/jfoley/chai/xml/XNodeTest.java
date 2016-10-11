@@ -2,6 +2,7 @@ package ciir.jfoley.chai.xml;
 
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.io.TemporaryFile;
+import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -23,12 +24,12 @@ public class XNodeTest {
 
 		List<XNode> bs = doc.selectByTag("b");
 		assertEquals(2, bs.size());
-		assertEquals("Hello", bs.get(0).getText());
-		assertEquals("Frank", bs.get(1).getText());
+		Assert.assertEquals("Hello", bs.get(0).getText());
+		Assert.assertEquals("Frank", bs.get(1).getText());
 
 		List<XNode> cs = doc.selectByTag("c");
 		assertEquals(1, cs.size());
-		assertEquals("World", cs.get(0).getText());
+		Assert.assertEquals("World", cs.get(0).getText());
 	}
 
 	@Test
@@ -38,10 +39,10 @@ public class XNodeTest {
 		List<XNode> bs = doc.selectByTag("b");
 		assertEquals(1, bs.size());
 		XNode b = bs.get(0);
-		assertEquals("Hello", b.getText());
+		Assert.assertEquals("Hello", b.getText());
 
 		// Has single text child.
-		assertEquals(1, b.getChildren().size());
+		Assert.assertEquals(1, b.getChildren().size());
 		assertTrue(b.hasChildren());
 
 		Map<String,String> attrs = b.attrs();
@@ -58,7 +59,7 @@ public class XNodeTest {
 			XNode doc = ChaiXML.fromFile(tmpf.getPath());
 			List<XNode> xs = doc.selectByTag("x");
 			assertEquals(1, xs.size());
-			assertEquals("value", xs.get(0).attr("key"));
+			Assert.assertEquals("value", xs.get(0).attr("key"));
 		}
 	}
 }

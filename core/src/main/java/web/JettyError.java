@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.web;
+package web;
 
 /**
  * @author jfoley

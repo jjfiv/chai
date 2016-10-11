@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.web;
+package web;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

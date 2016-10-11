@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.web;
+package web;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;

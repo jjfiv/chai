@@ -1,4 +1,4 @@
-package ciir.jfoley.chai.web;
+package web;
 
 import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.string.StrUtil;

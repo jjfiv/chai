@@ -4,7 +4,7 @@
   <groupId>edu.umass.cs.ciir.jfoley</groupId>
   <artifactId>chai</artifactId>
   <packaging>pom</packaging>
-  <version>0.9</version>
+  <version>0.10-SNAPSHOT</version>
   <name>chai</name>
   <licenses>
     <license>
@@ -13,8 +13,6 @@
   </licenses>
   <modules>
     <module>core</module>
-    <module>xml</module>
-    <module>web</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
