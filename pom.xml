@@ -4,7 +4,7 @@
   <groupId>edu.umass.cs.ciir.jfoley</groupId>
   <artifactId>chai</artifactId>
   <packaging>pom</packaging>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9</version>
   <name>chai</name>
   <licenses>
     <license>
