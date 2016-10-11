@@ -45,6 +45,30 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
   return grouped;
 }
 ```
+## Include in Maven
+
+To add the CIIR nexus server to your maven repos:
+```xml 
+  <repositories>
+    <repository>
+      <id>edu.umass.ciir.releases</id>
+      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/releases</url>
+    </repository>
+    <repository>
+      <id>edu.umass.ciir.snapshots</id>
+      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
+```
+
+To add this dependency:
+```xml
+  <dependency>
+    <groupId>edu.umass.ciir.jfoley</groupId>
+    <artifactId>chai</artifactId>
+    <version>0.10-SNAPSHOT</version>
+  </dependency>
+```
 
 ## History
 
