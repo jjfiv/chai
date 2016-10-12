@@ -11,7 +11,7 @@ public interface RandGen {
     }
 
     /**
-     * {@link java.util.Random#nextInt(int)}
+     * @see java.util.Random#nextInt(int)
      * @param bound the upper limit on the numbers you want.
      * @return a number in the range [0,bound)
      */

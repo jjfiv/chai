@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * This collection is built on resevoir sampling.
  *
- * {@see <a href="https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R">Reservoir Sampling / Algorithm R</a>}
+ * @see <a href="https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_R">Reservoir Sampling / Algorithm R</a>
  *
  * @author jfoley
  */

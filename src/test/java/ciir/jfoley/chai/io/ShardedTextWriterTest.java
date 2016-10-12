@@ -26,7 +26,7 @@ public class ShardedTextWriterTest {
         String name = file.getName();
         String num = StrUtil.takeBefore(StrUtil.takeAfter(name, "foo."), ".txt");
         int idx = Integer.parseInt(num);
-        System.out.println(name +"\t"+IO.slurp(file));
+        //System.out.println(name +"\t"+IO.slurp(file));
         List<String> lines = LinesIterable.fromFile(file).slurp();
         for (int i = 0; i < lines.size(); i++) {
           String line = lines.get(i);
