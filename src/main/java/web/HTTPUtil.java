@@ -1,5 +1,6 @@
 package web;
 
+import ciir.jfoley.chai.lang.Module;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author jfoley.
  */
-public class HTTPUtil {
+public class HTTPUtil extends Module {
   private final static Logger log =Logger.getLogger(HTTPUtil.class.getName());
 
   public static String encode(String data) {
