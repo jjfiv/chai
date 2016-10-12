@@ -22,7 +22,7 @@ public class SplitMix64 implements RandGen {
         this.state = seed;
     }
     public SplitMix64() {
-        this(System.nanoTime());
+        this(System.nanoTime() ^ Thread.currentThread().getId());
     }
     @Override
     public long nextLong() {

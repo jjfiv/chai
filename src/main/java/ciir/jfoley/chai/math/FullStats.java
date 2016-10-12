@@ -29,7 +29,7 @@ public class FullStats {
       sorted = true;
     }
     int N = getN();
-    int index = (int) (N * (n / 100.0));
+    int index = (int) Math.min((N * (n / 100.0)), N-1);
     return observed.get(index);
   }
 

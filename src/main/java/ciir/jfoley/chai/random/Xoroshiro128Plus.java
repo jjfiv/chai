@@ -16,6 +16,9 @@ public class Xoroshiro128Plus implements RandGen {
     long s1;
     long s2;
 
+    Xoroshiro128Plus() {
+        this(System.nanoTime() ^ Thread.currentThread().getId());
+    }
     Xoroshiro128Plus(long seed) {
         // turn seed into more entropy to cover state:
         final SplitMix64 simple = new SplitMix64(seed);
