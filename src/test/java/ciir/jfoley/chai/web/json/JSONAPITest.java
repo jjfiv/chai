@@ -1,9 +1,9 @@
-package web.json;
+package ciir.jfoley.chai.web.json;
 
 import org.junit.Test;
 import org.lemurproject.galago.utility.Parameters;
-import web.HTTPUtil;
-import web.WebServer;
+import ciir.jfoley.chai.web.HTTPUtil;
+import ciir.jfoley.chai.web.WebServer;
 
 import java.util.Arrays;
 import java.util.HashMap;

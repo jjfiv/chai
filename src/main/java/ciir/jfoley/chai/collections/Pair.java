@@ -71,24 +71,6 @@ public class Pair<A,B> implements Map.Entry<A,B> {
     return output;
   }
 
-  /**
-   * Compare left first then right, only if the elements satisfy comparable.
-   * Note that naively chaining left and right without checking for Comparable is a bad idea.
-   * @return Comparator by left then right.
-   */
-  public Comparator<? super Pair<A, B>> getBestComparator() {
-    Comparator<? super Pair<A,B>> leftCmp = (left instanceof Comparable) ? Pair.<A,B>cmpLeft() : null;
-    Comparator<? super Pair<A,B>> rightCmp = (right instanceof Comparable) ? Pair.<A,B>cmpRight() : null;
-    if (leftCmp != null && rightCmp != null) {
-      return Comparing.chained(leftCmp, rightCmp);
-    } else if(leftCmp != null) {
-      return Pair.cmpLeft();
-    } else if(rightCmp != null) {
-      return Pair.cmpRight();
-    }
-    throw new IllegalArgumentException("Can't compare either element of Pair!");
-  }
-
   public static <K, V> Pair<K,V> of(Map.Entry<K, V> input) {
     return new Pair<>(input);
   }

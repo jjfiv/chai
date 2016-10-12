@@ -1,12 +1,11 @@
-package web.json;
+package ciir.jfoley.chai.web.json;
 
 import ciir.jfoley.chai.collections.util.ListFns;
-import web.Handler;
-import web.JettyHandlerer;
-import web.ServerErr;
-import web.WebServer;
 import org.lemurproject.galago.utility.Parameters;
 import org.lemurproject.galago.utility.json.JSONUtil;
+import ciir.jfoley.chai.web.Handler;
+import ciir.jfoley.chai.web.ServerErr;
+import ciir.jfoley.chai.web.WebServer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

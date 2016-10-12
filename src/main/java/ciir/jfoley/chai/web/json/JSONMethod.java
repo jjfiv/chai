@@ -1,4 +1,4 @@
-package web.json;
+package ciir.jfoley.chai.web.json;
 
 import org.lemurproject.galago.utility.Parameters;
 

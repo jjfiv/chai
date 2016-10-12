@@ -18,18 +18,8 @@ public class Comparing extends Module {
     };
 	}
 
-  @SuppressWarnings("unchecked")
-  @Nonnull
-  public static <T> Comparator<T> reverseComparator() {
-    return (lhs, rhs) -> ((Comparable) rhs).compareTo(lhs);
-  }
-
   public static Comparator<byte[]> byteArrays() {
     return ArrayFns::compare;
-  }
-
-  public static <T> Comparator<T> reversed(final Comparator<T> cmp) {
-    return (lhs, rhs) -> cmp.compare(rhs, lhs);
   }
 
   public static <T> Comparator<? super T> chained(final Comparator<? super T> first, final Comparator<? super T> then) {

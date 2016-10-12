@@ -1,4 +1,4 @@
-package web;
+package ciir.jfoley.chai.web;
 
 import ciir.jfoley.chai.lang.Module;
 import org.apache.http.HttpResponse;

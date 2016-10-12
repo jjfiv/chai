@@ -1,4 +1,4 @@
-package web;
+package ciir.jfoley.chai.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
