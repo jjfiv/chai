@@ -50,7 +50,7 @@ public class ShardedTextWriter implements Closeable, SinkFn<String> {
 
   @Override
   public void process(String input) {
-    if(++index >= limit) {
+    if(index >= limit) {
       try {
         shiftToNextWriter();
       } catch (IOException e) {
@@ -58,6 +58,7 @@ public class ShardedTextWriter implements Closeable, SinkFn<String> {
       }
     }
     writer.print(input);
+    index++;
   }
 
   public void print(String dat) {

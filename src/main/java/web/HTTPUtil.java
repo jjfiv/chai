@@ -2,7 +2,6 @@ package web;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -11,16 +10,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.lemurproject.galago.utility.Parameters;
 import org.lemurproject.galago.utility.StreamUtil;
-import org.lemurproject.galago.utility.json.JSONUtil;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -29,48 +24,6 @@ import java.util.logging.Logger;
  */
 public class HTTPUtil {
   private final static Logger log =Logger.getLogger(HTTPUtil.class.getName());
-
-  public static Parameters fromHTTPRequest(HttpServletRequest req) throws IOException {
-    Parameters reqp = Parameters.create();
-
-    String contentType = req.getContentType();
-    // chrome likes to send:
-    //   application/x-www-form-urlencoded; charset=UTF-8 len:96
-    if(contentType != null && contentType.contains(";")) {
-      contentType = contentType.substring(0, contentType.indexOf(";"));
-    }
-
-    // GET or POST form parameters handling
-    if(contentType == null || "application/x-www-form-urlencoded".equals(contentType)) {
-      Map<String, String[]> asMap = (Map<String, String[]>) req.getParameterMap();
-
-      for (Map.Entry<String, String[]> kv : asMap.entrySet()) {
-        String arg = kv.getKey();
-        String[] values = kv.getValue();
-
-        if (values.length == 1) {
-          reqp.put(arg, JSONUtil.parseString(values[0]));
-        } else {
-          reqp.set(arg, new ArrayList());
-          for (String val : values) {
-            reqp.getList(arg, Object.class).add(JSONUtil.parseString(val));
-          }
-        }
-      }
-      return reqp;
-    } else if(contentType.equals("application/json")) {
-      // request body as JSON handling
-      ServletInputStream sis = req.getInputStream();
-      String body = StreamUtil.copyStreamToString(sis);
-      sis.close();
-
-      return Parameters.parseString(body);
-    } else if(req.getContentLength() > 0) {
-      throw new UnsupportedOperationException("Unknown data kind sent to server: "+contentType+" len:"+req.getContentLength());
-    }
-
-    return reqp;
-  }
 
   public static String encode(String data) {
     try {
@@ -114,18 +67,6 @@ public class HTTPUtil {
     return urlb.toString();
   }
 
-  public static Response post(String url, String path, Parameters p) throws IOException {
-    log.info("POST url="+url+" path="+path+" p="+p);
-    assert(path.startsWith("/"));
-
-    try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
-      HttpPost post = new HttpPost(url + path);
-      post.setEntity(new UrlEncodedFormEntity(fromParameters(p)));
-      HttpResponse response = client.execute(post);
-      return new Response(response);
-    }
-  }
-
   public static Response get(String url, String path, Parameters p) throws IOException {
     log.info("GET url="+url+" path="+path+" p="+p);
     assert(path.startsWith("/"));
@@ -158,6 +99,14 @@ public class HTTPUtil {
       this.status = response.getStatusLine().getStatusCode();
       this.reason = response.getStatusLine().getReasonPhrase();
       this.body = StreamUtil.copyStreamToString(response.getEntity().getContent());
+    }
+
+    public Parameters toJSON() {
+      if(status != 200) {
+        throw new IllegalAccessError("Trying to get JSON from error!");
+      } else {
+        return Parameters.parseStringOrDie(this.body);
+      }
     }
 
     @Override
