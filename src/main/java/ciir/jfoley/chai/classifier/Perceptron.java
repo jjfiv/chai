@@ -54,6 +54,9 @@ public class Perceptron extends Classifier implements Serializable {
 
     // average perceptron builds a temporary vector and adds it to w occasionally
     float[] tmpW = new float[ND + 1];
+    for (int i = 0; i < ND; i++) {
+      tmpW[i] = (float) this.random.nextGaussian();
+    }
     tmpW[ND] = 1;
     // how long this w has survived:
     int wLife = 0;
@@ -158,5 +161,9 @@ public class Perceptron extends Classifier implements Serializable {
     for (int i = 0; i < w.length; i++) {
       w[i] /= total;
     }
+  }
+
+  public float[] copyWeights() {
+    return Arrays.copyOf(w, w.length);
   }
 }
