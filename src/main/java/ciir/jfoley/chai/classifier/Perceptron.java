@@ -81,7 +81,7 @@ public class Perceptron extends Classifier implements Serializable {
           for (int i = 0; i < ND; i++) {
             tmpW[i] += label * fv[i];
           }
-          w[w.length - 1] += label;
+          w[ND] += label;
 
           changed = true;
           wLife = 0;
@@ -125,7 +125,7 @@ public class Perceptron extends Classifier implements Serializable {
     for (int i = 0; i < ND; i++) {
       dotP += w[i] * fv[i];
     }
-    dotP += w[w.length - 1]; // * 1.0 if we extended all the features.
+    dotP += w[ND]; // * 1.0 if we extended all the features.
     return dotP >= 0 ? 1 : -1;
   }
 
@@ -154,8 +154,8 @@ public class Perceptron extends Classifier implements Serializable {
 
   public void normalize() {
     float total = 0f;
-    for (int i = 0; i < w.length; i++) {
-      total += w[i];
+    for (float aW : w) {
+      total += aW;
     }
     if(total == 0) return;
     for (int i = 0; i < w.length; i++) {
