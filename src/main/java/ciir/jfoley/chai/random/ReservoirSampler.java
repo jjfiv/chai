@@ -6,6 +6,7 @@ import ciir.jfoley.chai.fn.SinkFn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * This collection is built on resevoir sampling.
@@ -45,6 +46,21 @@ public class ReservoirSampler<T> extends AChaiList<T> implements SinkFn<T> {
   @Override
   public int size() {
     return storage.size();
+  }
+
+  public void lazyAdd(Supplier<T> onItem) {
+    totalOffered++;
+    if(storage.size() < numSamples) {
+      storage.add(onItem.get());
+      return;
+    }
+
+    // find a place for it in virtual array that covers all samples at random;
+    int position = rand.nextInt(totalOffered);
+
+    // only store it if it fits in the first bit:
+    if(position >= numSamples) return;
+    storage.set(position, onItem.get());
   }
 
   @Override
