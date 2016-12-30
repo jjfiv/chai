@@ -3,6 +3,7 @@ package ciir.jfoley.chai.io;
 import ciir.jfoley.chai.io.compress.BZipCodec;
 import ciir.jfoley.chai.io.compress.GZipCodec;
 import ciir.jfoley.chai.io.compress.LZFCodec;
+import ciir.jfoley.chai.io.compress.ZStdCodec;
 import ciir.jfoley.chai.lang.Module;
 
 import javax.annotation.Nonnull;
@@ -16,6 +17,7 @@ public final class CompressionCodec extends Module {
 	static ConcurrentHashMap<String, Impl> streamCodecs = new ConcurrentHashMap<>();
 	static {
 		streamCodecs.put("gz", new GZipCodec());
+		streamCodecs.put("zst", new ZStdCodec());
 		streamCodecs.put("bz|bz2", new BZipCodec());
 		streamCodecs.put("lzf", new LZFCodec());
 	}
