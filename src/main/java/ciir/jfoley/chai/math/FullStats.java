@@ -24,12 +24,13 @@ public class FullStats {
   }
 
   public double getPercentile(double n) {
+    if(observed.isEmpty()) return Double.NaN;
     if(!sorted) {
       observed.sort();
       sorted = true;
     }
     int N = getN();
-    int index = (int) Math.min((N * (n / 100.0)), N-1);
+    int index = (int) Math.max(0, Math.min((N * (n / 100.0)), N-1));
     return observed.get(index);
   }
 
