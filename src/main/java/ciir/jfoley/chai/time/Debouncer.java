@@ -1,5 +1,9 @@
 package ciir.jfoley.chai.time;
 
+import java.io.PrintStream;
+import java.util.List;
+import java.util.function.ObjIntConsumer;
+
 /**
  * @author jfoley
  */
@@ -41,6 +45,18 @@ public class Debouncer {
   public String estimateStr(long processed, long total) {
     if(total <= 0) return estimate(processed);
     return estimate(processed, total).toString();
+  }
+
+  public static <T> void forEach(PrintStream out, List<T> items, ObjIntConsumer<T> fn) {
+    int total = items.size();
+    Debouncer msg = new Debouncer();
+    for (int i = 0; i < total; i++) {
+      fn.accept(items.get(i), i);
+      if(msg.ready()) {
+        out.println("-> "+msg.estimate(i, total));
+      }
+    }
+    out.println("<> "+msg.estimate(total, total));
   }
 
   public static class RateEstimate {
