@@ -375,6 +375,15 @@ public class StrUtil {
     return cap + token.substring(1);
   }
 
+  public static boolean isBlankOrEmpty(String line) {
+    if(line == null) return true;
+    for (int i = 0; i < line.length(); i++) {
+      if(!Character.isWhitespace(line.charAt(i)))
+        return false;
+    }
+    return true;
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull
