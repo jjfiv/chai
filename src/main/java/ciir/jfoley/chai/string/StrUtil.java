@@ -384,6 +384,13 @@ public class StrUtil {
     return true;
   }
 
+  public static boolean isWhitespace(String text) {
+    for (int i = 0; i < text.length(); i++) {
+      if(!Character.isWhitespace(text.charAt(i))) return false;
+    }
+    return true;
+  }
+
   public interface Transform extends TransformFn<String,String> { }
 
   @Nonnull
