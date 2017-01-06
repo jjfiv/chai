@@ -3,7 +3,6 @@ package ciir.jfoley.chai.classifier;
 import ciir.jfoley.chai.collections.Pair;
 import ciir.jfoley.chai.collections.util.ListFns;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -141,13 +140,13 @@ public class RankingMeasures {
     return maximizeFScore(inPoints, 1.0);
   }
   public static double maximizeFScore(List<Pair<Boolean, Double>> inPoints, double beta) {
-    List<Pair<Boolean, Double>> points = new ArrayList<>(inPoints);
+    List<PredTruth> points = ListFns.map(inPoints, PredTruth::new);
     // order by prediction confidence:
-    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+    points.sort(getComparator(TieBreaking.WORST_CASE));
 
     int total_true_pos = 0;
-    for (Pair<Boolean, Double> point : points) {
-      if(point.left)
+    for (PredTruth point : points) {
+      if(point.truth)
         total_true_pos++;
     }
 
@@ -156,7 +155,7 @@ public class RankingMeasures {
 
     int true_pos = 0;
     for (int i = 0; i < points.size(); i++) {
-      if (points.get(i).left) {
+      if (points.get(i).truth) {
         true_pos++;
       }
       double k = i + 1;
@@ -183,19 +182,19 @@ public class RankingMeasures {
     int lhs = best_index;
     int rhs = best_index+1;
     if(rhs >= points.size()) {
-      double leftleft = points.get(lhs-1).right;
-      double here = points.get(lhs).right;
+      double leftleft = points.get(lhs-1).prediction;
+      double here = points.get(lhs).prediction;
       double diff = leftleft - here;
       return here - diff;
     } else {
-      return (points.get(lhs).right + points.get(rhs).right) / 2.0;
+      return (points.get(lhs).prediction + points.get(rhs).prediction) / 2.0;
     }
   }
 
   public static double computePrec(List<Pair<Boolean, Double>> data, int cutoff) {
-    List<Pair<Boolean, Double>> points = new ArrayList<>(data);
+    List<PredTruth> points = ListFns.map(data, PredTruth::new);
     // order by prediction confidence:
-    points.sort((lhs, rhs) -> -Double.compare(lhs.right, rhs.right));
+    points.sort(getComparator(TieBreaking.WORST_CASE));
     int N = Math.min(cutoff, data.size());
     int correct = 0;
     for (int i = 0; i < N; i++) {
