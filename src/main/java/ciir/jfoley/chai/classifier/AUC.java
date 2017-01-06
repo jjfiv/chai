@@ -45,6 +45,6 @@ public class AUC {
   }
   @Deprecated
   public static double computeAP(List<Pair<Boolean, Double>> data, int numRelevant) {
-    return RankingMeasures.computeAP(data, numRelevant);
+    return RankingMeasures.computeAP(data, numRelevant, RankingMeasures.TieBreaking.WORST_CASE);
   }
 }
