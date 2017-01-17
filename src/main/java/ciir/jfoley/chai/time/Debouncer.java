@@ -1,6 +1,7 @@
 package ciir.jfoley.chai.time;
 
 import java.io.PrintStream;
+import java.time.Duration;
 import java.util.List;
 import java.util.function.ObjIntConsumer;
 
@@ -37,14 +38,40 @@ public class Debouncer {
   }
 
   public String estimate(double count) {
-    double timeDelta = System.currentTimeMillis() - startTime;
-    double rate = count / timeDelta;
-    return String.format("%d items, %4.1f items/s; total_time=%4.1fs", (long) count, rate * 1000.0, timeDelta / 1000.0);
+    long timeDelta = System.currentTimeMillis() - startTime;
+    double rate = count / (double) timeDelta;
+    return String.format("%d items, %4.1f items/s, [%s spent].", (long) count, rate*1000.0, Debouncer.prettyTimeOfMillis(timeDelta));
   }
 
   public String estimateStr(long processed, long total) {
     if(total <= 0) return estimate(processed);
     return estimate(processed, total).toString();
+  }
+
+  public static String prettyTimeOfMillis(long millis) {
+    StringBuilder msg = new StringBuilder();
+    Duration dur = Duration.ofMillis(millis);
+    long days = dur.toDays();
+    if(days > 0) {
+      dur = dur.minusDays(days);
+      msg.append(days).append(" days");
+    }
+    long hours = dur.toHours();
+    if(hours > 0) {
+      dur = dur.minusHours(hours);
+      if(msg.length() > 0) msg.append(", ");
+      msg.append(hours).append(" hours");
+    }
+    long minutes = dur.toMinutes();
+    if(minutes > 0) {
+      if(msg.length() > 0) msg.append(", ");
+      msg.append(minutes).append(" minutes");
+    }
+    dur = dur.minusMinutes(minutes);
+    double seconds = dur.toMillis() / 1e3;
+    if(msg.length() > 0) msg.append(", ");
+    msg.append(String.format("%1.3f", seconds)).append(" seconds");
+    return msg.toString();
   }
 
   public static <T> void forEach(PrintStream out, List<T> items, ObjIntConsumer<T> fn) {
@@ -92,7 +119,7 @@ public class Debouncer {
     }
 
     public String toString() {
-      return String.format("%d/%d items, %4.1f items/s %4.1f seconds left; %4.1f seconds spent, %2.1f%% complete.", itemsComplete, totalItems, itemsPerSecond(), secondsLeft(), secondsInvested(), percentComplete());
+      return String.format("%d/%d items, %4.1f items/s [%s left]; [%s spent], %2.1f%% complete.", itemsComplete, totalItems, itemsPerSecond(), Debouncer.prettyTimeOfMillis((long) remaining), Debouncer.prettyTimeOfMillis(time), percentComplete());
     }
   }
 }
