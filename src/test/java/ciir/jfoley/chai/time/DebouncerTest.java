@@ -12,7 +12,8 @@ import static org.junit.Assert.assertTrue;
 public class DebouncerTest {
   @Test
   public void testPrinting() {
-    assertEquals("50/100 items,  0.8 items/s 60.0 seconds left; 60.0 seconds spent, 50.0% complete.", new Debouncer.RateEstimate(60*1000, 50, 100).toString());
+    assertEquals("50/100 items,  0.8 items/s [59.999 seconds left]; [1 minutes, 0.000 seconds spent], 50.0% complete.",
+        new Debouncer.RateEstimate(60*1000, 50, 100).toString());
   }
 
   @Test
