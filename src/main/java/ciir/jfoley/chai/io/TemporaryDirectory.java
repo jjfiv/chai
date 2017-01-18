@@ -23,6 +23,10 @@ public class TemporaryDirectory extends Directory implements Closeable, Generate
 
   private AtomicLong uid = new AtomicLong(1);
 
+  public TemporaryDirectory(Directory dir) {
+    super(dir.get());
+  }
+
   public TemporaryDirectory(String prefix) throws IOException {
     super(Files.createTempDirectory(prefix, None).toFile());
   }
