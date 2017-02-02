@@ -101,7 +101,7 @@ public class BinaryClassifierInfo implements Serializable {
 
   public void update(List<Pair<Boolean, Double>> toEval, double cutoff) {
     for (Pair<Boolean, Double> pred : toEval) {
-      update(pred.left, pred.right > cutoff);
+      update(pred.right > cutoff, pred.left);
     }
   }
 
