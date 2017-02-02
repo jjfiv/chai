@@ -85,6 +85,10 @@ public class BinaryClassifierInfo implements Serializable {
     }
   }
 
+  public int getPositiveResultSetSize() {
+    return predPositive;
+  }
+
   public String toString() {
     return String.format("\tNumTotal: "+numTotal+" NumIters: "+numIterations+"\n"+
         "\tTP: %d, FP: %d, TN: %d, FN: %d\n" +
