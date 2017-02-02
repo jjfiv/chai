@@ -83,10 +83,10 @@ public class BinaryClassifierInfoTest {
     BinaryClassifierInfo bulkInfo = new BinaryClassifierInfo();
     bulkInfo.update(bulk, 0.0);
 
-    assertEquals(bulkInfo.getPositivePrecision(), info.getPositivePrecision(), 1e-7);
-    assertEquals(bulkInfo.getPositiveRecall(), info.getPositiveRecall(), 1e-7);
     assertEquals(bulkInfo.getPositiveF1(), info.getPositiveF1(), 1e-7);
     assertEquals(bulkInfo.getAccuracy(), info.getAccuracy(), 1e-7);
+    assertEquals(bulkInfo.getPositiveRecall(), info.getPositiveRecall(), 1e-7);
+    assertEquals(bulkInfo.getPositivePrecision(), info.getPositivePrecision(), 1e-7);
   }
 
 }
