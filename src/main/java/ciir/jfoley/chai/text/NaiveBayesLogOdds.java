@@ -16,7 +16,7 @@ public class NaiveBayesLogOdds {
    * @param qterms query terms to score
    * @return log odds (log P(C|d) - log P(NC | d))
    */
-  protected static double linearSmoothingScore(Set<String> stopwords, double lambda, LanguageModel posLanguageModel, LanguageModel index, List<String> qterms) {
+  public static double linearSmoothingScore(Set<String> stopwords, double lambda, LanguageModel posLanguageModel, LanguageModel index, List<String> qterms) {
     double collectionLength = index.getTotalWeight();
     double length = posLanguageModel.getTotalWeight();
 

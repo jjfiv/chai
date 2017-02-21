@@ -329,7 +329,7 @@ public class ListFns extends Module {
   }
 
   @Nonnull
-  public static <B, T> ArrayList<B> map(@Nonnull List<T> input, @Nonnull TransformFn<T, B> mapper) {
+  public static <B, T> ArrayList<B> map(@Nonnull Collection<T> input, @Nonnull TransformFn<T, B> mapper) {
     ArrayList<B> output = new ArrayList<>(input.size());
     for (T x : input) {
       output.add(mapper.transform(x));
