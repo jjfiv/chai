@@ -1,10 +1,13 @@
 package ciir.jfoley.chai.web.json;
 
+import ciir.jfoley.chai.collections.IntRange;
+import ciir.jfoley.chai.collections.util.ListFns;
 import org.junit.Test;
 import org.lemurproject.galago.utility.Parameters;
 import ciir.jfoley.chai.web.HTTPUtil;
 import ciir.jfoley.chai.web.WebServer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +60,25 @@ public class JSONAPITest {
     // POST or GET accepted:
     assertEquals(tricky, HTTPUtil.get(serverURL, "/debug", tricky).toJSON());
     assertEquals(tricky, HTTPUtil.postJSON(serverURL, "/debug", tricky).toJSON());
+
+
+    ArrayList<Long> big = new ArrayList<>(ListFns.map(IntRange.exclusive(0,10000), Long::valueOf));
+    Parameters bigP = Parameters.create();
+    bigP.put("hello", 7L);
+    bigP.put("what", "there");
+    bigP.put("y", Arrays.asList(1L,2L));
+    bigP.put("large", big);
+    assertEquals(200, response.status);
+
+    // POST or GET accepted:
+    //GET not accepted: URI is too large
+    //assertEquals(bigP, HTTPUtil.get(serverURL, "/debug", bigP).toJSON());
+    Parameters found = HTTPUtil.postJSON(serverURL, "/debug", bigP).toJSON();
+    assertEquals(bigP.keySet(), found.keySet());
+    assertEquals(bigP.get("hello"), found.get("hello"));
+    assertEquals(bigP.get("what"), found.get("what"));
+    assertEquals(bigP.get("y"), found.get("y"));
+    assertEquals(bigP.get("large"), found.get("large"));
 
 
     server.stop();

@@ -1,14 +1,16 @@
 package ciir.jfoley.chai.web.json;
 
 import ciir.jfoley.chai.collections.util.ListFns;
-import org.lemurproject.galago.utility.Parameters;
-import org.lemurproject.galago.utility.json.JSONUtil;
+import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.web.Handler;
 import ciir.jfoley.chai.web.ServerErr;
 import ciir.jfoley.chai.web.WebServer;
+import org.lemurproject.galago.utility.Parameters;
+import org.lemurproject.galago.utility.json.JSONUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
@@ -72,14 +74,19 @@ public class JSONAPI {
       Parameters jreq = Parameters.create();
       if("POST".equals(method)) {
         String contentType = WebServer.getContentType(req);
+        String encoding = req.getCharacterEncoding();
+        if(encoding == null) {
+          encoding = "UTF-8";
+        }
         switch (contentType) {
           case "application/json":
           case "text/json":
-            String body = WebServer.readBody(req);
-            try {
-              jreq = Parameters.parseStream(req.getInputStream());
+            String jsonText = null;
+            try (BufferedReader reader = req.getReader()) {
+              jsonText = IO.readAll(reader);
+              jreq = Parameters.parseString(jsonText);
             } catch (Throwable jsonParseError) {
-              System.err.println(body); // for debugging
+              System.err.println("Can't parse:\t" + jsonText); // for debugging
               throw new ServerErr(400, "Bad Request - JSON Parse Error!");
             }
             break;
