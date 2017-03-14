@@ -1,7 +1,7 @@
 package ciir.jfoley.chai.web.json;
 
 import ciir.jfoley.chai.collections.util.ListFns;
-import ciir.jfoley.chai.io.IO;
+import ciir.jfoley.chai.string.StrUtil;
 import ciir.jfoley.chai.web.Handler;
 import ciir.jfoley.chai.web.ServerErr;
 import ciir.jfoley.chai.web.WebServer;
@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Needs the utility package from org.lemurproject.galago in order to parse JSON.
@@ -82,8 +83,9 @@ public class JSONAPI {
           case "application/json":
           case "text/json":
             String jsonText = null;
-            try (BufferedReader reader = req.getReader()) {
-              jsonText = IO.readAll(reader);
+            try {
+              BufferedReader reader = req.getReader();
+              jsonText = StrUtil.join(reader.lines().collect(Collectors.toList()), "\n");
               jreq = Parameters.parseString(jsonText);
             } catch (Throwable jsonParseError) {
               System.err.println("Can't parse:\t" + jsonText); // for debugging
