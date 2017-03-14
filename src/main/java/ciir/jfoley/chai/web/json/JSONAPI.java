@@ -77,7 +77,7 @@ public class JSONAPI {
           case "text/json":
             String body = WebServer.readBody(req);
             try {
-              jreq = Parameters.parseString(body);
+              jreq = Parameters.parseStream(req.getInputStream());
             } catch (Throwable jsonParseError) {
               System.err.println(body); // for debugging
               throw new ServerErr(400, "Bad Request - JSON Parse Error!");
