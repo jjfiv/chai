@@ -1,22 +1,25 @@
 package ciir.jfoley.chai.xml;
 
-import ciir.jfoley.chai.lang.LazyPtr;
+import ciir.jfoley.chai.io.IO;
 import ciir.jfoley.chai.lang.Module;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
  * @author jfoley.
  */
 public class ChaiXML extends Module {
-	static LazyPtr<DocumentBuilderFactory> factory = new LazyPtr<>(DocumentBuilderFactory::newInstance);
+	static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
   public static XNode fromFile(File fp) throws ParserConfigurationException, IOException, SAXException {
-		return fromStream(new FileInputStream(fp));
+		return fromStream(IO.openInputStream(fp));
 	}
 
 	public static XNode fromFile(String path) throws IOException, SAXException, ParserConfigurationException {
@@ -28,7 +31,7 @@ public class ChaiXML extends Module {
 	}
 
 	public static XNode fromStream(InputStream inputStream) throws ParserConfigurationException, IOException, SAXException {
-		return new XNode(factory.get().newDocumentBuilder().parse(inputStream));
+		return new XNode(factory.newDocumentBuilder().parse(inputStream));
 	}
 
 }
