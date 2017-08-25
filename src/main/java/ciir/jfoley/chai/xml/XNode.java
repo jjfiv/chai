@@ -2,7 +2,7 @@ package ciir.jfoley.chai.xml;
 
 import ciir.jfoley.chai.collections.tree.ChaiTree;
 import ciir.jfoley.chai.collections.tree.TreeFns;
-import ciir.jfoley.chai.fn.PredicateFn;
+import ciir.jfoley.chai.string.StrUtil;
 import ciir.jfoley.chai.xml.list.NodeListWrapper;
 import org.w3c.dom.Node;
 
@@ -59,17 +59,32 @@ public class XNode implements ChaiTree<XNode> {
 	}
 
   public List<XNode> selectByTag(final String tagName) {
-    return TreeFns.findChildren(this, new PredicateFn<XNode>() {
-      @Override
-      public boolean test(XNode input) {
-        return Objects.equals(input.getTag(), tagName);
-      }
-    });
+    return TreeFns.findChildren(this, input -> Objects.equals(input.getTag(), tagName));
+  }
+  public XNode selectSingleChild(final String tagName) {
+    List<XNode> children = TreeFns.findChildren(this, input -> Objects.equals(input.getTag(), tagName));
+    if(children.isEmpty()) {
+      return null;
+    }
+    if(children.size() != 1) {
+      throw new IllegalStateException(children.size()+" found for query "+tagName);
+    }
+    return children.get(0);
   }
 
   public boolean isTextNode() {
     return node.getNodeType() == Node.TEXT_NODE ||
            node.getNodeType() == Node.CDATA_SECTION_NODE;
+  }
+
+  public String innerText() {
+	  StringBuilder toText = new StringBuilder();
+
+    for (XNode xNode : TreeFns.findChildren(this, x -> x.isTextNode())) {
+      toText.append(xNode.getText()).append('\n');
+    }
+
+	  return StrUtil.compactSpaces(toText);
   }
 
   public List<XNode> findTextChildren() {

@@ -53,7 +53,6 @@ public class IO extends Module {
       int amt = reader.read(buf);
       if(amt < 0) break;
       contents.append(buf, 0, amt);
-      if(amt < buf.length) break;
     }
     return contents.toString();
   }
@@ -166,6 +165,21 @@ public class IO extends Module {
   public static void spit(byte[] data, File output) throws IOException {
     try (OutputStream out = IO.openOutputStream(output)) {
       out.write(data);
+    }
+  }
+
+  public static int countNewlines(File x) throws IOException {
+    int count = 0;
+    try (InputStream is = IO.openInputStream(x)) {
+      byte buf[] = new byte[BUFFER_SIZE];
+      while(true) {
+        int amt = is.read(buf);
+        if(amt < 0) break;
+        for (int i = 0; i < amt; i++) {
+          if (buf[i] == '\n') { count++; }
+        }
+      }
+      return count;
     }
   }
 }

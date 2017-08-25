@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
  * @author jfoley.
  */
 public class ChaiXML extends Module {
-	static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	public static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
   public static XNode fromFile(File fp) throws ParserConfigurationException, IOException, SAXException {
 		return fromStream(IO.openInputStream(fp));
