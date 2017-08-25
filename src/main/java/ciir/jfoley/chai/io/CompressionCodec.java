@@ -8,6 +8,8 @@ import ciir.jfoley.chai.lang.Module;
 
 import javax.annotation.Nonnull;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -51,11 +53,11 @@ public final class CompressionCodec extends Module {
 
 	@Nonnull
 	public static InputStream openInputStream(String file) throws IOException {
-		return wrapInputStream(file, new FileInputStream(file));
+		return wrapInputStream(file, Files.newInputStream(new File(file).toPath(), StandardOpenOption.READ));
 	}
 
 	@Nonnull
 	public static OutputStream openOutputStream(String file) throws IOException {
-		return wrapOutputStream(file, new FileOutputStream(file));
+		return wrapOutputStream(file, Files.newOutputStream(new File(file).toPath(), StandardOpenOption.CREATE));
 	}
 }
