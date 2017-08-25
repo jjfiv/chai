@@ -14,7 +14,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaVersion>1.8</javaVersion>
-    <galagoVersion>3.12-SNAPSHOT</galagoVersion>
+    <galagoVersion>3.12</galagoVersion>
   </properties>
   
   <scm>
