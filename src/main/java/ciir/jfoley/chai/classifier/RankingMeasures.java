@@ -25,6 +25,22 @@ public class RankingMeasures {
     }
   }
 
+  public static double computeRR(List<Pair<Boolean, Double>> inPoints) {
+    if(inPoints.size() == 0) {
+      return 0.0;
+    }
+    List<PredTruth> points = ListFns.map(inPoints, PredTruth::new);
+    // order by prediction confidence:
+    points.sort(getComparator(TieBreaking.WORST_CASE));
+
+    for (int i = 0; i < points.size(); i++) {
+      if (points.get(i).truth) {
+        return 1.0 / (i+1);
+      }
+    }
+    return 0.0;
+  }
+
   /**
    * Note still a lingering issue w.r.t. how to break ties. This is okay because in practice, w.r.t. to classification instances, it is really unlikely that we will find ties.
    *  TieBreaking can now be manually specified, default to WORST_CASE "pessimistic", because truly anything we predict from the set of instances with equal scores will just be luck. Should not reward our AUC with this.
