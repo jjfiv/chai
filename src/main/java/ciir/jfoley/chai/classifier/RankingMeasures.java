@@ -51,8 +51,8 @@ public class RankingMeasures {
     return computeAUC(inPoints, TieBreaking.WORST_CASE);
   }
   /**
-   * Note still a lingering issue w.r.t. how to break ties. This is okay because in practice, w.r.t. to classification instances, it is really unlikely that we will find ties.
    * @param inPoints list of (true judgment, score) pairs
+   * @param what method of tie-braking (generates a comparator)
    * @return area under the ROC curve, estimated by trapezoidal approx.
    */
   public static double computeAUC(List<Pair<Boolean, Double>> inPoints, TieBreaking what) {
