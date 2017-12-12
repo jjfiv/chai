@@ -58,6 +58,6 @@ public final class CompressionCodec extends Module {
 
 	@Nonnull
 	public static OutputStream openOutputStream(String file) throws IOException {
-		return wrapOutputStream(file, Files.newOutputStream(new File(file).toPath(), StandardOpenOption.CREATE));
+		return wrapOutputStream(file, Files.newOutputStream(new File(file).toPath(), StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE, StandardOpenOption.CREATE));
 	}
 }
