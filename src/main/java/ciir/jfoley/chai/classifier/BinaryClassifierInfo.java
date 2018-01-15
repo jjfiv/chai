@@ -69,17 +69,26 @@ public class BinaryClassifierInfo implements Serializable {
     return predNegative - numPredTrueNegative;
   }
 
+  /**
+   * @see #update(BinaryPrediction) instead.
+   * @param plabel
+   * @param label
+   */
+  @Deprecated
   public void update(boolean plabel, boolean label) {
+    update(new BinaryPrediction(label, plabel));
+  }
+  public void update(BinaryPrediction pred) {
     numTotal++;
 
-    if (label) numTruePositive++;
+    if (pred.truth) numTruePositive++;
     else numTrueNegative++;
 
-    if (plabel) predPositive++;
+    if (pred.predicted) predPositive++;
     else predNegative++;
 
-    if (label == plabel) {
-      if (label) numPredTruePositive++;
+    if (pred.truth == pred.predicted) {
+      if (pred.truth) numPredTruePositive++;
       else numPredTrueNegative++;
       numCorrect++;
     }
@@ -105,7 +114,7 @@ public class BinaryClassifierInfo implements Serializable {
 
   public void update(List<Pair<Boolean, Double>> toEval, double cutoff) {
     for (Pair<Boolean, Double> pred : toEval) {
-      update(pred.right > cutoff, pred.left);
+      update(new BinaryPrediction(pred.left, pred.right > cutoff));
     }
   }
 

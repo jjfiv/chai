@@ -24,6 +24,10 @@ public abstract class Classifier {
   /** Reset the weights in this classifier so it can be retrained. */
   public abstract void reset();
 
+  public BinaryPrediction test(boolean truth, float[] v) {
+    return BinaryPrediction.fromPerceptron(truth, predict(v));
+  }
+
   /** Balance a list of training data pseudo-randomly. */
   public static List<Pair<Integer, float[]>> balance(List<Pair<Integer, float[]>> input, Random rand) {
     List<Pair<Integer, float[]>> neg = new ArrayList<>();
@@ -73,8 +77,7 @@ public abstract class Classifier {
     for (Pair<Integer, float[]> kv : validateData) {
       int label = kv.getKey();
       float[] fv = kv.getValue();
-      int plabel = predict(fv);
-      out.update(plabel >= 0, label >= 0);
+      out.update(test(label > 0, fv));
     }
     long endTime = System.currentTimeMillis();
     out.time = endTime - startTime;
