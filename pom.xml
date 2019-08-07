@@ -123,7 +123,7 @@
       <!-- this is entirely to set the java version -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.1</version>
         <configuration>
           <source>${javaVersion}</source>
           <target>${javaVersion}</target>
