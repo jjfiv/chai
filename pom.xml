@@ -107,7 +107,7 @@
       <!-- build a jar with relative classpath -->
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <version>3.1.2</version>
         <configuration>
           <archive>
             <index>true</index>
