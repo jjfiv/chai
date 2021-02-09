@@ -1,5 +1,5 @@
 # Chai 
-![CI](https://github.com/jjfiv/chai/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/jjfiv/chai/badge.svg?branch=master)](https://coveralls.io/github/jjfiv/chai?branch=master)
+![CI](https://github.com/jjfiv/chai/workflows/Java%20CI%20with%20Maven/badge.svg)
 
 *Because I don't like coffee, but I like Java. Mostly.*
 
