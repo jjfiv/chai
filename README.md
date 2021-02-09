@@ -1,5 +1,5 @@
 # Chai 
-[![Travis Status](https://travis-ci.org/jjfiv/chai.svg?branch=master)](https://travis-ci.org/jjfiv/chai) [![Coverage Status](https://coveralls.io/repos/github/jjfiv/chai/badge.svg?branch=master)](https://coveralls.io/github/jjfiv/chai?branch=master)
+![CI](https://github.com/jjfiv/chai/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/jjfiv/chai/badge.svg?branch=master)](https://coveralls.io/github/jjfiv/chai?branch=master)
 
 *Because I don't like coffee, but I like Java. Mostly.*
 
@@ -17,7 +17,7 @@ Everyone has their own library of utility functions. Mine's just better tested t
 
 ## Version Support
 
-Supports Java 8 and above. I love default methods on interfaces and lambdas in general. I have Travis double-checking my commits so that I don't break anything.
+Supports Java 8 and above. I love default methods on interfaces and lambdas in general. I have Github Actions double-checking my commits so that I don't break anything.
 
 ## Documentation
 
@@ -48,27 +48,23 @@ public static <K,T> Map<K, List<T>> groupBy(Iterable<T> data, TransformFn<T,K> m
 ```
 ## Include in Maven
 
-To add the CIIR nexus server to your maven repos:
+To add the [jitpack.io maven repo](https://jitpack.io/) to your maven repos:
 ```xml 
-  <repositories>
-    <repository>
-      <id>edu.umass.ciir.releases</id>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/releases</url>
-    </repository>
-    <repository>
-      <id>edu.umass.ciir.snapshots</id>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots</url>
-    </repository>
-  </repositories>
+ 	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 ```
 
 To add this dependency:
 ```xml
-  <dependency>
-    <groupId>edu.umass.ciir.jfoley</groupId>
-    <artifactId>chai</artifactId>
-    <version>0.10-SNAPSHOT</version>
-  </dependency>
+	<dependency>
+	    <groupId>com.github.jjfiv</groupId>
+	    <artifactId>chai</artifactId>
+	    <version>v0.9</version>
+	</dependency>
 ```
 
 ## History
