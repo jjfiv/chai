@@ -3,17 +3,5 @@ updates:
 - package-ecosystem: maven
   directory: "/"
   schedule:
-    interval: daily
-    time: "10:00"
+    interval: weekly
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: com.github.luben:zstd-jni
-    versions:
-    - 1.4.8-2
-    - 1.4.8-3
-    - 1.4.8-5
-    - 1.4.8-6
-    - 1.4.8-7
-    - 1.4.9-2
-    - 1.4.9-3
-    - 1.4.9-4
