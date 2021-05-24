@@ -14,34 +14,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaVersion>1.8</javaVersion>
-    <galagoVersion>3.12</galagoVersion>
   </properties>
-  
-  <scm>
-    <developerConnection>scm:git:git@bitbucket.org:jfoley/chai.git</developerConnection>
-  </scm>
-
-  <distributionManagement>
-    <repository>
-      <id>deployment</id>
-      <name>Internal Releases</name>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>deployment</id>
-      <name>Internal Releases</name>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
 
   <repositories>
     <repository>
-      <id>edu.umass.ciir.releases</id>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/releases</url>
-    </repository>
-    <repository>
-      <id>edu.umass.ciir.snapshots</id>
-      <url>http://scm-ciir.cs.umass.edu:8080/nexus/content/repositories/snapshots</url>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
 
@@ -86,10 +64,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.lemurproject.galago</groupId>
-      <artifactId>utility</artifactId>
-      <version>${galagoVersion}</version>
-      <scope>compile</scope>
+        <groupId>com.github.jjfiv</groupId>
+        <artifactId>retired-galago</artifactId>
+        <version>2021.04</version>
     </dependency>
 
     <dependency>
@@ -177,14 +154,6 @@
           <repoToken>${env.coveralls_repo_token}</repoToken>
         </configuration>
       </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
 
     </plugins>
   </build>
